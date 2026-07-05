@@ -507,7 +507,7 @@
 <div id="paymentModal" class="modal-overlay" style="z-index:1002;">
     <div class="payment-modal-container">
         <h3>💳 پرداخت</h3>
-        <div class="payment-info"><span class="label">📌</span> <span id="paymentMessage">مبلغ 50,000 تومان را به شماره کارت زیر واریز کنید.</span></div>
+        <div class="payment-info"><span class="label">📌</span> <span id="paymentMessage">مبلغ 15,000 تومان را به شماره کارت زیر واریز کنید.</span></div>
         <div class="card-number">6037 9982 5196 2329</div>
         <div class="payment-info"><span class="label">📎</span> فیش واریزی را به آیدی AmirMahdi_2023@ در تلگرام ارسال کنید.</div>
         <div class="payment-info" style="margin-top:0.5rem;"><span class="label">🏷</span> لطفا کد توکن داده شده از سوی مدیریت را در کادر زیر وارد کنید.</div>
@@ -851,9 +851,9 @@
             show(tier) {
                 this.currentTier = tier;
                 if (tier === 'silver') {
-                    this.messageEl.textContent = 'مبلغ 50,000 تومان را به شماره کارت زیر واریز کنید.';
+                    this.messageEl.textContent = 'مبلغ 15,000 تومان را به شماره کارت زیر واریز کنید.';
                 } else {
-                    this.messageEl.textContent = 'مبلغ 100,000 تومان را به شماره کارت زیر واریز کنید.';
+                    this.messageEl.textContent = 'مبلغ 30,000 تومان را به شماره کارت زیر واریز کنید.';
                 }
                 this.overlay.classList.add('active');
                 this.tokenInput.value = '';
