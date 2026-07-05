@@ -5,71 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>حدس ضرب‌المثل</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; user-select:none; }
 
         :root {
-            --bg-gradient-start: #181a2c;
-            --bg-gradient-end: #0f1122;
-            --container-bg: rgba(25, 28, 45, 0.88);
-            --container-border: #6a5aac;
-            --top-line-bg: #242842;
-            --top-line-color: #d9b48b;
-            --riddle-bg: rgba(32, 35, 55, 0.85);
-            --riddle-border: #6c5fa3;
-            --emoji-bg: #262b44;
-            --emoji-span-bg: #2f334f;
-            --input-wrapper-bg: #2a2e48;
-            --input-bg: #1e213a;
-            --input-color: #e8ddcc;
-            --input-placeholder: #8a7cb3;
-            --action-btn-bg: #2f3352;
-            --action-btn-color: #e2cfb5;
-            --action-btn-border: #7164ac;
-            --modal-bg: #1f233e;
-            --modal-border: #6a5dac;
-            --modal-title-color: #c9a87b;
-            --modal-text-color: #dacfb3;
-            --shadow-color: rgba(0, 0, 0, 0.5);
-            --btn-info-bg: #6554b0;
-            --btn-info-hover: #7f6bc9;
-            --confirm-bg: #5b6eae;
-            --confirm-hover: #7489c9;
-            --cancel-bg: #8f6b7c;
-            --cancel-hover: #b1879b;
-            --music-bg: #1a1e36;
-            --music-item-bg: #2a2e4a;
-            --music-item-hover: #3a3e5e;
-            --bronze-color: #cd7f32;
-            --silver-color: #c0c0c0;
-            --gold-color: #ffd700;
+            --bg-gradient-start: #181a2c; --bg-gradient-end: #0f1122;
+            --container-bg: rgba(25,28,45,0.88); --container-border: #6a5aac;
+            --top-line-bg: #242842; --top-line-color: #d9b48b;
+            --riddle-bg: rgba(32,35,55,0.85); --riddle-border: #6c5fa3;
+            --emoji-bg: #262b44; --emoji-span-bg: #2f334f;
+            --input-wrapper-bg: #2a2e48; --input-bg: #1e213a; --input-color: #e8ddcc; --input-placeholder: #8a7cb3;
+            --action-btn-bg: #2f3352; --action-btn-color: #e2cfb5; --action-btn-border: #7164ac;
+            --modal-bg: #1f233e; --modal-border: #6a5dac; --modal-title-color: #c9a87b; --modal-text-color: #dacfb3;
+            --shadow-color: rgba(0,0,0,0.5);
+            --btn-info-bg: #6554b0; --btn-info-hover: #7f6bc9;
+            --confirm-bg: #5b6eae; --confirm-hover: #7489c9;
+            --cancel-bg: #8f6b7c; --cancel-hover: #b1879b;
+            --music-bg: #1a1e36; --music-item-bg: #2a2e4a; --music-item-hover: #3a3e5e;
+            --bronze-color: #cd7f32; --silver-color: #c0c0c0; --gold-color: #ffd700;
         }
 
         body {
             min-height: 100vh;
             background: linear-gradient(145deg, var(--bg-gradient-start), var(--bg-gradient-end));
-            font-family: 'Segoe UI', 'Poppins', 'Vazir', system-ui, sans-serif;
+            font-family: 'Segoe UI','Poppins','Vazir',system-ui,sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
 
-        /* بازی در ابتدا مخفی است تا اسپلش کامل نمایش داده شود */
         .game-container {
-            max-width: 920px;
-            width: 100%;
+            max-width: 920px; width:100%;
             background: var(--container-bg);
             backdrop-filter: blur(12px);
             border-radius: 3rem;
             box-shadow: 0 30px 50px var(--shadow-color);
             padding: 1.6rem 2rem 2rem;
             border: 1px solid var(--container-border);
-            display: none;  /* فقط برای اسپلش مخفی می‌شود، بعداً با JS نمایش می‌یابد */
+            display: block;
         }
 
         .top-bar {
@@ -83,8 +56,7 @@
         .icon-btn {
             background: var(--action-btn-bg);
             border: 1px solid var(--action-btn-border);
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             border-radius: 60px;
             font-size: 1.6rem;
             cursor: pointer;
@@ -94,52 +66,29 @@
             transition: 0.2s;
             color: var(--action-btn-color);
         }
-
-        .icon-btn:hover {
-            transform: translateY(-2px) scale(1.02);
-            filter: brightness(1.05);
-        }
+        .icon-btn:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.05); }
 
         .game-title h1 {
-            font-family: 'Vazir', 'Poppins', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 800;
-            text-align: center;
-            margin: 0;
+            font-family: 'Vazir','Poppins',sans-serif;
+            font-size: 1.8rem; font-weight: 800;
+            text-align: center; margin:0;
             background: linear-gradient(135deg, #f5b042, #e0962e);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            background-clip: text; -webkit-background-clip: text; color: transparent;
         }
 
-        /* سطوح سه‌گانه - یک ردیف ساده */
         .tiers-row {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 0.5rem 0 1.2rem 0;
-            flex-wrap: nowrap;
+            display: flex; justify-content: center; gap: 1rem;
+            margin: 0.5rem 0 1.2rem 0; flex-wrap: nowrap;
         }
         .tier-btn {
-            background: #2a2e48;
-            border: 2px solid transparent;
-            padding: 0.5rem 1.2rem;
-            border-radius: 60px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
+            background: #2a2e48; border: 2px solid transparent;
+            padding: 0.5rem 1.2rem; border-radius: 60px;
+            font-weight: bold; font-size: 1rem; cursor: pointer;
             transition: 0.2s;
-            color: #e2cfb5;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: #e2cfb5; display: flex; align-items: center; gap: 8px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
-        .tier-btn.active {
-            border-color: #7c8fb8;
-            transform: scale(1.02);
-            box-shadow: 0 0 8px rgba(124,143,184,0.4);
-        }
+        .tier-btn.active { border-color: #7c8fb8; transform: scale(1.02); box-shadow: 0 0 8px rgba(124,143,184,0.4); }
         .tier-bronze { background: #2a2e48; color: #ffcf9a; }
         .tier-silver { background: #2a2e48; color: #e8e8e8; }
         .tier-gold { background: #2a2e48; color: #ffea9e; }
@@ -147,303 +96,165 @@
         .tier-silver.active { background: #2a2e48; }
         .tier-gold.active { background: #2a2e48; }
 
-        /* ناوبری ساده مرحله */
         .stage-nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            gap: 1rem; margin-bottom: 1.2rem;
         }
         .nav-arrow {
-            background: transparent;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: transparent; border: none;
+            font-size: 2rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
             transition: 0.2s;
             color: var(--action-btn-color);
-            font-family: monospace;
-            padding: 0 0.5rem;
-            line-height: 1;
+            font-family: monospace; padding: 0 0.5rem; line-height: 1;
         }
-        .nav-arrow:hover:not(.disabled) {
-            transform: scale(1.15);
-            color: var(--btn-info-bg);
-        }
-        .nav-arrow.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
+        .nav-arrow:hover:not(.disabled) { transform: scale(1.15); color: var(--btn-info-bg); }
+        .nav-arrow.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+
         .stage-text {
             background: var(--top-line-bg);
-            padding: 0.3rem 1.2rem;
-            border-radius: 60px;
-            font-size: 1rem;
-            font-weight: bold;
+            padding: 0.3rem 1.2rem; border-radius: 60px;
+            font-size: 1rem; font-weight: bold;
             color: var(--top-line-color);
             border: 1px solid var(--container-border);
-            min-width: 160px;
-            text-align: center;
+            min-width: 160px; text-align: center;
         }
 
         .riddle-card {
             background: var(--riddle-bg);
-            border-radius: 2rem;
-            padding: 1rem 0.8rem;
+            border-radius: 2rem; padding: 1rem 0.8rem;
             margin-bottom: 1.6rem;
             border: 1px solid var(--riddle-border);
         }
 
         .emoji-row {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: nowrap;
+            display: flex; justify-content: center;
+            gap: 1rem; flex-wrap: nowrap;
             background: var(--emoji-bg);
-            padding: 0.6rem 1rem;
-            border-radius: 80px;
+            padding: 0.6rem 1rem; border-radius: 80px;
         }
-
         .emoji-row span {
             background: var(--emoji-span-bg);
-            padding: 0.2rem 0.55rem;
-            border-radius: 60px;
+            padding: 0.2rem 0.55rem; border-radius: 60px;
             font-size: 2.1rem;
             box-shadow: 0 3px 8px var(--shadow-color);
             border-bottom: 2px solid var(--container-border);
         }
         .empty-message {
             background: var(--emoji-span-bg);
-            padding: 0.6rem 1rem;
-            border-radius: 60px;
-            font-size: 1rem;
-            color: #ccaaff;
-            text-align: center;
+            padding: 0.6rem 1rem; border-radius: 60px;
+            font-size: 1rem; color: #ccaaff; text-align: center;
         }
 
         .input-wrapper {
             background: var(--input-wrapper-bg);
-            border-radius: 60px;
-            padding: 0.2rem;
-            display: flex;
-            margin-bottom: 1.2rem;
+            border-radius: 60px; padding: 0.2rem;
+            display: flex; margin-bottom: 1.2rem;
             border: 1px solid var(--container-border);
         }
-
         .answer-input {
-            flex: 1;
-            background: var(--input-bg);
-            border: none;
-            padding: 0.75rem 1.2rem;
-            font-size: 0.80rem;
-            border-radius: 50px;
-            outline: none;
-            color: var(--input-color);
+            flex:1; background: var(--input-bg);
+            border: none; padding: 0.75rem 1.2rem;
+            font-size: 0.80rem; border-radius: 50px;
+            outline: none; color: var(--input-color);
             font-family: inherit;
         }
-
-        .answer-input::placeholder {
-            color: var(--input-placeholder);
-        }
-
-        .answer-input:disabled {
-            opacity: 0.6;
-            background: var(--input-placeholder);
-            cursor: not-allowed;
-        }
+        .answer-input::placeholder { color: var(--input-placeholder); }
+        .answer-input:disabled { opacity: 0.6; background: var(--input-placeholder); cursor: not-allowed; }
 
         .buttons-group {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-bottom: 1.2rem;
+            display: flex; justify-content: center;
+            gap: 1.2rem; margin-bottom: 1.2rem;
         }
-
         .btn {
-            font-size: 0.9rem;
-            font-weight: bold;
-            padding: 0.6rem 1.6rem;
-            border-radius: 60px;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
+            font-size: 0.9rem; font-weight: bold;
+            padding: 0.6rem 1.6rem; border-radius: 60px;
+            border: none; cursor: pointer; transition: 0.2s;
         }
-
-        .btn-green {
-            background: #2b9348;
-            color: white;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-green:hover:not(:disabled) {
-            background: #40b35f;
-            transform: scale(0.97);
-        }
-
-        .btn-green:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-red {
-            background: #bc4742;
-            color: white;
-        }
-
-        .btn-red:hover:not(:disabled) {
-            background: #dc5f5a;
-            transform: scale(0.97);
-        }
-
-        .btn-red:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .btn-green { background: #2b9348; color: white; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
+        .btn-green:hover:not(:disabled) { background: #40b35f; transform: scale(0.97); }
+        .btn-green:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-red { background: #bc4742; color: white; }
+        .btn-red:hover:not(:disabled) { background: #dc5f5a; transform: scale(0.97); }
+        .btn-red:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .triple-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 0.5rem;
-            flex-wrap: nowrap;
+            display: flex; justify-content: center;
+            gap: 1rem; margin-top: 0.5rem; flex-wrap: nowrap;
         }
-
         .action-btn {
             background: var(--action-btn-bg);
             border: 1px solid var(--action-btn-border);
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            color: var(--action-btn-color);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-            white-space: nowrap;
+            padding: 0.5rem 1.2rem; border-radius: 40px;
+            font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; color: var(--action-btn-color);
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: 0.2s; white-space: nowrap;
         }
-
-        .action-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-        }
-
-        .action-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .action-btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05); }
+        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .full-reset-btn {
-            background: var(--btn-info-bg);
-            border: none;
-            padding: 0.6rem 1.4rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-            margin-top: 0.8rem;
-            width: auto;
-            justify-content: center;
+            background: var(--btn-info-bg); border: none;
+            padding: 0.6rem 1.4rem; border-radius: 40px;
+            font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; color: white;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: 0.2s; margin-top: 0.8rem;
+            width: auto; justify-content: center;
             box-shadow: 0 4px 10px var(--shadow-color);
         }
-
-        .full-reset-btn:hover {
-            background: var(--btn-info-hover);
-            transform: scale(0.98);
-        }
-
-        .full-reset-btn.hidden {
-            display: none;
-        }
+        .full-reset-btn:hover { background: var(--btn-info-hover); transform: scale(0.98); }
+        .full-reset-btn.hidden { display: none; }
 
         /* مودال‌ها */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background-color: rgba(0,0,0,0.75);
             backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1004; /* بالاتر از همه */
+            visibility: hidden; opacity: 0;
             transition: 0.25s ease;
         }
-
-        .modal-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
+        .modal-overlay.active { visibility: visible; opacity: 1; }
 
         .modal-container {
             background: var(--modal-bg);
             border-radius: 2rem;
-            max-width: 380px;
-            width: 90%;
+            max-width: 380px; width: 90%;
             padding: 1.3rem 1.2rem 1.2rem;
             text-align: center;
             border: 2px solid var(--modal-border);
             direction: rtl;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             animation: modalPop 0.2s ease-out;
         }
-
         @keyframes modalPop {
             from { transform: scale(0.95); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-
         .modal-container h3 {
             color: var(--modal-title-color);
-            font-size: 1rem;
-            margin-bottom: 0.6rem;
+            font-size: 1rem; margin-bottom: 0.6rem;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-
         .modal-container p {
             color: var(--modal-text-color);
-            font-size: 0.7rem;
-            line-height: 1.55;
+            font-size: 0.7rem; line-height: 1.55;
             white-space: pre-line;
-            margin-bottom: 1rem;
-            padding: 0 0.4rem;
+            margin-bottom: 1rem; padding: 0 0.4rem;
         }
-
         .modal-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 0.9rem;
-            margin-top: 0.3rem;
+            display: flex; justify-content: center;
+            gap: 0.9rem; margin-top: 0.3rem;
         }
-
         .modal-btn {
-            border: none;
-            padding: 0.5rem 1.3rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
+            border: none; padding: 0.5rem 1.3rem;
+            border-radius: 50px; font-weight: bold;
+            font-size: 0.85rem; cursor: pointer; transition: 0.2s;
         }
-
         .modal-btn.normal { background: var(--btn-info-bg); color: white; }
         .modal-btn.normal:hover { background: var(--btn-info-hover); transform: scale(0.96); }
         .modal-btn.confirm { background: var(--confirm-bg); color: white; }
@@ -451,142 +262,185 @@
         .modal-btn.cancel { background: var(--cancel-bg); color: white; }
         .modal-btn.cancel:hover { background: var(--cancel-hover); transform: scale(0.96); }
 
+        /* Music Modal */
         .music-modal-container {
             background: var(--music-bg);
             border-radius: 1.8rem;
-            max-width: 480px;
-            width: 90%;
+            max-width: 480px; width: 90%;
             padding: 1.2rem;
             border: 2px solid var(--modal-border);
             direction: rtl;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             animation: modalPop 0.2s ease-out;
         }
-        .music-modal-container h3 { color: var(--modal-title-color); font-size: 1.4rem; margin-bottom: 0.8rem; text-align: center; }
-        .music-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 0.8rem; }
-        .music-item { background: var(--music-item-bg); border-radius: 1rem; padding: 0.6rem; display: flex; align-items: center; gap: 0.8rem; border: 1px solid var(--container-border); }
+        .music-modal-container h3 { color: var(--modal-title-color); font-size:1.4rem; margin-bottom:0.8rem; text-align:center; }
+        .music-list { display: flex; flex-direction: column; gap:0.7rem; margin-bottom:0.8rem; }
+        .music-item { background: var(--music-item-bg); border-radius:1rem; padding:0.6rem; display:flex; align-items:center; gap:0.8rem; border:1px solid var(--container-border); }
         .music-item:hover { background: var(--music-item-hover); }
-        .music-cover { width: 52px; height: 52px; border-radius: 0.9rem; background: linear-gradient(135deg, #6b5aac, #4a3f7a); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; overflow: hidden; }
-        .music-cover img { width: 100%; height: 100%; object-fit: cover; }
-        .music-info { flex: 1; text-align: right; }
-        .music-name { font-size: 1rem; font-weight: bold; color: #a8e6cf; }
-        .music-play-btn { width: 44px; height: 44px; border-radius: 50%; background: #6b5aac; border: none; font-size: 1.2rem; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .music-play-btn:hover { background: #8a7ac9; transform: scale(1.05); }
-        .music-close { background: var(--cancel-bg); width: 100%; padding: 0.5rem; border-radius: 50px; border: none; color: white; cursor: pointer; font-size: 0.85rem; font-weight: bold; margin-top: 0.4rem; transition: 0.2s; }
-        .music-close:hover { background: var(--cancel-hover); }
+        .music-cover { width:52px; height:52px; border-radius:0.9rem; background:linear-gradient(135deg,#6b5aac,#4a3f7a); display:flex; align-items:center; justify-content:center; font-size:1.8rem; flex-shrink:0; overflow:hidden; }
+        .music-cover img { width:100%; height:100%; object-fit:cover; }
+        .music-info { flex:1; text-align:right; }
+        .music-name { font-size:1rem; font-weight:bold; color:#a8e6cf; }
+        .music-play-btn { width:44px; height:44px; border-radius:50%; background:#6b5aac; border:none; font-size:1.2rem; cursor:pointer; color:white; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .music-play-btn:hover { background:#8a7ac9; transform:scale(1.05); }
+        .music-close { background:var(--cancel-bg); width:100%; padding:0.5rem; border-radius:50px; border:none; color:white; cursor:pointer; font-size:0.85rem; font-weight:bold; margin-top:0.4rem; transition:0.2s; }
+        .music-close:hover { background:var(--cancel-hover); }
 
+        /* Payment Modal */
+        .payment-modal-container {
+            background: var(--modal-bg);
+            border-radius: 2rem;
+            max-width: 400px; width:92%;
+            padding:1.5rem 1.2rem 1.2rem;
+            text-align:center;
+            border:2px solid var(--modal-border);
+            direction:rtl;
+            box-shadow:0 25px 50px rgba(0,0,0,0.3);
+            animation:modalPop 0.2s ease-out;
+        }
+        .payment-modal-container h3 {
+            color:var(--modal-title-color);
+            font-size:1.1rem; margin-bottom:0.8rem;
+            font-weight:700;
+            display:flex; align-items:center; justify-content:center; gap:8px;
+        }
+        .payment-modal-container .payment-info {
+            color:var(--modal-text-color);
+            font-size:0.65rem; line-height:1.9;
+            margin-bottom:0.3rem;
+            text-align:right; padding-right:0.3rem;
+        }
+        .payment-modal-container .payment-info .label { font-weight:600; color:#d9b48b; }
+        .payment-modal-container .card-number {
+            background:var(--input-bg);
+            padding:0.5rem; border-radius:12px;
+            font-size:1.1rem; font-weight:bold;
+            color:#e8ddcc; letter-spacing:2px;
+            border:1px solid var(--container-border);
+            margin:0.5rem 0;
+            direction:ltr;
+            display:inline-block;
+            padding:0.5rem 1rem;
+        }
+        .payment-modal-container .token-input {
+            background:var(--input-bg);
+            border:1px solid var(--container-border);
+            border-radius:50px;
+            padding:0.5rem 1rem;
+            width:80%;
+            color:var(--input-color);
+            font-size:0.9rem;
+            text-align:center;
+            letter-spacing:4px;
+            outline:none;
+            margin:0.5rem 0 1rem 0;
+        }
+        .payment-modal-container .token-input::placeholder {
+            color:var(--input-placeholder);
+            letter-spacing:1px;
+            font-size:0.7rem;
+        }
+        .payment-modal-container .payment-buttons {
+            display:flex; justify-content:center;
+            gap:0.8rem; margin-top:0.3rem;
+        }
+        .modal-btn.pay-confirm { background:#2b9348; color:white; }
+        .modal-btn.pay-confirm:hover { background:#40b35f; transform:scale(0.96); }
+        .modal-btn.pay-cancel { background:#bc4742; color:white; }
+        .modal-btn.pay-cancel:hover { background:#dc5f5a; transform:scale(0.96); }
+
+        /* Internet Modal */
+        .internet-modal-container {
+            background:var(--modal-bg);
+            border-radius:2rem;
+            max-width:380px; width:90%;
+            padding:1.3rem 1.2rem 1.2rem;
+            text-align:center;
+            border:2px solid var(--modal-border);
+            direction:rtl;
+            box-shadow:0 25px 50px rgba(0,0,0,0.3);
+            animation:modalPop 0.2s ease-out;
+        }
+        .internet-modal-container h3 { color:var(--modal-title-color); font-size:1rem; margin-bottom:0.6rem; font-weight:700; }
+        .internet-modal-container p { color:var(--modal-text-color); font-size:0.7rem; line-height:1.55; margin-bottom:1rem; }
+        .internet-modal-container .modal-btn { min-width:100px; }
+
+        /* Responsive */
         @media (max-width:550px) {
-            .emoji-row span { font-size: 1rem; padding: 0.1rem 0.3rem; }
-            .game-title h1 { font-size: 1.3rem; }
-            .btn, .action-btn { padding: 0.4rem 0.9rem; font-size: 0.7rem; }
-            .icon-btn { width: 40px; height: 40px; font-size: 1.2rem; }
-            .tier-btn { padding: 0.3rem 0.8rem; font-size: 0.8rem; }
-            .stage-text { min-width: 130px; font-size: 0.85rem; }
-            .nav-arrow { font-size: 1.6rem; }
+            .emoji-row span { font-size:1rem; padding:0.1rem 0.3rem; }
+            .game-title h1 { font-size:1.3rem; }
+            .btn, .action-btn { padding:0.4rem 0.9rem; font-size:0.7rem; }
+            .icon-btn { width:40px; height:40px; font-size:1.2rem; }
+            .tier-btn { padding:0.3rem 0.8rem; font-size:0.8rem; }
+            .stage-text { min-width:130px; font-size:0.85rem; }
+            .nav-arrow { font-size:1.6rem; }
         }
 
-        /* ---------- استایل اسپلش اسکرین (فقط اضافه شده، دست نخورده به بازی) ---------- */
+        /* Splash Screen */
         .splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top:0; left:0; width:100%; height:100%;
             background: linear-gradient(145deg, var(--bg-gradient-start), var(--bg-gradient-end));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
+            display: flex; align-items:center; justify-content:center;
+            z-index:2000;
             backdrop-filter: blur(2px);
             transition: opacity 0.6s ease-out;
-            font-family: 'Segoe UI', 'Poppins', 'Vazir', system-ui, sans-serif;
-            direction: rtl;
+            font-family: 'Segoe UI','Poppins','Vazir',system-ui,sans-serif;
+            direction:rtl;
         }
         .splash-content {
-            text-align: center;
-            max-width: 90%;
-            padding: 2rem;
-            background: rgba(15, 17, 34, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 3rem;
-            border: 1px solid var(--container-border);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            animation: fadeInUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            text-align:center; max-width:90%; padding:2rem;
+            background:rgba(15,17,34,0.6); backdrop-filter: blur(12px);
+            border-radius:3rem;
+            border:1px solid var(--container-border);
+            box-shadow:0 20px 40px rgba(0,0,0,0.4);
+            animation:fadeInUp 0.7s cubic-bezier(0.2,0.9,0.4,1.1);
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(25px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity:0; transform:translateY(25px); }
+            to { opacity:1; transform:translateY(0); }
         }
-        .splash-logo {
-            font-size: 4.5rem;
-            margin-bottom: 0.5rem;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
-        }
+        .splash-logo { font-size:4.5rem; margin-bottom:0.5rem; filter:drop-shadow(0 8px 12px rgba(0,0,0,0.3)); }
         .splash-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #f5b042, #e0962e);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.5px;
+            font-size:2.2rem; font-weight:800;
+            background:linear-gradient(135deg,#f5b042,#e0962e);
+            background-clip:text; -webkit-background-clip:text; color:transparent;
+            margin-bottom:0.75rem; letter-spacing:-0.5px;
         }
         .splash-slogan {
-            font-size: 1rem;
-            color: #d9b48b;
-            background: rgba(0,0,0,0.3);
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            border-radius: 60px;
-            backdrop-filter: blur(4px);
-            margin-bottom: 2rem;
-            font-weight: 500;
-            border: 1px solid rgba(106, 90, 172, 0.5);
+            font-size:1rem; color:#d9b48b;
+            background:rgba(0,0,0,0.3); display:inline-block;
+            padding:0.3rem 1rem; border-radius:60px;
+            backdrop-filter:blur(4px);
+            margin-bottom:2rem; font-weight:500;
+            border:1px solid rgba(106,90,172,0.5);
         }
         .loading-bar-container {
-            width: 220px;
-            margin: 0 auto 1rem auto;
-            height: 5px;
-            background: rgba(255,255,210,0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+            width:220px; margin:0 auto 1rem auto;
+            height:5px; background:rgba(255,255,210,0.2);
+            border-radius:10px; overflow:hidden;
+            box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
         }
         .loading-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #f5b042, #ffdd88);
-            border-radius: 10px;
-            animation: loadingProgress 2.5s ease-out forwards;
+            width:0%; height:100%;
+            background:linear-gradient(90deg,#f5b042,#ffdd88);
+            border-radius:10px;
+            animation:loadingProgress 2.5s ease-out forwards;
         }
         @keyframes loadingProgress {
-            0% { width: 0%; }
-            100% { width: 100%; }
+            0% { width:0%; }
+            100% { width:100%; }
         }
-        .splash-footer {
-            font-size: 0.7rem;
-            color: #9a8cbf;
-            margin-top: 1rem;
-            opacity: 0.7;
-        }
+        .splash-footer { font-size:0.7rem; color:#9a8cbf; margin-top:1rem; opacity:0.7; }
         @media (max-width:550px) {
-            .splash-title { font-size: 1.6rem; }
-            .splash-logo { font-size: 3rem; }
-            .splash-slogan { font-size: 0.8rem; }
-            .loading-bar-container { width: 180px; }
+            .splash-title { font-size:1.6rem; }
+            .splash-logo { font-size:3rem; }
+            .splash-slogan { font-size:0.8rem; }
+            .loading-bar-container { width:180px; }
         }
     </style>
 </head>
 <body dir="rtl">
 
-<!-- ========== اسپلش اسکرین انیمیشن دار (فقط اضافه شده) ========== -->
 <div id="splashScreen" class="splash-screen">
     <div class="splash-content">
         <div class="splash-logo">🎭</div>
@@ -599,22 +453,19 @@
     </div>
 </div>
 
-<!-- ========== کانتینر اصلی بازی (بدون هیچ تغییری در محتوا) ========== -->
-<div class="game-container" id="mainGameContainer">
+<div class="game-container" id="mainGameContainer" style="display:none;">
     <div class="top-bar">
         <button id="musicBtn" class="icon-btn">🎵</button>
         <div class="game-title"><h1>حدس ضرب‌المثل</h1></div>
         <button id="infoBtn" class="icon-btn">ℹ️</button>
     </div>
 
-    <!-- ردیف سطوح سه‌گانه (ساده و در یک خط) -->
     <div class="tiers-row">
-        <button id="tierBronzeBtn" class="tier-btn tier-bronze">🥉 برنز</button>
-        <button id="tierSilverBtn" class="tier-btn tier-silver">🥈 نقره</button>
-        <button id="tierGoldBtn" class="tier-btn tier-gold">🥇 طلا</button>
+        <button id="tierBronzeBtn" class="tier-btn tier-bronze active">🥉 برنز</button>
+        <button id="tierSilverBtn" class="tier-btn tier-silver locked">🥈 نقره</button>
+        <button id="tierGoldBtn" class="tier-btn tier-gold locked">🥇 طلا</button>
     </div>
 
-    <!-- ناوبری ساده مرحله: فقط مرحله X از Y و فلش‌ها -->
     <div class="stage-nav">
         <button id="prevLevelBtn" class="nav-arrow">▶</button>
         <div id="stageText" class="stage-text">مرحله ۱ از ۵۰</div>
@@ -640,12 +491,11 @@
         <button id="answerRevealBtn" class="action-btn">🔍 جواب مرحله</button>
     </div>
 
-    <div style="display: flex; justify-content: center; margin-top: 0.8rem;">
+    <div style="display:flex; justify-content:center; margin-top:0.8rem;">
         <button id="fullResetBtn" class="full-reset-btn hidden">⚙️ ریست سطح</button>
     </div>
 </div>
 
-<!-- مودال عمومی -->
 <div id="modalOverlay" class="modal-overlay">
     <div class="modal-container">
         <h3 id="modalTitle">عنوان</h3>
@@ -654,8 +504,30 @@
     </div>
 </div>
 
-<!-- مودال موسیقی -->
-<div id="musicModal" class="modal-overlay" style="z-index: 1001;">
+<div id="paymentModal" class="modal-overlay" style="z-index:1002;">
+    <div class="payment-modal-container">
+        <h3>💳 پرداخت</h3>
+        <div class="payment-info"><span class="label">📌</span> <span id="paymentMessage">مبلغ 50,000 تومان را به شماره کارت زیر واریز کنید.</span></div>
+        <div class="card-number">6037 9982 5196 2329</div>
+        <div class="payment-info"><span class="label">📎</span> فیش واریزی را به آیدی AmirMahdi_2023@ در تلگرام ارسال کنید.</div>
+        <div class="payment-info" style="margin-top:0.5rem;"><span class="label">🏷</span> لطفا کد توکن داده شده از سوی مدیریت را در کادر زیر وارد کنید.</div>
+        <input type="text" class="token-input" placeholder="XXXXXX" maxlength="20" id="tokenInput">
+        <div class="payment-buttons">
+            <button class="modal-btn pay-confirm" id="paymentConfirmBtn">تایید</button>
+            <button class="modal-btn pay-cancel" id="paymentCancelBtn">لغو</button>
+        </div>
+    </div>
+</div>
+
+<div id="internetModal" class="modal-overlay" style="z-index:1003;">
+    <div class="internet-modal-container">
+        <h3>🌐 آفلاین</h3>
+        <p>اینترنت شما قطع است.<br>لطفا اینترنت خود را بررسی کنید.</p>
+        <button class="modal-btn confirm" id="internetRetryBtn">تلاش مجدد</button>
+    </div>
+</div>
+
+<div id="musicModal" class="modal-overlay" style="z-index:1001;">
     <div class="music-modal-container">
         <h3>موسیقی</h3>
         <div class="music-list">
@@ -671,7 +543,33 @@
 
 <script>
     (function() {
-        // ----- ضرب‌المثل‌های سطح برنز (۱۸ مرحله) -----
+        // ====== ریست کامل بازی (حذف همه داده‌های ذخیره‌شده) ======
+        const keysToRemove = [
+            'unlockedTiers',
+            'solvedStages_bronze',
+            'solvedStages_silver',
+            'solvedStages_gold',
+            'currentStage_bronze',
+            'currentStage_silver',
+            'currentStage_gold',
+            'currentTier'
+        ];
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+
+        const TOKEN_DB = {
+            silver: "Silver.2026",
+            gold: "Gold.2026"
+        };
+
+        let unlockedTiers = {
+            silver: false,
+            gold: false
+        };
+
+        function saveUnlockStatus() {
+            localStorage.setItem("unlockedTiers", JSON.stringify(unlockedTiers));
+        }
+
         const bronzeStages = [
             { emojis: ["🚫", "🔊", "✋️"], answer: "یک دست صدا ندارد" },
             { emojis: ["✍️", "💧", "🐭"], answer: "موش آب کشیده" },
@@ -723,7 +621,7 @@
             { emojis: ["⚖️", "🦟", "🐪"], answer: "شتر را با پشه سنجیدن" },
             { emojis: ["🌊", "💧", "💧"], answer: "قطره قطره جمع گردد وانگهی دریا شود" },
             { emojis: ["😋", "🧂", "🍞"], answer: "نان و نمک کسی را خوردن" },    
-      ];
+        ];
         
         const silverStages = [
             { emojis: ["❌️", "🐻", "🌱", "💵"], answer: "پول علف خرس نیست"},
@@ -776,7 +674,7 @@
             { emojis: ["💵", "1️⃣", "🪙", "👤"], answer: "کسی را سکه یه پول کردن" },
             { emojis: ["❌️", "🩸", "🤚", "🔪"], answer: "چاقو دست خودش را نمی‌برد" },
             { emojis: ["❌️", "🐭", "🤲", "🐱"], answer: "گربه برای رضای خدا موش نمی‌گیرد" },
-      ]; 
+        ]; 
         const goldStages = [
             { emojis: ["🍽", "❌️", "🍯", "⚖️", "☝️"], answer: "با یک من عسل هم نمی‌شود خوردش" },
             { emojis: ["👂", "🧒", "👈", "👍", "🗣"], answer: "حرف راست رو باید از بچه شنید" },
@@ -827,7 +725,7 @@
             { emojis: ["✅️", "☘️", "🥘", "👃", "🤯"], answer: "کلش بوی قرمه سبزی میده" },
             { emojis: ["🤢", "👃", "🗣", "🧅", "🧄"], answer: "سیر به پیاز میگه بو میدی" },
             { emojis: ["👌", "👅", "⬅️", "✨️", "❤"], answer: "دل که پاک است زبان بی‌باک است" },          
-      ];  
+        ];  
 
         const tiers = {
             bronze: { name: "برنز", stages: bronzeStages, keySuffix: "bronze" },
@@ -847,23 +745,7 @@
             gold: 0
         };
 
-        // بازیابی از localStorage
-        try {
-            const savedBronzeSolved = localStorage.getItem("solvedStages_bronze");
-            if (savedBronzeSolved) solvedMap.bronze = JSON.parse(savedBronzeSolved);
-            const savedSilverSolved = localStorage.getItem("solvedStages_silver");
-            if (savedSilverSolved) solvedMap.silver = JSON.parse(savedSilverSolved);
-            const savedGoldSolved = localStorage.getItem("solvedStages_gold");
-            if (savedGoldSolved) solvedMap.gold = JSON.parse(savedGoldSolved);
-            const savedBronzeCurr = localStorage.getItem("currentStage_bronze");
-            if (savedBronzeCurr !== null) currentStageMap.bronze = parseInt(savedBronzeCurr,10) || 0;
-            const savedSilverCurr = localStorage.getItem("currentStage_silver");
-            if (savedSilverCurr !== null) currentStageMap.silver = parseInt(savedSilverCurr,10) || 0;
-            const savedGoldCurr = localStorage.getItem("currentStage_gold");
-            if (savedGoldCurr !== null) currentStageMap.gold = parseInt(savedGoldCurr,10) || 0;
-            const savedTier = localStorage.getItem("currentTier");
-            if (savedTier && tiers[savedTier]) currentTier = savedTier;
-        } catch(e) {}
+        // (داده‌های ذخیره‌شده قبلاً پاک شدند، بنابراین از localStorage چیزی نمی‌خوانیم)
 
         function getCurrentStages() { return tiers[currentTier].stages; }
         function getCurrentSolved() { return solvedMap[currentTier]; }
@@ -875,17 +757,7 @@
             localStorage.setItem(`currentStage_${currentTier}`, currentStageMap[currentTier].toString());
             localStorage.setItem("currentTier", currentTier);
         }
-        function saveAllTiers() {
-            localStorage.setItem(`solvedStages_bronze`, JSON.stringify(solvedMap.bronze));
-            localStorage.setItem(`solvedStages_silver`, JSON.stringify(solvedMap.silver));
-            localStorage.setItem(`solvedStages_gold`, JSON.stringify(solvedMap.gold));
-            localStorage.setItem(`currentStage_bronze`, currentStageMap.bronze.toString());
-            localStorage.setItem(`currentStage_silver`, currentStageMap.silver.toString());
-            localStorage.setItem(`currentStage_gold`, currentStageMap.gold.toString());
-            localStorage.setItem("currentTier", currentTier);
-        }
 
-        // عناصر DOM
         const elements = {
             stageText: document.getElementById('stageText'),
             emojiContainer: document.getElementById('emojiContainer'),
@@ -905,7 +777,6 @@
             tierGold: document.getElementById('tierGoldBtn')
         };
 
-        // مودال
         const modal = {
             overlay: document.getElementById('modalOverlay'),
             title: document.getElementById('modalTitle'),
@@ -918,10 +789,10 @@
                 this.buttons.innerHTML = '';
                 if (showConfirmButtons) {
                     const confirmBtn = document.createElement('button');
-                    confirmBtn.textContent = 'قبول';
+                    confirmBtn.textContent = 'بله';
                     confirmBtn.className = 'modal-btn confirm';
                     const cancelBtnModal = document.createElement('button');
-                    cancelBtnModal.textContent = 'انصراف';
+                    cancelBtnModal.textContent = 'خیر';
                     cancelBtnModal.className = 'modal-btn cancel';
                     this.buttons.appendChild(confirmBtn);
                     this.buttons.appendChild(cancelBtnModal);
@@ -950,6 +821,108 @@
             close() { this.overlay.classList.remove('active'); if (this.currentResolve) this.currentResolve = null; }
         };
         modal.overlay.addEventListener('click', (e) => { if (e.target === modal.overlay) modal.close(); });
+
+        const internetModal = {
+            overlay: document.getElementById('internetModal'),
+            retryBtn: document.getElementById('internetRetryBtn'),
+            show() {
+                this.overlay.classList.add('active');
+                return new Promise((resolve) => {
+                    const onRetry = () => {
+                        this.overlay.classList.remove('active');
+                        resolve(true);
+                        this.retryBtn.removeEventListener('click', onRetry);
+                    };
+                    this.retryBtn.addEventListener('click', onRetry);
+                });
+            },
+            close() {
+                this.overlay.classList.remove('active');
+            }
+        };
+
+        const paymentModal = {
+            overlay: document.getElementById('paymentModal'),
+            confirmBtn: document.getElementById('paymentConfirmBtn'),
+            cancelBtn: document.getElementById('paymentCancelBtn'),
+            tokenInput: document.getElementById('tokenInput'),
+            messageEl: document.getElementById('paymentMessage'),
+            currentTier: null,
+            show(tier) {
+                this.currentTier = tier;
+                if (tier === 'silver') {
+                    this.messageEl.textContent = 'مبلغ 50,000 تومان را به شماره کارت زیر واریز کنید.';
+                } else {
+                    this.messageEl.textContent = 'مبلغ 100,000 تومان را به شماره کارت زیر واریز کنید.';
+                }
+                this.overlay.classList.add('active');
+                this.tokenInput.value = '';
+                this.tokenInput.focus();
+                return new Promise((resolve) => {
+                    const onConfirm = () => {
+                        this.overlay.classList.remove('active');
+                        resolve(true);
+                        cleanup();
+                    };
+                    const onCancel = () => {
+                        this.overlay.classList.remove('active');
+                        resolve(false);
+                        cleanup();
+                    };
+                    const cleanup = () => {
+                        this.confirmBtn.removeEventListener('click', onConfirm);
+                        this.cancelBtn.removeEventListener('click', onCancel);
+                    };
+                    this.confirmBtn.addEventListener('click', onConfirm);
+                    this.cancelBtn.addEventListener('click', onCancel);
+                });
+            },
+            close() {
+                this.overlay.classList.remove('active');
+            }
+        };
+        paymentModal.overlay.addEventListener('click', (e) => { if (e.target === paymentModal.overlay) paymentModal.close(); });
+
+        function isOnline() {
+            return navigator.onLine;
+        }
+
+        let internetCheckInterval = null;
+
+        function startInternetMonitoring() {
+            if (internetCheckInterval) clearInterval(internetCheckInterval);
+            internetCheckInterval = setInterval(() => {
+                if (!isOnline()) {
+                    if (!internetModal.overlay.classList.contains('active')) {
+                        internetModal.show();
+                    }
+                } else {
+                    if (internetModal.overlay.classList.contains('active')) {
+                        internetModal.close();
+                    }
+                }
+            }, 1000);
+        }
+
+        async function checkInternet() {
+            if (!isOnline()) {
+                await internetModal.show();
+                if (!isOnline()) {
+                    await internetModal.show();
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        }
+
+        async function checkInternetForMusic() {
+            if (!isOnline()) {
+                await internetModal.show();
+                return false;
+            }
+            return true;
+        }
 
         function normalizeText(str) {
             return str.trim().replace(/\s+/g, ' ').replace(/ي/g, 'ی').replace(/ك/g, 'ک').replace(/‍/g, '').replace(/‌/g, '');
@@ -1000,7 +973,6 @@
                 return;
             }
 
-            // نمایش ایموجی‌ها (برعکس)
             const stage = stages[currentIdx];
             elements.emojiContainer.innerHTML = '';
             [...stage.emojis].reverse().forEach(emo => {
@@ -1008,7 +980,6 @@
                 span.textContent = emo;
                 elements.emojiContainer.appendChild(span);
             });
-            // فقط مرحله X از Y - بدون نام سطح
             elements.stageText.textContent = `مرحله ${currentIdx+1} از ${total}`;
 
             const isSolved = solved[currentIdx];
@@ -1035,7 +1006,56 @@
             checkFullResetVisibility();
         }
 
-        function switchTier(tierId) {
+        // ====== اصلاح شده: حلقه برای پرداخت و بررسی توکن ======
+        async function showLockModal(tierName, tierKey) {
+            if (!await checkInternet()) return;
+            if (unlockedTiers[tierKey]) {
+                switchTierInternal(tierKey);
+                return;
+            }
+
+            // سوال خرید
+            const wantToBuy = await modal.show("📋 اطلاعیه", `این سطح قفل می‌باشد.\nآیا مایل به خرید این سطح هستید؟`, true);
+            if (!wantToBuy) {
+                await modal.show("❌️ انصراف", "شما خرید این سطح را لغو کردید.");
+                return;
+            }
+
+            let success = false;
+            while (!success) {
+                const payResult = await paymentModal.show(tierKey);
+                if (!payResult) {
+                    // کاربر لغو کرد
+                    await modal.show("❌️ انصراف", "شما خرید این سطح را لغو کردید.");
+                    return;
+                }
+                const token = paymentModal.tokenInput.value.trim();
+                if (token.length === 0) {
+                    // خالی -> هشدار
+                    paymentModal.close();
+                    await modal.show("🚫 هشدار", "لطفا کد توکن را وارد کنید.");
+                    // ادامه حلقه (دوباره paymentModal نشان داده می‌شود)
+                    continue;
+                }
+                if (token === TOKEN_DB[tierKey]) {
+                    // درست
+                    unlockedTiers[tierKey] = true;
+                    saveUnlockStatus();
+                    paymentModal.close();
+                    await modal.show("✅️ موفق", `خرید سطح ${tierName} با موفقیت انجام شد.`);
+                    switchTierInternal(tierKey);
+                    success = true;
+                    break;
+                } else {
+                    // اشتباه
+                    paymentModal.close();
+                    await modal.show("⚠️ خطا", "کد توکن وارد شده اشتباه است.\nلطفا کد توکن صحیح را وارد کنید.");
+                    // ادامه حلقه
+                }
+            }
+        }
+
+        function switchTierInternal(tierId) {
             if (tierId === currentTier) return;
             saveCurrentTierData();
             currentTier = tierId;
@@ -1049,7 +1069,21 @@
             loadStage();
         }
 
+        function switchTier(tierId) {
+            if (tierId === 'silver') {
+                showLockModal('نقره', 'silver');
+                return;
+            }
+            if (tierId === 'gold') {
+                showLockModal('طلا', 'gold');
+                return;
+            }
+            if (tierId === currentTier) return;
+            switchTierInternal(tierId);
+        }
+
         async function fullResetCurrentTier() {
+            if (!await checkInternet()) return;
             const stages = getCurrentStages();
             if (stages.length === 0) {
                 modal.show("✉️ پیام", "این سطح هنوز مرحله‌ای ندارد. \n بنابراین نمی‌توان ریست کرد.");
@@ -1067,6 +1101,7 @@
         }
 
         async function restartCurrentStage() {
+            if (!await checkInternet()) return;
             const stages = getCurrentStages();
             if (stages.length === 0) { modal.show("📌 توجه", "مرحله‌ای وجود ندارد."); return; }
             const solved = getCurrentSolved();
@@ -1083,7 +1118,8 @@
             }
         }
 
-        function checkAnswer() {
+        async function checkAnswer() {
+            if (!await checkInternet()) return;
             const stages = getCurrentStages();
             if (stages.length === 0) { modal.show("✉️ پیام", "این سطح هنوز مرحله‌ای ندارد."); return; }
             const solved = getCurrentSolved();
@@ -1145,7 +1181,6 @@
             modal.show("درباره ما", `👤 توسعه دهنده : AmirMahdi.JN\n🆔️ تلگرام : AmirMahdi_2023@\n🆔️ روبیکا : AmirMahdi_2018@\n📞 موبایل : 09918659151`);
         }
 
-        // موسیقی
         let currentAudio = null, currentPlayingButton = null;
         function initMusic() {
             const musicModalOverlay = document.getElementById('musicModal');
@@ -1163,13 +1198,13 @@
                 const songUrl = musicItem.dataset.songUrl;
                 btn.addEventListener('click', async (e) => {
                     e.stopPropagation();
+                    if (!await checkInternetForMusic()) return;
                     if (currentAudio && currentPlayingButton === btn) {
                         currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null;
                         btn.textContent = '▶'; btn.dataset.playing = 'false'; currentPlayingButton = null;
                         return;
                     }
                     if (currentAudio) { currentAudio.pause(); if(currentPlayingButton) { currentPlayingButton.textContent = '▶'; currentPlayingButton.dataset.playing = 'false'; } currentAudio = null; currentPlayingButton = null; }
-                    if (!navigator.onLine) { modal.show("🌍 وضعیت", "برای پخش آهنگ به اتصال اینترنت نیاز دارید.\nلطفاً آنلاین شوید و دوباره تلاش کنید."); return; }
                     try {
                         const audio = new Audio(); audio.src = songUrl; audio.loop = false;
                         await audio.play();
@@ -1182,7 +1217,18 @@
             });
         }
 
-        // اتصال رویدادها
+        window.addEventListener('online', () => {
+            if (internetModal.overlay.classList.contains('active')) {
+                internetModal.close();
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            if (!internetModal.overlay.classList.contains('active')) {
+                internetModal.show();
+            }
+        });
+
         elements.submitBtn.addEventListener('click', checkAnswer);
         elements.cancelBtn.addEventListener('click', () => { if(getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) elements.answerInput.value = ''; });
         elements.restartBtn.addEventListener('click', restartCurrentStage);
@@ -1197,32 +1243,28 @@
         elements.tierGold.addEventListener('click', () => switchTier('gold'));
         elements.answerInput.addEventListener('keypress', (e) => { if(e.key === 'Enter' && getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) checkAnswer(); });
 
+        startInternetMonitoring();
         initMusic();
-        // فعال کردن دکمه سطح جاری
         if (currentTier === 'bronze') elements.tierBronze.classList.add('active');
         else if (currentTier === 'silver') elements.tierSilver.classList.add('active');
         else elements.tierGold.classList.add('active');
         loadStage();
     })();
 
-    // ---------- اسکریپت اسپلش اسکرین (رفع مشکل نمایش بازی) ----------
     (function handleSplash() {
         const splash = document.getElementById('splashScreen');
         const gameContainer = document.getElementById('mainGameContainer');
         if (!splash || !gameContainer) return;
-        // پس از ۲.۶ ثانیه اسپلش محو و حذف می‌شود و بازی نمایان می‌گردد
         setTimeout(() => {
             splash.style.opacity = '0';
-            // بعد از اتمام افکت محو، اسپلش را حذف و بازی را نمایش بده
             setTimeout(() => {
                 if (splash && splash.parentNode) splash.remove();
                 if (gameContainer) {
-                    // مقدار اولیه display در CSS 'none' است، برای نمایش باید به 'block' یا 'flex' تغییر یابد
-                    gameContainer.style.display = 'block';  // نمایش کانتینر بازی
+                    gameContainer.style.display = 'block';
                 }
-            }, 600);  // هماهنگ با transition opacity 0.6s
+            }, 600);
         }, 3500);
     })();
 </script>
 </body>
-</html>
+    </html>
