@@ -22,6 +22,7 @@
             --cancel-bg: #8f6b7c; --cancel-hover: #b1879b;
             --music-bg: #1a1e36; --music-item-bg: #2a2e4a; --music-item-hover: #3a3e5e;
             --bronze-color: #cd7f32; --silver-color: #c0c0c0; --gold-color: #ffd700;
+            --daily-bg: #1a1e36;
         }
 
         body {
@@ -179,20 +180,46 @@
         .btn-red:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .triple-actions {
-            display: flex; justify-content: center;
-            gap: 1rem; margin-top: 0.5rem; flex-wrap: nowrap;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: nowrap;
         }
-        .action-btn {
+        .triple-actions .action-btn {
             background: var(--action-btn-bg);
             border: 1px solid var(--action-btn-border);
-            padding: 0.5rem 1.2rem; border-radius: 40px;
-            font-size: 0.85rem; font-weight: 600;
-            cursor: pointer; color: var(--action-btn-color);
-            display: inline-flex; align-items: center; gap: 6px;
-            transition: 0.2s; white-space: nowrap;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--action-btn-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            white-space: nowrap;
         }
-        .action-btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05); }
-        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .triple-actions .action-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+        .triple-actions .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .triple-actions .left-group {
+            display: flex;
+            gap: 0.8rem;
+            margin-right: auto;
+        }
+        .triple-actions .right-group {
+            display: flex;
+            gap: 0.8rem;
+            margin-left: auto;
+        }
 
         .full-reset-btn {
             background: var(--btn-info-bg); border: none;
@@ -213,7 +240,7 @@
             background-color: rgba(0,0,0,0.75);
             backdrop-filter: blur(8px);
             display: flex; align-items: center; justify-content: center;
-            z-index: 1004; /* بالاتر از همه */
+            z-index: 1004;
             visibility: hidden; opacity: 0;
             transition: 0.25s ease;
         }
@@ -261,6 +288,134 @@
         .modal-btn.confirm:hover { background: var(--confirm-hover); transform: scale(0.96); }
         .modal-btn.cancel { background: var(--cancel-bg); color: white; }
         .modal-btn.cancel:hover { background: var(--cancel-hover); transform: scale(0.96); }
+
+        /* Daily Challenge Modal */
+        .daily-modal-container {
+            background: var(--daily-bg);
+            border-radius: 2rem;
+            max-width: 480px; width: 92%;
+            padding: 1.5rem 1.2rem 1.2rem;
+            border: 2px solid var(--modal-border);
+            direction: rtl;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: modalPop 0.2s ease-out;
+            text-align: center;
+        }
+        .daily-modal-container h3 {
+            color: var(--modal-title-color);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            width: 100%;
+        }
+        .daily-question-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+        .daily-question-box {
+            background: var(--input-bg);
+            padding: 0.6rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid var(--container-border);
+            text-align: center;  /* وسط‌چین */
+        }
+        .daily-question {
+            color: var(--modal-text-color);
+            font-size: 0.85rem;
+            font-weight: 500;
+            line-height: 1.6;
+            min-height: 2rem;
+        }
+        .daily-timer-box {
+            background: var(--input-bg);
+            padding: 0.4rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid var(--container-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .daily-timer {
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #f5b042;
+            direction: ltr;
+        }
+        .daily-answer-row {
+            display: flex;
+            gap: 0.6rem;
+            margin: 0.8rem 0 0.6rem 0;
+        }
+        .daily-answer-row input {
+            flex: 1;
+            background: var(--input-bg);
+            border: 1px solid var(--container-border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--input-color);
+            font-size: 0.9rem;
+            outline: none;
+            font-family: inherit;
+        }
+        .daily-answer-row input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .daily-answer-row input::placeholder {
+            color: var(--input-placeholder);
+        }
+        .daily-submit-btn {
+            background: var(--confirm-bg);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .daily-submit-btn:hover:not(:disabled) {
+            background: var(--confirm-hover);
+            transform: scale(0.96);
+        }
+        .daily-submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .daily-status {
+            margin: 0.8rem 0 1rem 0;
+            font-size: 0.85rem;
+            color: var(--modal-text-color);
+            text-align: center;
+            min-height: 1.8rem;
+        }
+        .daily-status.success {
+            color: #7bdf9b;
+        }
+        .daily-status.error {
+            color: #ef8a87;
+        }
+        .daily-close-btn {
+            background: var(--cancel-bg);
+            border: none;
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            margin: 0.3rem auto 0 auto;
+            display: inline-block;
+        }
+        .daily-close-btn:hover {
+            background: var(--cancel-hover);
+            transform: scale(0.96);
+        }
 
         /* Music Modal */
         .music-modal-container {
@@ -374,6 +529,12 @@
             .tier-btn { padding:0.3rem 0.8rem; font-size:0.8rem; }
             .stage-text { min-width:130px; font-size:0.85rem; }
             .nav-arrow { font-size:1.6rem; }
+            .daily-question { font-size:0.75rem; }
+            .triple-actions { flex-wrap: wrap; justify-content: center; }
+            .triple-actions .left-group,
+            .triple-actions .right-group {
+                margin: 0;
+            }
         }
 
         /* Splash Screen */
@@ -477,7 +638,7 @@
     </div>
 
     <div class="input-wrapper">
-        <input type="text" id="answerInput" class="answer-input" placeholder="پاسخ خود را بنویسید..." autocomplete="off">
+        <input type="text" id="answerInput" class="answer-input" placeholder="پاسخ خود را وارد کنید..." autocomplete="off">
     </div>
 
     <div class="buttons-group">
@@ -485,10 +646,14 @@
         <button id="cancelBtn" class="btn btn-red">✗ لغو</button>
     </div>
 
+    <!-- نوار ابزار پایین: چالش در چپ، جواب در راست -->
     <div class="triple-actions">
-        <button id="restartBtn" class="action-btn">🔄 شروع مجدد</button>
-        <button id="deleteOneBtn" class="action-btn">🗑️ حذف</button>
-        <button id="answerRevealBtn" class="action-btn">🔍 جواب مرحله</button>
+        <div class="left-group">
+            <button id="dailyChallengeBtn" class="action-btn">🎯 چالش</button>
+        </div>
+        <div class="right-group">
+            <button id="answerRevealBtn" class="action-btn">🔍 جواب</button>
+        </div>
     </div>
 
     <div style="display:flex; justify-content:center; margin-top:0.8rem;">
@@ -496,6 +661,28 @@
     </div>
 </div>
 
+<!-- مودال چالش روزانه (با متن وسط‌چین و علامت ◆) -->
+<div id="dailyModal" class="modal-overlay" style="z-index:1005;">
+    <div class="daily-modal-container">
+        <h3>🧩 معما</h3>
+        <div class="daily-question-row">
+            <div class="daily-question-box">
+                <div class="daily-question" id="dailyQuestion">◆ سؤال امروز ...</div>
+            </div>
+            <div class="daily-timer-box">
+                <span class="daily-timer" id="dailyTimer">--:--:--</span>
+            </div>
+        </div>
+        <div class="daily-answer-row">
+            <input type="text" id="dailyAnswerInput" placeholder="پاسخ خود را بنویسید..." autocomplete="off">
+            <button class="daily-submit-btn" id="dailySubmitBtn">ثبت</button>
+        </div>
+        <div class="daily-status" id="dailyStatus"></div>
+        <button class="daily-close-btn" id="dailyCloseBtn">بستن</button>
+    </div>
+</div>
+
+<!-- سایر مودال‌ها (بدون تغییر) -->
 <div id="modalOverlay" class="modal-overlay">
     <div class="modal-container">
         <h3 id="modalTitle">عنوان</h3>
@@ -543,15 +730,12 @@
 
 <script>
     (function() {
-        // ====== دیگر داده‌ها را پاک نمی‌کنیم ======
-        // (بخش پاک‌سازی حذف شد)
-
+        // ====== داده‌های بازی (بدون تغییر) ======
         const TOKEN_DB = {
             silver: "Silver.2026",
             gold: "Gold.2026"
         };
 
-        // ====== بارگذاری داده‌های ذخیره‌شده از localStorage ======
         let unlockedTiers = { silver: false, gold: false };
         const savedUnlocked = localStorage.getItem('unlockedTiers');
         if (savedUnlocked) {
@@ -737,7 +921,7 @@
             gold: 0
         };
 
-        // ====== بارگذاری داده‌های ذخیره‌شده برای حل‌شده‌ها و مرحله جاری ======
+        // بارگذاری داده‌های ذخیره‌شده
         const savedSolvedBronze = localStorage.getItem('solvedStages_bronze');
         if (savedSolvedBronze) {
             try { solvedMap.bronze = JSON.parse(savedSolvedBronze); } catch(e) {}
@@ -769,7 +953,6 @@
             currentTier = savedCurrentTier;
         }
 
-        // ====== توابع کمکی ======
         function getCurrentStages() { return tiers[currentTier].stages; }
         function getCurrentSolved() { return solvedMap[currentTier]; }
         function getCurrentStageIndex() { return currentStageMap[currentTier]; }
@@ -787,9 +970,6 @@
             answerInput: document.getElementById('answerInput'),
             submitBtn: document.getElementById('submitBtn'),
             cancelBtn: document.getElementById('cancelBtn'),
-            restartBtn: document.getElementById('restartBtn'),
-            deleteOneBtn: document.getElementById('deleteOneBtn'),
-            answerRevealBtn: document.getElementById('answerRevealBtn'),
             infoBtn: document.getElementById('infoBtn'),
             prevBtn: document.getElementById('prevLevelBtn'),
             nextBtn: document.getElementById('nextLevelBtn'),
@@ -797,9 +977,12 @@
             musicBtn: document.getElementById('musicBtn'),
             tierBronze: document.getElementById('tierBronzeBtn'),
             tierSilver: document.getElementById('tierSilverBtn'),
-            tierGold: document.getElementById('tierGoldBtn')
+            tierGold: document.getElementById('tierGoldBtn'),
+            dailyChallengeBtn: document.getElementById('dailyChallengeBtn'),
+            answerRevealBtn: document.getElementById('answerRevealBtn')
         };
 
+        // ====== مودال عمومی ======
         const modal = {
             overlay: document.getElementById('modalOverlay'),
             title: document.getElementById('modalTitle'),
@@ -833,7 +1016,8 @@
                     });
                 } else {
                     const closeBtn = document.createElement('button');
-                    closeBtn.textContent = 'باشه';
+                    // تغییر متن دکمه از "باشه" به "بستن"
+                    closeBtn.textContent = 'بستن';
                     closeBtn.className = 'modal-btn normal';
                     closeBtn.addEventListener('click', () => this.close());
                     this.buttons.appendChild(closeBtn);
@@ -845,6 +1029,7 @@
         };
         modal.overlay.addEventListener('click', (e) => { if (e.target === modal.overlay) modal.close(); });
 
+        // ====== مودال اینترنت (بدون تغییر) ======
         const internetModal = {
             overlay: document.getElementById('internetModal'),
             retryBtn: document.getElementById('internetRetryBtn'),
@@ -864,6 +1049,7 @@
             }
         };
 
+        // ====== مودال پرداخت (بدون تغییر) ======
         const paymentModal = {
             overlay: document.getElementById('paymentModal'),
             confirmBtn: document.getElementById('paymentConfirmBtn'),
@@ -906,12 +1092,10 @@
         };
         paymentModal.overlay.addEventListener('click', (e) => { if (e.target === paymentModal.overlay) paymentModal.close(); });
 
-        function isOnline() {
-            return navigator.onLine;
-        }
+        // ====== توابع کمکی ======
+        function isOnline() { return navigator.onLine; }
 
         let internetCheckInterval = null;
-
         function startInternetMonitoring() {
             if (internetCheckInterval) clearInterval(internetCheckInterval);
             internetCheckInterval = setInterval(() => {
@@ -987,9 +1171,6 @@
                 elements.answerInput.disabled = true;
                 elements.submitBtn.disabled = true;
                 elements.cancelBtn.disabled = true;
-                elements.restartBtn.disabled = true;
-                elements.deleteOneBtn.disabled = true;
-                elements.answerRevealBtn.disabled = true;
                 elements.answerInput.value = '';
                 updateArrows();
                 checkFullResetVisibility();
@@ -1011,17 +1192,11 @@
                 elements.answerInput.disabled = true;
                 elements.submitBtn.disabled = true;
                 elements.cancelBtn.disabled = true;
-                elements.restartBtn.disabled = true;
-                elements.deleteOneBtn.disabled = true;
-                elements.answerRevealBtn.disabled = true;
             } else {
                 elements.answerInput.value = '';
                 elements.answerInput.disabled = false;
                 elements.submitBtn.disabled = false;
                 elements.cancelBtn.disabled = false;
-                elements.restartBtn.disabled = false;
-                elements.deleteOneBtn.disabled = false;
-                elements.answerRevealBtn.disabled = false;
                 elements.answerInput.focus();
             }
             updateArrows();
@@ -1029,7 +1204,7 @@
             checkFullResetVisibility();
         }
 
-        // ====== اصلاح شده: حلقه برای پرداخت و بررسی توکن ======
+        // ====== توابع قفل سطح (بدون تغییر) ======
         async function showLockModal(tierName, tierKey) {
             if (!await checkInternet()) return;
             if (unlockedTiers[tierKey]) {
@@ -1098,6 +1273,7 @@
             switchTierInternal(tierId);
         }
 
+        // ====== توابع بازی (بدون تغییر) ======
         async function fullResetCurrentTier() {
             if (!await checkInternet()) return;
             const stages = getCurrentStages();
@@ -1113,24 +1289,6 @@
                 saveCurrentTierData();
                 loadStage();
                 modal.show("📋 اطلاعیه", `سطح ${tiers[currentTier].name} کاملاً ریست شد. \n لطفا از مرحله اول شروع کنید.`);
-            }
-        }
-
-        async function restartCurrentStage() {
-            if (!await checkInternet()) return;
-            const stages = getCurrentStages();
-            if (stages.length === 0) { modal.show("📌 توجه", "مرحله‌ای وجود ندارد."); return; }
-            const solved = getCurrentSolved();
-            const idx = getCurrentStageIndex();
-            if (solved[idx]) {
-                modal.show("🔒 قفل", "این مرحله قبلاً حل شده است. \n برای ریست باید کل سطح را ریست کنید.");
-                return;
-            }
-            const confirmed = await modal.show("🚫 هشدار", `آیا از شروع مجدد مرحله ${idx+1} مطمئن هستید؟ \n پیشرفت فعلی این مرحله از بین می‌رود.`, true);
-            if (confirmed) {
-                elements.answerInput.value = '';
-                elements.answerInput.focus();
-                modal.show("📋 اطلاعیه", `مرحله ${idx+1} از نو شروع شد. \n می‌توانید از دوباره تلاش کنید.`);
             }
         }
 
@@ -1178,6 +1336,8 @@
             setCurrentStageIndex(idx);
             loadStage();
         }
+
+        // تابع نمایش جواب (دکمه جواب)
         function showAnswer() {
             const stages = getCurrentStages();
             if (stages.length === 0) { modal.show("❗️ توجه", "مرحله‌ای وجود ندارد."); return; }
@@ -1186,17 +1346,12 @@
             if (solved[idx]) { modal.show("🔔 اعلان", "این مرحله قبلاً حل شده است."); return; }
             modal.show("💡 راهنمایی", `پاسخ صحیح: «${stages[idx].answer}» \n می‌توانید دوباره امتحان کنید.`);
         }
-        function deleteLastChar() {
-            const stages = getCurrentStages();
-            if (stages.length === 0) return;
-            if (getCurrentSolved()[getCurrentStageIndex()]) { modal.show("🔔 اعلان", "این مرحله حل شده است. \n بنابراین نمی‌توان تغییر داد."); return; }
-            elements.answerInput.value = elements.answerInput.value.slice(0, -1);
-            elements.answerInput.focus();
-        }
+
         function showInfo() {
             modal.show("درباره ما", `👤 توسعه دهنده : AmirMahdi.JN\n🆔️ تلگرام : AmirMahdi_2023@\n🆔️ روبیکا : AmirMahdi_2018@\n📞 موبایل : 09918659151`);
         }
 
+        // ====== بخش موسیقی (بدون تغییر) ======
         let currentAudio = null, currentPlayingButton = null;
         function initMusic() {
             const musicModalOverlay = document.getElementById('musicModal');
@@ -1233,6 +1388,152 @@
             });
         }
 
+        // =============================================
+        // ====== بخش چالش روزانه ======
+        // =============================================
+        const dailyRiddles = [
+            { question: "آنچه می‌تواند در یک گوشه بایستد و تمام جهان را ببیند؟", answer: "آیینه" },
+            { question: "چیزی که هر چه بیشتر از آن برداری، بزرگتر می‌شود؟", answer: "چاله" },
+            { question: "چه چیزی را می‌توانی بشکنی حتی اگر آن را برداری و نگهداری کنی؟", answer: "قول" },
+            { question: "کدام کلید هیچ دری را باز نمی‌کند؟", answer: "نت موسیقی" },
+            { question: "چه چیزی همیشه جلو شماست اما هرگز دیده نمی‌شود؟", answer: "آینده" },
+            { question: "چه چیزی ابتدا سبز است، سپس قرمز، و وقتی می‌خوری سیاه می‌شود؟", answer: "هندوانه" },
+            { question: "من یک شهر هستم اما خانه ندارم، کوه دارم اما سنگ ندارم، آب دارم اما ماهی ندارم. من چیستم؟", answer: "نقشه" },
+            { question: "چه چیزی شب‌ها می‌آید و بدون دعوت می‌رود؟", answer: "خواب" },
+            { question: "چه چیزی را می‌توانی بشکنی بدون اینکه آن را لمس کنی؟", answer: "راز" },
+            { question: "چه چیزی پر از سوراخ است اما هنوز آب را نگه می‌دارد؟", answer: "اسفنج" }
+        ];
+
+        function getDailyChallenge() {
+            const today = new Date();
+            const start = new Date(today.getFullYear(), 0, 0);
+            const diff = today - start;
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const index = dayOfYear % dailyRiddles.length;
+            return dailyRiddles[index];
+        }
+
+        function getTodayKey() {
+            const now = new Date();
+            return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+        }
+
+        let dailySolved = false;
+        let dailyTimerInterval = null;
+
+        function initDailyChallenge() {
+            const dailyModal = document.getElementById('dailyModal');
+            const closeBtn = document.getElementById('dailyCloseBtn');
+            const questionEl = document.getElementById('dailyQuestion');
+            const timerEl = document.getElementById('dailyTimer');
+            const answerInput = document.getElementById('dailyAnswerInput');
+            const submitBtn = document.getElementById('dailySubmitBtn');
+            const statusEl = document.getElementById('dailyStatus');
+
+            elements.dailyChallengeBtn.addEventListener('click', async () => {
+                if (!await checkInternet()) return;
+                const todayKey = getTodayKey();
+                const stored = localStorage.getItem('dailySolved_' + todayKey);
+                dailySolved = (stored === 'true');
+
+                const riddle = getDailyChallenge();
+                // اضافه کردن علامت ◆ در ابتدای متن
+                questionEl.textContent = '◆ ' + riddle.question;
+
+                if (dailySolved) {
+                    answerInput.disabled = true;
+                    submitBtn.disabled = true;
+                    statusEl.textContent = '✅ معمای امروز را با موفقیت به پایان رساندید.';
+                    statusEl.className = 'daily-status success';
+                    answerInput.value = '';
+                } else {
+                    answerInput.disabled = false;
+                    submitBtn.disabled = false;
+                    statusEl.textContent = '';
+                    statusEl.className = 'daily-status';
+                    answerInput.value = '';
+                    answerInput.focus();
+                }
+
+                dailyModal.classList.add('active');
+                startDailyTimer(timerEl);
+            });
+
+            const closeDaily = () => {
+                dailyModal.classList.remove('active');
+                if (dailyTimerInterval) {
+                    clearInterval(dailyTimerInterval);
+                    dailyTimerInterval = null;
+                }
+            };
+            closeBtn.addEventListener('click', closeDaily);
+            dailyModal.addEventListener('click', (e) => {
+                if (e.target === dailyModal) closeDaily();
+            });
+
+            submitBtn.addEventListener('click', async () => {
+                if (dailySolved) {
+                    statusEl.textContent = '✅ امروز را قبلاً حل کرده‌اید!';
+                    statusEl.className = 'daily-status success';
+                    return;
+                }
+                const userAns = answerInput.value.trim();
+                if (userAns === '') {
+                    statusEl.textContent = '⚠️ لطفاً پاسخ را وارد کنید.';
+                    statusEl.className = 'daily-status error';
+                    return;
+                }
+                const riddle = getDailyChallenge();
+                if (normalizeText(userAns) === normalizeText(riddle.answer)) {
+                    dailySolved = true;
+                    const todayKey = getTodayKey();
+                    localStorage.setItem('dailySolved_' + todayKey, 'true');
+                    answerInput.disabled = true;
+                    submitBtn.disabled = true;
+                    statusEl.textContent = '🎉 پاسخ صحیح! چالش امروز را با موفقیت انجام دادید.';
+                    statusEl.className = 'daily-status success';
+                } else {
+                    statusEl.textContent = '❌ پاسخ غلط! دوباره تلاش کنید.';
+                    statusEl.className = 'daily-status error';
+                    answerInput.value = '';
+                    answerInput.focus();
+                }
+            });
+
+            answerInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    submitBtn.click();
+                }
+            });
+        }
+
+        function startDailyTimer(timerEl) {
+            if (dailyTimerInterval) clearInterval(dailyTimerInterval);
+            updateDailyTimer(timerEl);
+            dailyTimerInterval = setInterval(() => {
+                updateDailyTimer(timerEl);
+            }, 1000);
+        }
+
+        function updateDailyTimer(timerEl) {
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            const diffMs = tomorrow - now;
+            if (diffMs <= 0) {
+                timerEl.textContent = '۰۰:۰۰:۰۰';
+                return;
+            }
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+            timerEl.textContent = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        }
+
+        // =============================================
+
+        // ====== رویدادها ======
         window.addEventListener('online', () => {
             if (internetModal.overlay.classList.contains('active')) {
                 internetModal.close();
@@ -1247,9 +1548,6 @@
 
         elements.submitBtn.addEventListener('click', checkAnswer);
         elements.cancelBtn.addEventListener('click', () => { if(getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) elements.answerInput.value = ''; });
-        elements.restartBtn.addEventListener('click', restartCurrentStage);
-        elements.deleteOneBtn.addEventListener('click', deleteLastChar);
-        elements.answerRevealBtn.addEventListener('click', showAnswer);
         elements.infoBtn.addEventListener('click', showInfo);
         elements.prevBtn.addEventListener('click', goPrevLevel);
         elements.nextBtn.addEventListener('click', goNextLevel);
@@ -1258,9 +1556,12 @@
         elements.tierSilver.addEventListener('click', () => switchTier('silver'));
         elements.tierGold.addEventListener('click', () => switchTier('gold'));
         elements.answerInput.addEventListener('keypress', (e) => { if(e.key === 'Enter' && getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) checkAnswer(); });
+        elements.answerRevealBtn.addEventListener('click', showAnswer);
 
         startInternetMonitoring();
         initMusic();
+        initDailyChallenge();
+
         if (currentTier === 'bronze') elements.tierBronze.classList.add('active');
         else if (currentTier === 'silver') elements.tierSilver.classList.add('active');
         else elements.tierGold.classList.add('active');
