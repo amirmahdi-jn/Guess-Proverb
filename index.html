@@ -543,28 +543,20 @@
 
 <script>
     (function() {
-        // ====== ریست کامل بازی (حذف همه داده‌های ذخیره‌شده) ======
-        const keysToRemove = [
-            'unlockedTiers',
-            'solvedStages_bronze',
-            'solvedStages_silver',
-            'solvedStages_gold',
-            'currentStage_bronze',
-            'currentStage_silver',
-            'currentStage_gold',
-            'currentTier'
-        ];
-        keysToRemove.forEach(key => localStorage.removeItem(key));
+        // ====== دیگر داده‌ها را پاک نمی‌کنیم ======
+        // (بخش پاک‌سازی حذف شد)
 
         const TOKEN_DB = {
             silver: "Silver.2026",
             gold: "Gold.2026"
         };
 
-        let unlockedTiers = {
-            silver: false,
-            gold: false
-        };
+        // ====== بارگذاری داده‌های ذخیره‌شده از localStorage ======
+        let unlockedTiers = { silver: false, gold: false };
+        const savedUnlocked = localStorage.getItem('unlockedTiers');
+        if (savedUnlocked) {
+            try { unlockedTiers = JSON.parse(savedUnlocked); } catch(e) {}
+        }
 
         function saveUnlockStatus() {
             localStorage.setItem("unlockedTiers", JSON.stringify(unlockedTiers));
@@ -745,8 +737,39 @@
             gold: 0
         };
 
-        // (داده‌های ذخیره‌شده قبلاً پاک شدند، بنابراین از localStorage چیزی نمی‌خوانیم)
+        // ====== بارگذاری داده‌های ذخیره‌شده برای حل‌شده‌ها و مرحله جاری ======
+        const savedSolvedBronze = localStorage.getItem('solvedStages_bronze');
+        if (savedSolvedBronze) {
+            try { solvedMap.bronze = JSON.parse(savedSolvedBronze); } catch(e) {}
+        }
+        const savedSolvedSilver = localStorage.getItem('solvedStages_silver');
+        if (savedSolvedSilver) {
+            try { solvedMap.silver = JSON.parse(savedSolvedSilver); } catch(e) {}
+        }
+        const savedSolvedGold = localStorage.getItem('solvedStages_gold');
+        if (savedSolvedGold) {
+            try { solvedMap.gold = JSON.parse(savedSolvedGold); } catch(e) {}
+        }
 
+        const savedStageBronze = localStorage.getItem('currentStage_bronze');
+        if (savedStageBronze) {
+            try { currentStageMap.bronze = parseInt(savedStageBronze, 10) || 0; } catch(e) {}
+        }
+        const savedStageSilver = localStorage.getItem('currentStage_silver');
+        if (savedStageSilver) {
+            try { currentStageMap.silver = parseInt(savedStageSilver, 10) || 0; } catch(e) {}
+        }
+        const savedStageGold = localStorage.getItem('currentStage_gold');
+        if (savedStageGold) {
+            try { currentStageMap.gold = parseInt(savedStageGold, 10) || 0; } catch(e) {}
+        }
+
+        const savedCurrentTier = localStorage.getItem('currentTier');
+        if (savedCurrentTier && ['bronze','silver','gold'].includes(savedCurrentTier)) {
+            currentTier = savedCurrentTier;
+        }
+
+        // ====== توابع کمکی ======
         function getCurrentStages() { return tiers[currentTier].stages; }
         function getCurrentSolved() { return solvedMap[currentTier]; }
         function getCurrentStageIndex() { return currentStageMap[currentTier]; }
@@ -1014,7 +1037,6 @@
                 return;
             }
 
-            // سوال خرید
             const wantToBuy = await modal.show("📋 اطلاعیه", `این سطح قفل می‌باشد.\nآیا مایل به خرید این سطح هستید؟`, true);
             if (!wantToBuy) {
                 await modal.show("❌️ انصراف", "شما خرید این سطح را لغو کردید.");
@@ -1025,20 +1047,16 @@
             while (!success) {
                 const payResult = await paymentModal.show(tierKey);
                 if (!payResult) {
-                    // کاربر لغو کرد
                     await modal.show("❌️ انصراف", "شما خرید این سطح را لغو کردید.");
                     return;
                 }
                 const token = paymentModal.tokenInput.value.trim();
                 if (token.length === 0) {
-                    // خالی -> هشدار
                     paymentModal.close();
                     await modal.show("🚫 هشدار", "لطفا کد توکن را وارد کنید.");
-                    // ادامه حلقه (دوباره paymentModal نشان داده می‌شود)
                     continue;
                 }
                 if (token === TOKEN_DB[tierKey]) {
-                    // درست
                     unlockedTiers[tierKey] = true;
                     saveUnlockStatus();
                     paymentModal.close();
@@ -1047,10 +1065,8 @@
                     success = true;
                     break;
                 } else {
-                    // اشتباه
                     paymentModal.close();
                     await modal.show("⚠️ خطا", "کد توکن وارد شده اشتباه است.\nلطفا کد توکن صحیح را وارد کنید.");
-                    // ادامه حلقه
                 }
             }
         }
