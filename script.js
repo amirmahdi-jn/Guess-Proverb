@@ -843,11 +843,12 @@
     
     var newWorker = null;
     var refreshing = false;
-    var userDismissed = false;
     
     var notification = document.getElementById('update-notification');
     var updateNowBtn = document.getElementById('updateNowBtn');
     var updateCloseBtn = document.getElementById('updateCloseBtn');
+    
+    var DISMISSED_KEY = '__update_dismissed_version__';
     
     var PROTECTED_KEYS = [
         'unlockedTiers',
@@ -896,6 +897,42 @@
     
     restoreUserData();
     
+    function getWaitingVersion() {
+        return localStorage.getItem(DISMISSED_KEY) || null;
+    }
+    
+    function setWaitingVersion(version) {
+        if (version) {
+            localStorage.setItem(DISMISSED_KEY, version);
+        }
+    }
+    
+    function clearWaitingVersion() {
+        localStorage.removeItem(DISMISSED_KEY);
+    }
+    
+    function getCurrentCacheVersion() {
+        return new Promise(function(resolve) {
+            if (!navigator.serviceWorker.controller) {
+                resolve(null);
+                return;
+            }
+            var messageChannel = new MessageChannel();
+            messageChannel.port1.onmessage = function(event) {
+                if (event.data && event.data.version) {
+                    resolve(event.data.version);
+                } else {
+                    resolve(null);
+                }
+            };
+            navigator.serviceWorker.controller.postMessage(
+                { type: 'GET_VERSION' },
+                [messageChannel.port2]
+            );
+            setTimeout(function() { resolve(null); }, 500);
+        });
+    }
+    
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('./sw.js')
             .then(function(registration) {
@@ -905,6 +942,10 @@
                 
                 registration.update();
                 
+                setTimeout(function() {
+                    registration.update();
+                }, 1000);
+                
                 registration.addEventListener('updatefound', function() {
                     var installingWorker = registration.installing;
                     if (!installingWorker) return;
@@ -913,9 +954,7 @@
                         if (installingWorker.state === 'installed') {
                             if (navigator.serviceWorker.controller) {
                                 newWorker = installingWorker;
-                                if (!userDismissed) {
-                                    showNotification();
-                                }
+                                showNotification();
                             }
                         }
                     });
@@ -923,9 +962,7 @@
                 
                 if (registration.waiting && navigator.serviceWorker.controller) {
                     newWorker = registration.waiting;
-                    if (!userDismissed) {
-                        showNotification();
-                    }
+                    showNotification();
                 }
             })
             .catch(function(err) {
@@ -935,6 +972,7 @@
         navigator.serviceWorker.addEventListener('controllerchange', function() {
             if (!refreshing) {
                 refreshing = true;
+                clearWaitingVersion();
                 window.location.reload();
             }
         });
@@ -952,8 +990,14 @@
     
     if (updateCloseBtn) {
         updateCloseBtn.addEventListener('click', function() {
-            userDismissed = true;
-            hideNotification();
+            getCurrentCacheVersion().then(function(version) {
+                if (version) {
+                    setWaitingVersion(version);
+                } else {
+                    setWaitingVersion('unknown_' + Date.now());
+                }
+                hideNotification();
+            });
         });
     }
     
@@ -969,6 +1013,7 @@
                 if (newWorker) {
                     newWorker.postMessage({ type: 'SKIP_WAITING' });
                 } else {
+                    clearWaitingVersion();
                     window.location.reload();
                 }
             }, 400);
@@ -976,8 +1021,12 @@
     }
     
     window.forceShowUpdate = function() {
-        userDismissed = false;
         showNotification();
+    };
+    
+    window.resetUpdateDismiss = function() {
+        clearWaitingVersion();
+        console.log('نسخه رد شده پاک شد — دفعه بعد نوتیف دوباره نشون داده میشه');
     };
     
 })();
