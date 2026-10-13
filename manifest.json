@@ -1,0 +1,11 @@
+{
+  "name": "حدس ضرب‌المثل",
+  "short_name": "ضرب‌المثل",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#181a2c",
+  "theme_color": "#f5b042",
+  "lang": "fa",
+  "dir": "rtl"
+}
