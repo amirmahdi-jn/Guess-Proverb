@@ -141,7 +141,8 @@
         { emojis: ["❌️", "🍯", "❄️", "⬅️", "🐜"], answer: "مورچه در زمستان سراغ عسل نمی‌رود" },
         { emojis: ["✅️", "🏆", "🐢", "😴", "🐇"], answer: "خرگوش خوابید و لاک‌پشت برنده شد" },
         { emojis: ["🐟", "🤔", "👀", "🌊", "🐕"], answer: "سگ به دریا نگاه می‌کند و یاد ماهی می‌کند" },
-        { emojis: ["❌️", "🐝", "❌️", "🍯", "✋️"], answer: "دست به عسل نزن تا زنبورت نزند" },             { emojis: ["✅️", "👨‍🎓", "🏚", "⬅️", "🦉"], answer: "جغد در ویرانه داناست" },
+        { emojis: ["❌️", "🐝", "❌️", "🍯", "✋️"], answer: "دست به عسل نزن تا زنبورت نزند" },
+        { emojis: ["✅️", "👨‍🎓", "🏚", "⬅️", "🦉"], answer: "جغد در ویرانه داناست" },
         { emojis: ["❌️", "😟", "🌊", "🦶", "8️⃣"], answer: "هشت پا از موج نمی‌ترسد" },
         { emojis: ["❌️", "😃", "👉", "🏠", "🐌"], answer: "حلزون از خانه خودش راضی نیست" },
         { emojis: ["🤴", "⬅️", "🩸", "🍯", "🐝"], answer: "زنبور عسل را کشتند که شاه آمد" },
@@ -848,7 +849,7 @@
     var updateNowBtn = document.getElementById('updateNowBtn');
     var updateCloseBtn = document.getElementById('updateCloseBtn');
     
-    var DISMISSED_KEY = '__update_dismissed_version__';
+    var USER_VERSION_KEY = '__user_confirmed_version__';
     
     var PROTECTED_KEYS = [
         'unlockedTiers',
@@ -897,45 +898,164 @@
     
     restoreUserData();
     
-    function getWaitingVersion() {
-        return localStorage.getItem(DISMISSED_KEY) || null;
+    function getUserConfirmedVersion() {
+        return localStorage.getItem(USER_VERSION_KEY) || null;
     }
     
-    function setWaitingVersion(version) {
+    function setUserConfirmedVersion(version) {
         if (version) {
-            localStorage.setItem(DISMISSED_KEY, version);
+            localStorage.setItem(USER_VERSION_KEY, version);
         }
     }
     
-    function clearWaitingVersion() {
-        localStorage.removeItem(DISMISSED_KEY);
-    }
-    
-    function getCurrentCacheVersion() {
+    function askVersionFromController() {
         return new Promise(function(resolve) {
             if (!navigator.serviceWorker.controller) {
                 resolve(null);
                 return;
             }
             var messageChannel = new MessageChannel();
+            var resolved = false;
+            
             messageChannel.port1.onmessage = function(event) {
+                if (resolved) return;
+                resolved = true;
                 if (event.data && event.data.version) {
                     resolve(event.data.version);
                 } else {
                     resolve(null);
                 }
             };
-            navigator.serviceWorker.controller.postMessage(
-                { type: 'GET_VERSION' },
-                [messageChannel.port2]
+            
+            try {
+                navigator.serviceWorker.controller.postMessage(
+                    { type: 'GET_VERSION' },
+                    [messageChannel.port2]
+                );
+            } catch (e) {
+                resolve(null);
+            }
+            
+            setTimeout(function() {
+                if (!resolved) {
+                    resolved = true;
+                    resolve(null);
+                }
+            }, 800);
+        });
+    }
+    
+    function askVersionFromWorker(worker) {
+        return new Promise(function(resolve) {
+            if (!worker) {
+                resolve(null);
+                return;
+            }
+            var messageChannel = new MessageChannel();
+            var resolved = false;
+            
+            messageChannel.port1.onmessage = function(event) {
+                if (resolved) return;
+                resolved = true;
+                if (event.data && event.data.version) {
+                    resolve(event.data.version);
+                } else {
+                    resolve(null);
+                }
+            };
+            
+            try {
+                worker.postMessage(
+                    { type: 'GET_VERSION' },
+                    [messageChannel.port2]
+                );
+            } catch (e) {
+                resolve(null);
+            }
+            
+            setTimeout(function() {
+                if (!resolved) {
+                    resolved = true;
+                    resolve(null);
+                }
+            }, 800);
+        });
+    }
+    
+    function showNotification() {
+        if (!notification) return;
+        notification.classList.add('show');
+    }
+    
+    function hideNotification() {
+        if (!notification) return;
+        notification.classList.remove('show');
+    }
+    
+    function checkForRealUpdate(registration) {
+        var promises = [];
+        
+        if (registration.waiting) {
+            promises.push(
+                askVersionFromWorker(registration.waiting).then(function(version) {
+                    return { source: 'waiting', version: version, worker: registration.waiting };
+                })
             );
-            setTimeout(function() { resolve(null); }, 500);
+        }
+        
+        promises.push(
+            askVersionFromController().then(function(version) {
+                return { source: 'controller', version: version, worker: null };
+            })
+        );
+        
+        return Promise.all(promises).then(function(results) {
+            var waitingResult = null;
+            var controllerResult = null;
+            
+            results.forEach(function(r) {
+                if (r.source === 'waiting') waitingResult = r;
+                if (r.source === 'controller') controllerResult = r;
+            });
+            
+            var waitingVersion = waitingResult ? waitingResult.version : null;
+            var controllerVersion = controllerResult ? controllerResult.version : null;
+            var userVersion = getUserConfirmedVersion();
+            
+            console.log('[Update] waiting:', waitingVersion, '| controller:', controllerVersion, '| user:', userVersion);
+            
+            if (waitingVersion) {
+                newWorker = waitingResult.worker;
+                showNotification();
+                return;
+            }
+            
+            if (!controllerVersion) {
+                return;
+            }
+            
+            if (!userVersion) {
+                setUserConfirmedVersion(controllerVersion);
+                return;
+            }
+            
+            if (controllerVersion !== userVersion) {
+                console.log('[Update] نسخه فعال با نسخه تأیید شده فرق دارد — نمایش نوتیف');
+                newWorker = null;
+                showNotification();
+            }
         });
     }
     
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('./sw.js')
             .then(function(registration) {
+                console.log('[Update] Service Worker ثبت شد');
+                
+                setTimeout(function() {
+                    checkForRealUpdate(registration);
+                }, 1500);
+                
                 setInterval(function() {
                     registration.update();
                 }, 30000);
@@ -959,11 +1079,6 @@
                         }
                     });
                 });
-                
-                if (registration.waiting && navigator.serviceWorker.controller) {
-                    newWorker = registration.waiting;
-                    showNotification();
-                }
             })
             .catch(function(err) {
                 console.warn('Service Worker registration failed:', err);
@@ -972,32 +1087,20 @@
         navigator.serviceWorker.addEventListener('controllerchange', function() {
             if (!refreshing) {
                 refreshing = true;
-                clearWaitingVersion();
                 window.location.reload();
             }
         });
+        
+        navigator.serviceWorker.ready.then(function(registration) {
+            setTimeout(function() {
+                checkForRealUpdate(registration);
+            }, 2000);
+        });
     });
-    
-    function showNotification() {
-        if (!notification) return;
-        notification.classList.add('show');
-    }
-    
-    function hideNotification() {
-        if (!notification) return;
-        notification.classList.remove('show');
-    }
     
     if (updateCloseBtn) {
         updateCloseBtn.addEventListener('click', function() {
-            getCurrentCacheVersion().then(function(version) {
-                if (version) {
-                    setWaitingVersion(version);
-                } else {
-                    setWaitingVersion('unknown_' + Date.now());
-                }
-                hideNotification();
-            });
+            hideNotification();
         });
     }
     
@@ -1009,14 +1112,30 @@
             updateNowBtn.disabled = true;
             if (updateCloseBtn) updateCloseBtn.disabled = true;
             
-            setTimeout(function() {
+            askVersionFromController().then(function(activeVersion) {
+                var targetVersion = activeVersion;
+                
                 if (newWorker) {
-                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    askVersionFromWorker(newWorker).then(function(waitingVersion) {
+                        if (waitingVersion) targetVersion = waitingVersion;
+                        
+                        if (targetVersion) setUserConfirmedVersion(targetVersion);
+                        
+                        setTimeout(function() {
+                            if (newWorker) {
+                                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                            } else {
+                                window.location.reload();
+                            }
+                        }, 300);
+                    });
                 } else {
-                    clearWaitingVersion();
-                    window.location.reload();
+                    if (targetVersion) setUserConfirmedVersion(targetVersion);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 300);
                 }
-            }, 400);
+            });
         });
     }
     
@@ -1025,8 +1144,31 @@
     };
     
     window.resetUpdateDismiss = function() {
-        clearWaitingVersion();
-        console.log('نسخه رد شده پاک شد — دفعه بعد نوتیف دوباره نشون داده میشه');
+        localStorage.removeItem(USER_VERSION_KEY);
+        console.log('نسخه تأیید شده پاک شد');
+    };
+    
+    window.checkUpdateNow = function() {
+        return navigator.serviceWorker.getRegistration().then(function(reg) {
+            if (reg) {
+                return checkForRealUpdate(reg);
+            }
+        });
+    };
+    
+    window.showUpdateState = function() {
+        Promise.all([
+            askVersionFromController(),
+            navigator.serviceWorker.getRegistration().then(function(r) {
+                return r && r.waiting ? askVersionFromWorker(r.waiting) : null;
+            })
+        ]).then(function(results) {
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('نسخه فعال:', results[0]);
+            console.log('نسخه در انتظار:', results[1]);
+            console.log('نسخه تأیید شده کاربر:', getUserConfirmedVersion());
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        });
     };
     
 })();
