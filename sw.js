@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mathal-quiz-v1.0.7';
+const CACHE_NAME = 'mathal-quiz-v1.0.0';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -28,7 +28,6 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
@@ -57,6 +56,7 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+    self.clients.claim();
   }
   
   if (event.data && event.data.type === 'GET_VERSION') {
