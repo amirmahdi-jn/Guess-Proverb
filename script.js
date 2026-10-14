@@ -619,9 +619,13 @@
         openMusic.addEventListener('click', () => musicModalOverlay.classList.add('active'));
         closeMusic.addEventListener('click', () => musicModalOverlay.classList.remove('active'));
         musicModalOverlay.addEventListener('click', (e) => { if (e.target === musicModalOverlay) musicModalOverlay.classList.remove('active'); });
-        const coverDiv = document.getElementById('coverDivanegi');
-        const coverUrl = "https://uploadkon.ir/uploads/487d14_26IMG-20250117-231952-899.jpg";
-        if (coverDiv && coverUrl) coverDiv.innerHTML = `<img src="${coverUrl}" alt="cover" style="width:100%;height:100%;object-fit:cover;">`;
+        document.querySelectorAll('.music-item').forEach(function(item) {
+            const coverEl = item.querySelector('.music-cover');
+            const coverUrl = item.dataset.coverUrl;
+            if (coverEl && coverUrl) {
+                coverEl.innerHTML = '<img src="' + coverUrl + '" alt="cover" style="width:100%;height:100%;object-fit:cover;">';
+            }
+        });
         const playBtns = document.querySelectorAll('.music-play-btn');
         playBtns.forEach(btn => {
             const musicItem = btn.closest('.music-item');
@@ -1055,16 +1059,6 @@
                 setTimeout(function() {
                     checkForRealUpdate(registration);
                 }, 1500);
-                
-                setInterval(function() {
-                    registration.update();
-                }, 30000);
-                
-                registration.update();
-                
-                setTimeout(function() {
-                    registration.update();
-                }, 1000);
                 
                 registration.addEventListener('updatefound', function() {
                     var installingWorker = registration.installing;
