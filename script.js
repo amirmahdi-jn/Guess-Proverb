@@ -620,7 +620,7 @@
         closeMusic.addEventListener('click', () => musicModalOverlay.classList.remove('active'));
         musicModalOverlay.addEventListener('click', (e) => { if (e.target === musicModalOverlay) musicModalOverlay.classList.remove('active'); });
         const coverDiv = document.getElementById('coverDivanegi');
-        const coverUrl = "https://uploadkon.ir/uploads/de5b10_26InShot-20260611-025854121.jpg";
+        const coverUrl = "https://uploadkon.ir/uploads/487d14_26IMG-20250117-231952-899.jpg";
         if (coverDiv && coverUrl) coverDiv.innerHTML = `<img src="${coverUrl}" alt="cover" style="width:100%;height:100%;object-fit:cover;">`;
         const playBtns = document.querySelectorAll('.music-play-btn');
         playBtns.forEach(btn => {
