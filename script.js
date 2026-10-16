@@ -377,11 +377,7 @@
     async function checkInternet() {
         if (!isOnline()) {
             await internetModal.show();
-            if (!isOnline()) {
-                await internetModal.show();
-                return false;
-            }
-            return true;
+            return false;
         }
         return true;
     }
@@ -395,7 +391,14 @@
     }
 
     function normalizeText(str) {
-        return str.trim().replace(/\s+/g, ' ').replace(/ي/g, 'ی').replace(/ك/g, 'ک').replace(/‍/g, '').replace(/‌/g, '');
+        return str.trim()
+                  .replace(/\s+/g, ' ')
+                  .replace(/ي/g, 'ی')
+                  .replace(/ك/g, 'ک')
+                  .replace(/\u200c/g, '')
+                  .replace(/\u200d/g, '')
+                  .replace(/\u200e/g, '')
+                  .replace(/\u200f/g, '');
     }
 
     function checkFullResetVisibility() {
@@ -442,7 +445,7 @@
 
         const stage = stages[currentIdx];
         elements.emojiContainer.innerHTML = '';
-        [...stage.emojis].reverse().forEach(emo => {
+        stage.emojis.forEach(emo => {
             const span = document.createElement('span');
             span.textContent = emo;
             elements.emojiContainer.appendChild(span);
@@ -1052,7 +1055,7 @@
     }
     
     window.addEventListener('load', function() {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('./service-worker.js')
             .then(function(registration) {
                 console.log('[Update] Service Worker ثبت شد');
                 
