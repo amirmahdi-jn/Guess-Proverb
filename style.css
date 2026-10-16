@@ -126,6 +126,7 @@ body {
     gap: 1rem; flex-wrap: nowrap;
     background: var(--emoji-bg);
     padding: 0.6rem 1rem; border-radius: 80px;
+    direction: ltr;
 }
 .emoji-row span {
     background: var(--emoji-span-bg);
