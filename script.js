@@ -119,6 +119,7 @@
         { emojis: ["❌️", "🩸", "🤚", "🔪"], answer: "چاقو دست خودش را نمی‌برد" },
         { emojis: ["❌️", "🐭", "🤲", "🐱"], answer: "گربه برای رضای خدا موش نمی‌گیرد" },
     ]; 
+
     const goldStages = [
         { emojis: ["🍽", "❌️", "🍯", "⚖️", "☝️"], answer: "با یک من عسل هم نمی‌شود خوردش" },
         { emojis: ["👂", "🧒", "👈", "👍", "🗣"], answer: "حرف راست رو باید از بچه شنید" },
@@ -589,6 +590,7 @@
         setCurrentStageIndex(idx);
         loadStage();
     }
+
     function goNextLevel() {
         const stages = getCurrentStages();
         if (stages.length === 0) return;
@@ -841,7 +843,6 @@
         }, 600);
     }, 3500);
 })();
-
 (function initUpdateSystem() {
     'use strict';
     
@@ -851,6 +852,7 @@
     
     var newWorker = null;
     var refreshing = false;
+    var reloadAllowed = false;
     
     var notification = document.getElementById('update-notification');
     var updateNowBtn = document.getElementById('updateNowBtn');
@@ -1029,8 +1031,6 @@
             var controllerVersion = controllerResult ? controllerResult.version : null;
             var userVersion = getUserConfirmedVersion();
             
-            console.log('[Update] waiting:', waitingVersion, '| controller:', controllerVersion, '| user:', userVersion);
-            
             if (waitingVersion) {
                 newWorker = waitingResult.worker;
                 showNotification();
@@ -1047,21 +1047,31 @@
             }
             
             if (controllerVersion !== userVersion) {
-                console.log('[Update] نسخه فعال با نسخه تأیید شده فرق دارد — نمایش نوتیف');
                 newWorker = null;
                 showNotification();
             }
         });
     }
     
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+        if (reloadAllowed && !refreshing) {
+            refreshing = true;
+            window.location.reload();
+        }
+    });
+    
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('./service-worker.js')
             .then(function(registration) {
-                console.log('[Update] Service Worker ثبت شد');
                 
                 setTimeout(function() {
                     checkForRealUpdate(registration);
                 }, 1500);
+                
+                if (registration.waiting && navigator.serviceWorker.controller) {
+                    newWorker = registration.waiting;
+                    showNotification();
+                }
                 
                 registration.addEventListener('updatefound', function() {
                     var installingWorker = registration.installing;
@@ -1080,13 +1090,6 @@
             .catch(function(err) {
                 console.warn('Service Worker registration failed:', err);
             });
-        
-        navigator.serviceWorker.addEventListener('controllerchange', function() {
-            if (!refreshing) {
-                refreshing = true;
-                window.location.reload();
-            }
-        });
         
         navigator.serviceWorker.ready.then(function(registration) {
             setTimeout(function() {
@@ -1108,6 +1111,8 @@
             updateNowBtn.textContent = 'در حال آپدیت...';
             updateNowBtn.disabled = true;
             if (updateCloseBtn) updateCloseBtn.disabled = true;
+            
+            reloadAllowed = true;
             
             askVersionFromController().then(function(activeVersion) {
                 var targetVersion = activeVersion;
