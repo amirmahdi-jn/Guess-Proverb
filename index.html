@@ -89,13 +89,23 @@
     </div>
 
     <div style="display:flex; justify-content:center; margin-top:0.8rem;">
-        <button id="fullResetBtn" class="full-reset-btn hidden">⚙️ ریست سطح</button>
+        <button id="fullResetBtn" class="full-reset-btn hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>
+            </svg>
+            ریست سطح
+        </button>
     </div>
 </div>
 
 <div id="dailyModal" class="modal-overlay" style="z-index:1005;">
     <div class="daily-modal-container">
-        <h3>🧩 معما</h3>
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/>
+            </svg>
+            معما
+        </h3>
         <div class="daily-question-row">
             <div class="daily-question-box">
                 <div class="daily-question" id="dailyQuestion">◆ سؤال امروز ...</div>
@@ -123,11 +133,41 @@
 
 <div id="paymentModal" class="modal-overlay" style="z-index:1002;">
     <div class="payment-modal-container">
-        <h3>💳 پرداخت</h3>
-        <div class="payment-info"><span class="label">📌</span> <span id="paymentMessage">مبلغ 15,000 تومان را به شماره کارت زیر واریز کنید.</span></div>
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="14" x="2" y="5" rx="2"/>
+                <line x1="2" x2="22" y1="10" y2="10"/>
+                <path d="M6 14h2"/>
+            </svg>
+            پرداخت
+        </h3>
+        <div class="payment-info">
+            <span class="label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 17v5"/>
+                    <path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/>
+                </svg>
+            </span>
+            <span id="paymentMessage">مبلغ 15,000 تومان را به شماره کارت زیر واریز کنید.</span>
+        </div>
         <div class="card-number">6037 9982 5196 2329</div>
-        <div class="payment-info"><span class="label">📎</span> فیش واریزی را به آیدی AmirMahdi_2023@ در تلگرام ارسال کنید.</div>
-        <div class="payment-info" style="margin-top:0.5rem;"><span class="label">🏷</span> لطفا کد توکن داده شده از سوی مدیریت را در کادر زیر وارد کنید.</div>
+        <div class="payment-info">
+            <span class="label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/>
+                </svg>
+            </span>
+            فیش واریزی را به آیدی AmirMahdi_2023@ در تلگرام ارسال کنید.
+        </div>
+        <div class="payment-info" style="margin-top:0.5rem;">
+            <span class="label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
+                    <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>
+                </svg>
+            </span>
+            لطفا کد توکن داده شده از سوی مدیریت را در کادر زیر وارد کنید.
+        </div>
         <input type="text" class="token-input" placeholder="XXXXXX" maxlength="20" id="tokenInput">
         <div class="payment-buttons">
             <button class="modal-btn pay-confirm" id="paymentConfirmBtn">تایید</button>
@@ -138,7 +178,14 @@
 
 <div id="internetModal" class="modal-overlay" style="z-index:1003;">
     <div class="internet-modal-container">
-        <h3>🌐 آفلاین</h3>
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                <path d="M2 12h20"/>
+            </svg>
+            آفلاین
+        </h3>
         <p>اینترنت شما قطع است.<br>لطفا اینترنت خود را بررسی کنید.</p>
         <button class="modal-btn confirm" id="internetRetryBtn">تلاش مجدد</button>
     </div>
@@ -146,20 +193,46 @@
 
 <div id="settingsModal" class="modal-overlay" style="z-index:1001;">
     <div class="settings-modal-container">
-        <h3>⚙️ تنظیمات</h3>
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+            تنظیمات
+        </h3>
         <div class="settings-list">
             <button class="settings-item" id="openMusicFromSettings">
-                <span class="settings-item-icon">🎵</span>
+                <span class="settings-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18V5l12-2v13"/>
+                        <circle cx="6" cy="18" r="3"/>
+                        <circle cx="18" cy="16" r="3"/>
+                    </svg>
+                </span>
                 <span class="settings-item-text">موسیقی</span>
                 <span class="settings-item-arrow">◀</span>
             </button>
             <button class="settings-item" id="openThemeFromSettings">
-                <span class="settings-item-icon">🎨</span>
+                <span class="settings-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/>
+                        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+                        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+                        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+                        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+                    </svg>
+                </span>
                 <span class="settings-item-text">تم رنگی</span>
                 <span class="settings-item-arrow">◀</span>
             </button>
             <button class="settings-item" id="openInfoFromSettings">
-                <span class="settings-item-icon">ℹ️</span>
+                <span class="settings-item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4"/>
+                        <path d="M12 8h.01"/>
+                    </svg>
+                </span>
                 <span class="settings-item-text">اطلاعات</span>
                 <span class="settings-item-arrow">◀</span>
             </button>
@@ -170,7 +243,14 @@
 
 <div id="musicModal" class="modal-overlay" style="z-index:1002;">
     <div class="music-modal-container">
-        <h3>🎵 موسیقی</h3>
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13"/>
+                <circle cx="6" cy="18" r="3"/>
+                <circle cx="18" cy="16" r="3"/>
+            </svg>
+            موسیقی
+        </h3>
         <div class="music-list">
             <div class="music-item" data-song-url="https://uploadkon.ir/uploads/d25e13_26Divanegi.mp3" data-song-name="Divanegi" data-cover-url="https://uploadkon.ir/uploads/dffa14_26Heart.jpg">
                 <div class="music-cover" id="coverDivanegi"></div>
@@ -184,36 +264,97 @@
 
 <div id="themeModal" class="modal-overlay" style="z-index:1002;">
     <div class="music-modal-container">
-        <h3>🎨 تم رنگی</h3>
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/>
+                <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+                <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+                <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+                <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+            </svg>
+            تم رنگی
+        </h3>
         <div class="theme-list">
             <button class="theme-item" data-theme="night">
                 <span class="theme-preview theme-preview-night"></span>
-                <span class="theme-name">🌙 شب</span>
+                <span class="theme-name">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
+                    </svg>
+                    شب
+                </span>
                 <span class="theme-check" data-theme-check="night">✓</span>
             </button>
             <button class="theme-item" data-theme="day">
                 <span class="theme-preview theme-preview-day"></span>
-                <span class="theme-name">☀️ روز</span>
+                <span class="theme-name">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    روز
+                </span>
                 <span class="theme-check" data-theme-check="day">✓</span>
             </button>
             <button class="theme-item" data-theme="ocean">
                 <span class="theme-preview theme-preview-ocean"></span>
-                <span class="theme-name">🌊 اقیانوس</span>
+                <span class="theme-name">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 12q2.5 2 5 0t5 0 5 0 5 0"/>
+                        <path d="M2 19q2.5 2 5 0t5 0 5 0 5 0"/>
+                        <path d="M2 5q2.5 2 5 0t5 0 5 0 5 0"/>
+                    </svg>
+                    اقیانوس
+                </span>
                 <span class="theme-check" data-theme-check="ocean">✓</span>
             </button>
             <button class="theme-item" data-theme="royal">
                 <span class="theme-preview theme-preview-royal"></span>
-                <span class="theme-name">🍇 سلطنتی</span>
+                <span class="theme-name">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 5V2l-5.89 5.89"/>
+                        <circle cx="16.6" cy="15.89" r="3"/>
+                        <circle cx="8.11" cy="7.4" r="3"/>
+                        <circle cx="12.35" cy="11.65" r="3"/>
+                        <circle cx="13.91" cy="5.85" r="3"/>
+                        <circle cx="18.15" cy="10.09" r="3"/>
+                        <circle cx="6.56" cy="13.2" r="3"/>
+                        <circle cx="10.8" cy="17.44" r="3"/>
+                        <circle cx="5" cy="19" r="3"/>
+                    </svg>
+                    سلطنتی
+                </span>
                 <span class="theme-check" data-theme-check="royal">✓</span>
             </button>
             <button class="theme-item" data-theme="tropical">
                 <span class="theme-preview theme-preview-tropical"></span>
-                <span class="theme-name">🍍 استوایی</span>
+                <span class="theme-name">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 6.528V3a1 1 0 0 1 1-1h0"/>
+                        <path d="M18.237 21A15 15 0 0 0 22 11a6 6 0 0 0-10-4.472A6 6 0 0 0 2 11a15.1 15.1 0 0 0 3.763 10 3 3 0 0 0 3.648.648 5.5 5.5 0 0 1 5.178 0A3 3 0 0 0 18.237 21"/>
+                    </svg>
+                    استوایی
+                </span>
                 <span class="theme-check" data-theme-check="tropical">✓</span>
             </button>
             <button class="theme-item" data-theme="cafe">
                 <span class="theme-preview theme-preview-cafe"></span>
-                <span class="theme-name">☕ کافه</span>
+                <span class="theme-name">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 2v2"/>
+                        <path d="M14 2v2"/>
+                        <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/>
+                        <path d="M6 2v2"/>
+                    </svg>
+                    کافه
+                </span>
                 <span class="theme-check" data-theme-check="cafe">✓</span>
             </button>
         </div>
@@ -223,7 +364,15 @@
 
 <div id="storeModal" class="modal-overlay" style="z-index:1002;">
     <div class="music-modal-container">
-        <h3>🛒 فروشگاه</h3>
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m2.05 2.05 1.099-.028a1 1 0 0 1 1.008.815l2.69 14.347A1 1 0 0 0 7.83 18H18"/>
+                <path d="M4.563 5h16.435a1 1 0 0 1 .981 1.204l-1.026 6.226A2 2 0 0 1 18.962 14H6.25"/>
+                <circle cx="18" cy="20" r="2"/>
+                <circle cx="8" cy="20" r="2"/>
+            </svg>
+            فروشگاه
+        </h3>
         <div class="store-coming-soon">
             <div class="store-coming-text">به زودی 🚀</div>
         </div>
@@ -255,4 +404,4 @@
 <script src="script.js"></script>
 
 </body>
-                </html>
+    </html>
