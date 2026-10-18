@@ -1,9 +1,7 @@
 {
   "name": "حدس ضرب‌المثل",
   "short_name": "ضرب‌المثل",
-  "description": "بازی حدس ضرب‌المثل فارسی با ایموجی",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#181a2c",
@@ -18,7 +16,7 @@
       "purpose": "any"
     },
     {
-      "src": "icon-maskable.svg",
+      "src": "icon.maskable.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"
