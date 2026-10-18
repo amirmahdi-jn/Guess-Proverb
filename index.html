@@ -24,7 +24,7 @@
 
 <div class="game-container" id="mainGameContainer" style="display:none;">
     <div class="top-bar">
-        <button id="musicBtn" class="icon-btn">🎵</button>
+        <button id="settingsBtn" class="icon-btn">⚙️</button>
         <div class="game-title"><h1>حدس ضرب‌المثل</h1></div>
         <button id="infoBtn" class="icon-btn">ℹ️</button>
     </div>
@@ -119,9 +119,23 @@
     </div>
 </div>
 
-<div id="musicModal" class="modal-overlay" style="z-index:1001;">
+<div id="settingsModal" class="modal-overlay" style="z-index:1001;">
+    <div class="settings-modal-container">
+        <h3>⚙️ تنظیمات</h3>
+        <div class="settings-list">
+            <button class="settings-item" id="openMusicFromSettings">
+                <span class="settings-item-icon">🎵</span>
+                <span class="settings-item-text">موسیقی</span>
+                <span class="settings-item-arrow">◀</span>
+            </button>
+        </div>
+        <button id="settingsCloseBtn" class="music-close">بستن</button>
+    </div>
+</div>
+
+<div id="musicModal" class="modal-overlay" style="z-index:1002;">
     <div class="music-modal-container">
-        <h3>موسیقی</h3>
+        <h3>🎵 موسیقی</h3>
         <div class="music-list">
             <div class="music-item" data-song-url="https://uploadkon.ir/uploads/d25e13_26Divanegi.mp3" data-song-name="Divanegi" data-cover-url="https://uploadkon.ir/uploads/dffa14_26Heart.jpg">
                 <div class="music-cover" id="coverDivanegi"></div>
@@ -129,7 +143,7 @@
                 <button class="music-play-btn" data-playing="false">▶</button>
             </div>
         </div>
-        <button id="musicCloseBtn" class="music-close">بستن</button>
+        <button id="musicCloseBtn" class="music-close">بازگشت</button>
     </div>
 </div>
 
@@ -157,4 +171,4 @@
 <script src="script.js"></script>
 
 </body>
-    </html>
+            </html>
