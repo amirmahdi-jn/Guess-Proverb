@@ -1,22 +1,11 @@
 (function() {
-    'use strict';
-
-    function safeStorage() {
-        try {
-            const t = '__test__';
-            localStorage.setItem(t, t);
-            localStorage.removeItem(t);
-            return localStorage;
-        } catch (e) {
-            const mem = {};
-            return {
-                getItem: (k) => (k in mem ? mem[k] : null),
-                setItem: (k, v) => { mem[k] = String(v); },
-                removeItem: (k) => { delete mem[k]; }
-            };
-        }
+    const validThemes = ['night', 'day', 'ocean', 'royal', 'tropical', 'cafe'];
+    let savedTheme = localStorage.getItem('appTheme') || 'night';
+    if (!validThemes.includes(savedTheme)) {
+        savedTheme = 'night';
+        localStorage.setItem('appTheme', 'night');
     }
-    const store = safeStorage();
+    document.documentElement.setAttribute('data-theme', savedTheme);
 
     const TOKEN_DB = {
         silver: "Silver.2026",
@@ -24,13 +13,13 @@
     };
 
     let unlockedTiers = { silver: false, gold: false };
-    const savedUnlocked = store.getItem('unlockedTiers');
+    const savedUnlocked = localStorage.getItem('unlockedTiers');
     if (savedUnlocked) {
         try { unlockedTiers = JSON.parse(savedUnlocked); } catch(e) {}
     }
 
     function saveUnlockStatus() {
-        store.setItem('unlockedTiers', JSON.stringify(unlockedTiers));
+        localStorage.setItem("unlockedTiers", JSON.stringify(unlockedTiers));
     }
 
     const bronzeStages = [
@@ -40,7 +29,7 @@
         { emojis: ["🇮🇳", "🦚", "👤"], answer: "هر که طاووس خواهد جور هندوستان کشد" },
         { emojis: ["⚰️", "🐺", "🤲"], answer: "توبه گرگ مرگ است" },
         { emojis: ["🤐", "👀", "🐪"], answer: "شتر دیدی ندیدی" },
-        { emojis: ["⏰️", "💧", "🐟"], answer: "ماهی را هر وقت از آب بگیری تازه است" },
+        { emojis: ["⏰️", "💧", "🐟"], answer: "ماهی رو هر وقت از آب بگیری تازه است" },
         { emojis: ["🧠", "🤏", "🤥"], answer: "آدم دروغگو کم حافظه است" },
         { emojis: ["❌️", "☁️", "🌛"], answer: "ماه پشت ابر نمی‌ماند" },
         { emojis: ["🦆", "👥️️", "🐔"], answer: "مرغ همسایه غازه" },
@@ -67,7 +56,7 @@
         { emojis: ["🦊", "👌", "🍇"], answer: "انگور خوب نصیب شغال میشه" },
         { emojis: ["🕳", "👤", "🪢"], answer: "با طناب کسی توی چاه رفتن" },
         { emojis: ["❌️", "⚫️", "👆"], answer: "بالاتر از سیاهی رنگی نیست" },
-        { emojis: ["🐪", "🥷", "🥚"], answer: "تخم مرغ دزد شتر دزد می‌شود" },
+        { emojis: ["🐪", "🥷", "🥚"], answer: "تخم‌ مرغ دزد شتر دزد می‌شود" },
         { emojis: ["⬛️", "⬇️", "🏹"], answer: "تیری در تاریکی" },
         { emojis: ["🧮", "🍁", "🐣"], answer: "جوجه را آخر پائیز می‌شمارند" },
         { emojis: ["1️⃣", "👨", "🗣"], answer: "حرف مرد یکی است" },
@@ -83,11 +72,11 @@
         { emojis: ["🔥", "🌰", "👑"], answer: "شاه بلوط را از آتش برای تو در می‌آورم" },
         { emojis: ["⚖️", "🦟", "🐪"], answer: "شتر را با پشه سنجیدن" },
         { emojis: ["🌊", "💧", "💧"], answer: "قطره قطره جمع گردد وانگهی دریا شود" },
-        { emojis: ["😋", "🧂", "🍞"], answer: "نان و نمک کسی را خوردن" }
+        { emojis: ["😋", "🧂", "🍞"], answer: "نان و نمک کسی را خوردن" },    
     ];
-
+    
     const silverStages = [
-        { emojis: ["❌️", "🐻", "🌱", "💵"], answer: "پول علف خرس نیست" },
+        { emojis: ["❌️", "🐻", "🌱", "💵"], answer: "پول علف خرس نیست"},
         { emojis: ["🔥", "👄", "❌️", "🍲"], answer: "آش نخورده و دهان سوخته" },
         { emojis: ["😖", "🧂", "2️⃣", "👩‍🍳"], answer: "آشپز که دو تا شد آش یا شور میشه یا بی‌نمک" },
         { emojis: ["🌏", "🏃‍♂️", "⚱️", "💧"], answer: "آب در کوزه و ما گرد جهان می‌گردیم" },
@@ -112,13 +101,13 @@
         { emojis: ["🍲", "🔝", "🔥", "🥣"], answer: "کاسه داغ تر از آش" },
         { emojis: ["😋", "😭", "😋", "🧅"], answer: "هر که پیاز می‌خورد اشکش را هم می‌خورد" },
         { emojis: ["❌️", "👬", "🐑", "🐺"], answer: "گرگ و گوسفند با هم برادر نمی‌شوند" },
-        { emojis: ["❌️", "🤝", "🧊", "🌞"], answer: "آفتاب و یخ با هم جمع نمی‌شوند" },
+        { emojis: ["❌️", "🤝", "🧊", "🌞"], answer: "آفتاب و یخ با هم جمع نمی‌شوند" },      
         { emojis: ["🤝", "🍁", "🫲", "🌹"], answer: "گل را به دست خزان سپردن" },
         { emojis: ["🤚", "🌊", "👂", "🐚"], answer: "صدف گوش به دریا بسپار" },
         { emojis: ["💪", "❌️", "🗻", "🐜"], answer: "مورچه کوه را نمی‌تواند برد" },
         { emojis: ["🧘‍♀️", "⚓", "🌪", "🧭"], answer: "قطب نما در طوفان لنگر در آرامش" },
         { emojis: ["❌️", "👩", "💔", "🪞"], answer: "آینه شکسته رو به دختر نشون نده" },
-        { emojis: ["👜", "😇", "👬", "💵"], answer: "تا پول داری رفیقتم قربان بند کیفتم" },
+        { emojis: ["👜", "😇", "👬", "💵"], answer: "تا پول داری رفیقتم قربان بند کیفتم " },
         { emojis: ["❌️", "🫵", "🥅", "🤥"], answer: "دروغ از دروازه تو نمی‌آید" },
         { emojis: ["🌬", "🟩", "🟥", "👅"], answer: "زبان سرخ سر سبز می‌دهد بر باد" },
         { emojis: ["🆓️", "🐦", "🆓️", "🪨"], answer: "سنگ مفت گنجشک مفت" },
@@ -126,7 +115,7 @@
         { emojis: ["👍", "🔚", "📜", "👑"], answer: "شاهنامه آخرش خوش است" },
         { emojis: ["💧", "🍈", "🥖", "🤔"], answer: "فکر نان کن که خربزه آب است" },
         { emojis: ["🤝", "🫳", "⬅️", "🫴"], answer: "دست به دست سپرده است" },
-        { emojis: ["❌️", "🕳", "⬆️", "🐍"], answer: "تا مار راست نشود به سوراخ نرود" },
+        { emojis: ["❌️", "🕳", "⬆️", "🐍"], answer: "تا مار راست نشود به سوراخ نرود" },        
         { emojis: ["😂", "🌏", "⬅️", "😂"], answer: "بخند تا دنیا به رویت بخندد" },
         { emojis: ["🗣", "👈", "🤔", "☝️"], answer: "اول اندیشه وانگهی گفتار" },
         { emojis: ["🚪", "👆", "⬅️", "👇"], answer: "این به آن در" },
@@ -136,15 +125,15 @@
         { emojis: ["✅️", "🚪", "⬅️", "🪨"], answer: "سنگ به در بسته میخوره" },
         { emojis: ["💵", "1️⃣", "🪙", "👤"], answer: "کسی را سکه یه پول کردن" },
         { emojis: ["❌️", "🩸", "🤚", "🔪"], answer: "چاقو دست خودش را نمی‌برد" },
-        { emojis: ["❌️", "🐭", "🤲", "🐱"], answer: "گربه برای رضای خدا موش نمی‌گیرد" }
-    ];
+        { emojis: ["❌️", "🐭", "🤲", "🐱"], answer: "گربه برای رضای خدا موش نمی‌گیرد" },
+    ]; 
 
     const goldStages = [
         { emojis: ["🍽", "❌️", "🍯", "⚖️", "☝️"], answer: "با یک من عسل هم نمی‌شود خوردش" },
         { emojis: ["👂", "🧒", "👈", "👍", "🗣"], answer: "حرف راست رو باید از بچه شنید" },
         { emojis: ["🏘", "👄", "👴", "👈", "🌞"], answer: "آفتاب عمرش لب بام است" },
-        { emojis: ["↙️", "💧", "❌️", "😴", "🗺"], answer: "جایی نمی‌خوابه که آب زیرش بره" },
-        { emojis: ["❌️", "❄️", "🤔", "🎶", "🐣"], answer: "جیک جیک مستونت بود فکر زمستونت نبود" },
+        { emojis: ["↙️", "💧", "❌️", "😴", "🗺"], answer: " جایی نمی‌خوابه که آب زیرش بره" },
+        { emojis: ["❌️", "❄️", "🤔", "🎶", "🐣"], answer: "جیک جیک مستونت بود فکر زمستونت نبود" },        
         { emojis: ["😱", "⚪️", "⚫️", "🧶", "🐍"], answer: "مار گزیده از ریسمان سیاه و سفید می‌ترسد" },
         { emojis: ["🧙‍♂️", "🤚", "🆓️", "🥷", "🤚"], answer: "از دست دزد آزاد شد و دست رمال افتاد" },
         { emojis: ["✅️", "🎃", "🍇", "👍", "✋️"], answer: "گر صبر کنی ز غوره حلوا سازم" },
@@ -168,7 +157,7 @@
         { emojis: ["🤴", "⬅️", "🩸", "🍯", "🐝"], answer: "زنبور عسل را کشتند که شاه آمد" },
         { emojis: ["❌️", "😖", "🐪", "🌊", "🧂"], answer: "نمک دریا را شتر خورد شور نشد" },
         { emojis: ["❌️", "🛏", "👄", "💄", "🐖"], answer: "خوک را با رژ لب به تخت ننشانند" },
-        { emojis: ["🪹", "🔥", "📣", "✉️", "🕊"], answer: "کبوتر نامه‌بر خبر سوختن لانه خودش را آورد" },
+        { emojis: ["🪹", "🔥", "📣", "✉️", "🕊"], answer: "کبوتر نامه‌‌بر خبر سوختن لانه خودش را آورد" },
         { emojis: ["🐟", "👈", "🐊", "😢", "🐊"], answer: "تمساح اشک تمساح برای ماهی می‌ریزد" },
         { emojis: ["🦂", "🦂", "🐪", "👞", "🦂"], answer: "عقرب در کفش شتر عقرب‌تر شد" },
         { emojis: ["👉", "🕳", "🤴", "🍞", "🐜"], answer: "مورچه نان شاه را به سوراخ خودش برد" },
@@ -179,8 +168,8 @@
         { emojis: ["🌬", "🧠", "🏠", "🚪", "🐪"], answer: "شتر را به در خانه بستند عقلش به باد رفت" },
         { emojis: ["🥷", "🥚", "🎶", "🌃", "🐔"], answer: "مرغ نصفه شب خواند تخمش را دزدیدند" },
         { emojis: ["🙏🏻", "💫", "🗣", "🌛", "🐚"], answer: "صدف به ماه گفت مروارید از تو قرض کردم" },
-        { emojis: ["🍌", "💔", "🤴", "🪞", "🐒"], answer: "میمون آینه شاه را شکست موز خواست" },
-        { emojis: ["😋", "❌️", "❄️", "🦷", "🍉"], answer: "هندوانه را با دندانه یخ زده نمی‌توان خورد" },
+        { emojis: ["🍌", "💔", "🤴", "🪞", "🐒"], answer: "میمون آینه شاه را شکست موز خواست" }, 
+        { emojis: ["😋", "❌️", "❄️", "🦷", "🍉"], answer: "هندوانه را با دندانه‌ یخ زده نمی‌توان خورد" },
         { emojis: ["🤔", "🧈", "❓️", "🍚", "☝️"], answer: "یک من ماست چقدر کره میده" },
         { emojis: ["❌️", "😖", "🧂", "⬇️", "🧂"], answer: "نمک در نمکدان شوری ندارد" },
         { emojis: ["✅️", "🦊", "🎮", "👴", "🦁"], answer: "شیر که پیر میشه بازیچه شغال میشه" },
@@ -189,8 +178,8 @@
         { emojis: ["✅️", "⬅️", "🪑", "⬅️", "🗣"], answer: "حرف خود را به کرسی نشاندن" },
         { emojis: ["✅️", "☘️", "🥘", "👃", "🤯"], answer: "کلش بوی قرمه سبزی میده" },
         { emojis: ["🤢", "👃", "🗣", "🧅", "🧄"], answer: "سیر به پیاز میگه بو میدی" },
-        { emojis: ["👌", "👅", "⬅️", "✨️", "❤"], answer: "دل که پاک است زبان بی‌باک است" }
-    ];
+        { emojis: ["👌", "👅", "⬅️", "✨️", "❤"], answer: "دل که پاک است زبان بی‌باک است" },          
+    ];  
 
     const tiers = {
         bronze: { name: "برنز", stages: bronzeStages, keySuffix: "bronze" },
@@ -204,27 +193,40 @@
         silver: new Array(silverStages.length).fill(false),
         gold: new Array(goldStages.length).fill(false)
     };
-    let currentStageMap = { bronze: 0, silver: 0, gold: 0 };
+    let currentStageMap = {
+        bronze: 0,
+        silver: 0,
+        gold: 0
+    };
 
-    ['bronze', 'silver', 'gold'].forEach((t) => {
-        const saved = store.getItem('solvedStages_' + t);
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed) && parsed.length === solvedMap[t].length) {
-                    solvedMap[t] = parsed;
-                }
-            } catch(e) {}
-        }
-        const s = store.getItem('currentStage_' + t);
-        if (s) {
-            const n = parseInt(s, 10);
-            if (!isNaN(n) && n >= 0) currentStageMap[t] = n;
-        }
-    });
+    const savedSolvedBronze = localStorage.getItem('solvedStages_bronze');
+    if (savedSolvedBronze) {
+        try { solvedMap.bronze = JSON.parse(savedSolvedBronze); } catch(e) {}
+    }
+    const savedSolvedSilver = localStorage.getItem('solvedStages_silver');
+    if (savedSolvedSilver) {
+        try { solvedMap.silver = JSON.parse(savedSolvedSilver); } catch(e) {}
+    }
+    const savedSolvedGold = localStorage.getItem('solvedStages_gold');
+    if (savedSolvedGold) {
+        try { solvedMap.gold = JSON.parse(savedSolvedGold); } catch(e) {}
+    }
 
-    const savedCurrentTier = store.getItem('currentTier');
-    if (savedCurrentTier && ['bronze', 'silver', 'gold'].includes(savedCurrentTier)) {
+    const savedStageBronze = localStorage.getItem('currentStage_bronze');
+    if (savedStageBronze) {
+        try { currentStageMap.bronze = parseInt(savedStageBronze, 10) || 0; } catch(e) {}
+    }
+    const savedStageSilver = localStorage.getItem('currentStage_silver');
+    if (savedStageSilver) {
+        try { currentStageMap.silver = parseInt(savedStageSilver, 10) || 0; } catch(e) {}
+    }
+    const savedStageGold = localStorage.getItem('currentStage_gold');
+    if (savedStageGold) {
+        try { currentStageMap.gold = parseInt(savedStageGold, 10) || 0; } catch(e) {}
+    }
+
+    const savedCurrentTier = localStorage.getItem('currentTier');
+    if (savedCurrentTier && ['bronze','silver','gold'].includes(savedCurrentTier)) {
         currentTier = savedCurrentTier;
     }
 
@@ -234,23 +236,22 @@
     function setCurrentStageIndex(idx) { currentStageMap[currentTier] = idx; saveCurrentTierData(); }
     function setCurrentSolved(arr) { solvedMap[currentTier] = arr; saveCurrentTierData(); }
     function saveCurrentTierData() {
-        store.setItem('solvedStages_' + currentTier, JSON.stringify(solvedMap[currentTier]));
-        store.setItem('currentStage_' + currentTier, currentStageMap[currentTier].toString());
-        store.setItem('currentTier', currentTier);
+        localStorage.setItem(`solvedStages_${currentTier}`, JSON.stringify(solvedMap[currentTier]));
+        localStorage.setItem(`currentStage_${currentTier}`, currentStageMap[currentTier].toString());
+        localStorage.setItem("currentTier", currentTier);
     }
 
     const elements = {
         stageText: document.getElementById('stageText'),
         emojiContainer: document.getElementById('emojiContainer'),
-        riddleCard: document.querySelector('.riddle-card'),
         answerInput: document.getElementById('answerInput'),
         submitBtn: document.getElementById('submitBtn'),
         cancelBtn: document.getElementById('cancelBtn'),
-        infoBtn: document.getElementById('infoBtn'),
+        storeBtn: document.getElementById('storeBtn'),
         prevBtn: document.getElementById('prevLevelBtn'),
         nextBtn: document.getElementById('nextLevelBtn'),
         fullResetBtn: document.getElementById('fullResetBtn'),
-        musicBtn: document.getElementById('musicBtn'),
+        settingsBtn: document.getElementById('settingsBtn'),
         tierBronze: document.getElementById('tierBronzeBtn'),
         tierSilver: document.getElementById('tierSilverBtn'),
         tierGold: document.getElementById('tierGoldBtn'),
@@ -264,81 +265,92 @@
         message: document.getElementById('modalMessage'),
         buttons: document.getElementById('modalButtons'),
         currentResolve: null,
-        show(title, message, showConfirmButtons = false) {
+        show(title, message, showConfirmButtons = false, showCopy = false) {
             this.title.innerText = title;
-            this.message.innerText = message;
             this.buttons.innerHTML = '';
-            this.overlay.classList.add('active');
+            this.message.innerHTML = '';
 
-            return new Promise((resolve) => {
-                let settled = false;
-                const finish = (val) => {
-                    if (settled) return;
-                    settled = true;
-                    this.close();
-                    this.currentResolve = null;
-                    resolve(val);
-                };
-                this.currentResolve = finish;
+            const oldCopyBtn = this.message.parentNode.querySelector('.modal-copy-btn');
+            if (oldCopyBtn) oldCopyBtn.remove();
 
-                if (showConfirmButtons) {
-                    const confirmBtn = document.createElement('button');
-                    confirmBtn.textContent = 'بله';
-                    confirmBtn.className = 'modal-btn confirm';
-                    confirmBtn.addEventListener('click', () => finish(true));
-                    const cancelBtnModal = document.createElement('button');
-                    cancelBtnModal.textContent = 'خیر';
-                    cancelBtnModal.className = 'modal-btn cancel';
-                    cancelBtnModal.addEventListener('click', () => finish(false));
-                    this.buttons.appendChild(confirmBtn);
-                    this.buttons.appendChild(cancelBtnModal);
-                } else {
-                    const closeBtn = document.createElement('button');
-                    closeBtn.textContent = 'بستن';
-                    closeBtn.className = 'modal-btn normal';
-                    closeBtn.addEventListener('click', () => finish(false));
-                    this.buttons.appendChild(closeBtn);
-                }
-            });
-        },
-        close() {
-            this.overlay.classList.remove('active');
-            if (this.currentResolve) {
-                const r = this.currentResolve;
-                this.currentResolve = null;
-                r(false);
+            const textNode = document.createTextNode(message);
+            this.message.appendChild(textNode);
+
+            if (showCopy && message) {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'modal-copy-btn';
+                copyBtn.title = 'کپی';
+                copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+                copyBtn.addEventListener('click', async () => {
+                    const textToCopy = message.replace(/^پاسخ صحیح:\s*«|»\s*.*$/g, '').trim();
+                    try {
+                        await navigator.clipboard.writeText(textToCopy);
+                        copyBtn.classList.add('copied');
+                        copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                        setTimeout(() => {
+                            copyBtn.classList.remove('copied');
+                            copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+                        }, 2000);
+                    } catch (err) {
+                        console.error('کپی نشد:', err);
+                    }
+                });
+                this.message.appendChild(copyBtn);
             }
-        }
+
+            if (showConfirmButtons) {
+                const confirmBtn = document.createElement('button');
+                confirmBtn.textContent = 'بله';
+                confirmBtn.className = 'modal-btn confirm';
+                const cancelBtnModal = document.createElement('button');
+                cancelBtnModal.textContent = 'خیر';
+                cancelBtnModal.className = 'modal-btn cancel';
+                this.buttons.appendChild(confirmBtn);
+                this.buttons.appendChild(cancelBtnModal);
+                return new Promise((resolve) => {
+                    this.currentResolve = resolve;
+                    const onConfirm = () => { this.close(); resolve(true); cleanup(); };
+                    const onCancel = () => { this.close(); resolve(false); cleanup(); };
+                    const cleanup = () => {
+                        confirmBtn.removeEventListener('click', onConfirm);
+                        cancelBtnModal.removeEventListener('click', onCancel);
+                    };
+                    confirmBtn.addEventListener('click', onConfirm);
+                    cancelBtnModal.addEventListener('click', onCancel);
+                    this.overlay.classList.add('active');
+                });
+            } else {
+                const closeBtn = document.createElement('button');
+                closeBtn.textContent = 'بستن';
+                closeBtn.className = 'modal-btn normal';
+                closeBtn.addEventListener('click', () => this.close());
+                this.buttons.appendChild(closeBtn);
+                this.overlay.classList.add('active');
+                return Promise.resolve(false);
+            }
+        },
+        close() { this.overlay.classList.remove('active'); if (this.currentResolve) this.currentResolve = null; }
     };
     modal.overlay.addEventListener('click', (e) => { if (e.target === modal.overlay) modal.close(); });
 
     const internetModal = {
         overlay: document.getElementById('internetModal'),
         retryBtn: document.getElementById('internetRetryBtn'),
-        resolver: null,
         show() {
             this.overlay.classList.add('active');
-            if (this.resolver) return Promise.resolve(true);
             return new Promise((resolve) => {
-                this.resolver = resolve;
+                const onRetry = () => {
+                    this.overlay.classList.remove('active');
+                    resolve(true);
+                    this.retryBtn.removeEventListener('click', onRetry);
+                };
+                this.retryBtn.addEventListener('click', onRetry);
             });
         },
         close() {
             this.overlay.classList.remove('active');
-            if (this.resolver) {
-                const r = this.resolver;
-                this.resolver = null;
-                r(true);
-            }
         }
     };
-    internetModal.retryBtn.addEventListener('click', () => {
-        if (navigator.onLine) {
-            internetModal.close();
-        } else {
-            internetModal.overlay.classList.add('active');
-        }
-    });
 
     const paymentModal = {
         overlay: document.getElementById('paymentModal'),
@@ -347,42 +359,40 @@
         tokenInput: document.getElementById('tokenInput'),
         messageEl: document.getElementById('paymentMessage'),
         currentTier: null,
-        resolver: null,
         show(tier) {
             this.currentTier = tier;
-            this.messageEl.textContent = tier === 'silver'
-                ? 'مبلغ 15,000 تومان را به شماره کارت زیر واریز کنید.'
-                : 'مبلغ 30,000 تومان را به شماره کارت زیر واریز کنید.';
+            if (tier === 'silver') {
+                this.messageEl.textContent = 'مبلغ 15,000 تومان را به شماره کارت زیر واریز کنید.';
+            } else {
+                this.messageEl.textContent = 'مبلغ 30,000 تومان را به شماره کارت زیر واریز کنید.';
+            }
             this.overlay.classList.add('active');
             this.tokenInput.value = '';
-            setTimeout(() => this.tokenInput.focus(), 100);
-
-            if (this.resolver) {
-                const r = this.resolver;
-                this.resolver = null;
-                r(false);
-            }
+            this.tokenInput.focus();
             return new Promise((resolve) => {
-                this.resolver = resolve;
+                const onConfirm = () => {
+                    this.overlay.classList.remove('active');
+                    resolve(true);
+                    cleanup();
+                };
+                const onCancel = () => {
+                    this.overlay.classList.remove('active');
+                    resolve(false);
+                    cleanup();
+                };
+                const cleanup = () => {
+                    this.confirmBtn.removeEventListener('click', onConfirm);
+                    this.cancelBtn.removeEventListener('click', onCancel);
+                };
+                this.confirmBtn.addEventListener('click', onConfirm);
+                this.cancelBtn.addEventListener('click', onCancel);
             });
         },
-        finish(success) {
-            this.overlay.classList.remove('active');
-            if (this.resolver) {
-                const r = this.resolver;
-                this.resolver = null;
-                r(success);
-            }
-        },
         close() {
-            this.finish(false);
+            this.overlay.classList.remove('active');
         }
     };
-    paymentModal.confirmBtn.addEventListener('click', () => paymentModal.finish(true));
-    paymentModal.cancelBtn.addEventListener('click', () => paymentModal.finish(false));
-    paymentModal.overlay.addEventListener('click', (e) => {
-        if (e.target === paymentModal.overlay) paymentModal.finish(false);
-    });
+    paymentModal.overlay.addEventListener('click', (e) => { if (e.target === paymentModal.overlay) paymentModal.close(); });
 
     function isOnline() { return navigator.onLine; }
 
@@ -394,33 +404,39 @@
                 if (!internetModal.overlay.classList.contains('active')) {
                     internetModal.show();
                 }
-            } else if (internetModal.overlay.classList.contains('active')) {
-                internetModal.close();
+            } else {
+                if (internetModal.overlay.classList.contains('active')) {
+                    internetModal.close();
+                }
             }
-        }, 1500);
+        }, 1000);
     }
 
     async function checkInternet() {
         if (!isOnline()) {
             await internetModal.show();
-            return navigator.onLine;
+            return false;
+        }
+        return true;
+    }
+
+    async function checkInternetForMusic() {
+        if (!isOnline()) {
+            await internetModal.show();
+            return false;
         }
         return true;
     }
 
     function normalizeText(str) {
-        if (typeof str !== 'string') return '';
-        return str
-            .replace(/[\u064B-\u065F\u0670\u0640]/g, '')
-            .replace(/[يى]/g, 'ی')
-            .replace(/ك/g, 'ک')
-            .replace(/[أإآا]/g, 'ا')
-            .replace(/ة/g, 'ه')
-            .replace(/[ؤو]/g, 'و')
-            .replace(/ئ/g, 'ی')
-            .replace(/[\u200c\u200d\u200e\u200f\u202a-\u202e]/g, '')
-            .replace(/\s+/g, ' ')
-            .trim();
+        return str.trim()
+                  .replace(/\s+/g, ' ')
+                  .replace(/ي/g, 'ی')
+                  .replace(/ك/g, 'ک')
+                  .replace(/\u200c/g, '')
+                  .replace(/\u200d/g, '')
+                  .replace(/\u200e/g, '')
+                  .replace(/\u200f/g, '');
     }
 
     function checkFullResetVisibility() {
@@ -443,19 +459,8 @@
         }
         if (currentIdx === 0) elements.prevBtn.classList.add('disabled');
         else elements.prevBtn.classList.remove('disabled');
-        if (currentIdx === stages.length - 1 || !getCurrentSolved()[currentIdx]) {
-            elements.nextBtn.classList.add('disabled');
-        } else {
-            elements.nextBtn.classList.remove('disabled');
-        }
-    }
-
-    function flashCard(cls) {
-        if (!elements.riddleCard) return;
-        elements.riddleCard.classList.remove('shake', 'success');
-        void elements.riddleCard.offsetWidth;
-        elements.riddleCard.classList.add(cls);
-        setTimeout(() => elements.riddleCard.classList.remove(cls), 700);
+        if (currentIdx === stages.length-1 || !getCurrentSolved()[currentIdx]) elements.nextBtn.classList.add('disabled');
+        else elements.nextBtn.classList.remove('disabled');
     }
 
     function loadStage() {
@@ -466,7 +471,7 @@
 
         if (total === 0) {
             elements.emojiContainer.innerHTML = '<div class="empty-message">⚡ هنوز چیزی اضافه نشده ⚡</div>';
-            elements.stageText.textContent = 'مرحله 0 از 0';
+            elements.stageText.textContent = `مرحله 0 از 0`;
             elements.answerInput.disabled = true;
             elements.submitBtn.disabled = true;
             elements.cancelBtn.disabled = true;
@@ -476,19 +481,16 @@
             return;
         }
 
-        const safeIdx = Math.min(Math.max(0, currentIdx), total - 1);
-        if (safeIdx !== currentIdx) currentStageMap[currentTier] = safeIdx;
-
-        const stage = stages[safeIdx];
+        const stage = stages[currentIdx];
         elements.emojiContainer.innerHTML = '';
         stage.emojis.forEach(emo => {
             const span = document.createElement('span');
             span.textContent = emo;
             elements.emojiContainer.appendChild(span);
         });
-        elements.stageText.textContent = 'مرحله ' + (safeIdx + 1) + ' از ' + total;
+        elements.stageText.textContent = `مرحله ${currentIdx+1} از ${total}`;
 
-        const isSolved = solved[safeIdx];
+        const isSolved = solved[currentIdx];
         if (isSolved) {
             elements.answerInput.value = stage.answer;
             elements.answerInput.disabled = true;
@@ -513,34 +515,36 @@
             return;
         }
 
-        const wantToBuy = await modal.show('📋 اطلاعیه', 'این سطح قفل می‌باشد.\nآیا مایل به خرید این سطح هستید؟', true);
+        const wantToBuy = await modal.show("📋 اطلاعیه", `این سطح قفل می‌باشد.\nآیا مایل به خرید این سطح هستید؟`, true);
         if (!wantToBuy) {
-            await modal.show('❌️ انصراف', 'شما خرید این سطح را لغو کردید.');
+            await modal.show("❌️ انصراف", "شما خرید این سطح را لغو کردید.");
             return;
         }
 
         let success = false;
-        let attempts = 0;
-        while (!success && attempts < 10) {
-            attempts++;
+        while (!success) {
             const payResult = await paymentModal.show(tierKey);
             if (!payResult) {
-                await modal.show('❌️ انصراف', 'شما خرید این سطح را لغو کردید.');
+                await modal.show("❌️ انصراف", "شما خرید این سطح را لغو کردید.");
                 return;
             }
             const token = paymentModal.tokenInput.value.trim();
             if (token.length === 0) {
-                await modal.show('🚫 هشدار', 'لطفا کد توکن را وارد کنید.');
+                paymentModal.close();
+                await modal.show("🚫 هشدار", "لطفا کد توکن را وارد کنید.");
                 continue;
             }
             if (token === TOKEN_DB[tierKey]) {
                 unlockedTiers[tierKey] = true;
                 saveUnlockStatus();
-                await modal.show('✅️ موفق', 'خرید سطح ' + tierName + ' با موفقیت انجام شد.');
+                paymentModal.close();
+                await modal.show("✅️ موفق", `خرید سطح ${tierName} با موفقیت انجام شد.`);
                 switchTierInternal(tierKey);
                 success = true;
+                break;
             } else {
-                await modal.show('⚠️ خطا', 'کد توکن وارد شده اشتباه است.\nلطفا کد توکن صحیح را وارد کنید.');
+                paymentModal.close();
+                await modal.show("⚠️ خطا", "کد توکن وارد شده اشتباه است.\nلطفا کد توکن صحیح را وارد کنید.");
             }
         }
     }
@@ -554,16 +558,18 @@
         else if (tierId === 'silver') elements.tierSilver.classList.add('active');
         else if (tierId === 'gold') elements.tierGold.classList.add('active');
         const stagesArr = getCurrentStages();
-        if (currentStageMap[currentTier] >= stagesArr.length) {
-            currentStageMap[currentTier] = Math.max(0, stagesArr.length - 1);
-        }
+        if (currentStageMap[currentTier] >= stagesArr.length) currentStageMap[currentTier] = Math.max(0, stagesArr.length-1);
         if (currentStageMap[currentTier] < 0) currentStageMap[currentTier] = 0;
         loadStage();
     }
 
     function switchTier(tierId) {
-        if (tierId === 'silver' || tierId === 'gold') {
-            showLockModal(tierId === 'silver' ? 'نقره' : 'طلا', tierId);
+        if (tierId === 'silver') {
+            showLockModal('نقره', 'silver');
+            return;
+        }
+        if (tierId === 'gold') {
+            showLockModal('طلا', 'gold');
             return;
         }
         if (tierId === currentTier) return;
@@ -574,52 +580,41 @@
         if (!await checkInternet()) return;
         const stages = getCurrentStages();
         if (stages.length === 0) {
-            modal.show('✉️ پیام', 'این سطح هنوز مرحله‌ای ندارد.\nبنابراین نمی‌توان ریست کرد.');
+            modal.show("✉️ پیام", "این سطح هنوز مرحله‌ای ندارد. \n بنابراین نمی‌توان ریست کرد.");
             return;
         }
-        const confirmed = await modal.show('🚫 هشدار',
-            'آیا از ریست کامل سطح ' + tiers[currentTier].name + ' مطمئن هستید؟\nتمام پیشرفت این سطح پاک می‌شود!', true);
+        const confirmed = await modal.show("🚫 هشدار", `آیا از ریست کامل سطح ${tiers[currentTier].name} مطمئن هستید؟\nتمام پیشرفت این سطح پاک می‌شود!`, true);
         if (confirmed) {
-            solvedMap[currentTier] = new Array(stages.length).fill(false);
+            const newSolved = new Array(stages.length).fill(false);
+            solvedMap[currentTier] = newSolved;
             currentStageMap[currentTier] = 0;
             saveCurrentTierData();
             loadStage();
-            modal.show('📋 اطلاعیه', 'سطح ' + tiers[currentTier].name + ' کاملاً ریست شد.\nلطفا از مرحله اول شروع کنید.');
+            modal.show("📋 اطلاعیه", `سطح ${tiers[currentTier].name} کاملاً ریست شد. \n لطفا از مرحله اول شروع کنید.`);
         }
     }
 
     async function checkAnswer() {
         if (!await checkInternet()) return;
         const stages = getCurrentStages();
-        if (stages.length === 0) {
-            modal.show('✉️ پیام', 'این سطح هنوز مرحله‌ای ندارد.');
-            return;
-        }
+        if (stages.length === 0) { modal.show("✉️ پیام", "این سطح هنوز مرحله‌ای ندارد."); return; }
         const solved = getCurrentSolved();
         const idx = getCurrentStageIndex();
-        if (solved[idx]) {
-            modal.show('📫 اطلاعیه', 'این مرحله قبلاً حل شده است.');
-            return;
-        }
+        if (solved[idx]) { modal.show("📫 اطلاعیه", "این مرحله قبلاً حل شده است."); return; }
         const userAnswer = elements.answerInput.value.trim();
-        if (userAnswer === '') {
-            modal.show('⚠️ اخطار', 'هنوز چیزی وارد نکردید.\nلطفا پاسخ خود را وارد کنید.');
-            return;
-        }
+        if (userAnswer === "") { modal.show("⚠️ اخطار", "هنوز چیزی وارد نکردید. \n لطفا پاسخ خود را وارد کنید."); return; }
         const correct = stages[idx].answer;
         if (normalizeText(userAnswer) === normalizeText(correct)) {
             solved[idx] = true;
             setCurrentSolved(solved);
-            flashCard('success');
             if (idx + 1 === stages.length) {
-                modal.show('🎉 تبریک 🎉', 'سطح ' + tiers[currentTier].name + ' با موفقیت کامل شد!');
+                modal.show("🎉 تبریک 🎉", `سطح ${tiers[currentTier].name} با موفقیت کامل شد!`);
             } else {
-                modal.show('✅ پاسخ درست', 'مرحله ' + (idx + 1) + ' حل شد.\nمی‌توانید به مرحله بعد بروید.');
+                modal.show("✅ پاسخ درست", `مرحله ${idx+1} حل شد. \n می‌توانید به مرحله بعد بروید.`);
             }
             loadStage();
         } else {
-            flashCard('shake');
-            modal.show('❌ پاسخ نادرست', 'پاسخ شما صحیح نیست.\nلطفا دوباره تلاش کنید.');
+            modal.show("❌ پاسخ نادرست", "پاسخ شما صحیح نیست. \n لطفا دوباره تلاش کنید.");
         }
     }
 
@@ -627,10 +622,7 @@
         const stages = getCurrentStages();
         if (stages.length === 0) return;
         let idx = getCurrentStageIndex();
-        if (idx === 0) {
-            modal.show('📢 اطلاعیه', 'در اولین مرحله هستید.');
-            return;
-        }
+        if (idx === 0) { modal.show("📢 اطلاعیه", "در اولین مرحله هستید."); return; }
         idx--;
         setCurrentStageIndex(idx);
         loadStage();
@@ -641,14 +633,8 @@
         if (stages.length === 0) return;
         let idx = getCurrentStageIndex();
         const solved = getCurrentSolved();
-        if (idx === stages.length - 1) {
-            modal.show('📢 اطلاعیه', 'در آخرین مرحله هستید.');
-            return;
-        }
-        if (!solved[idx]) {
-            modal.show('🔒 قفل', 'ابتدا این مرحله را حل کنید.');
-            return;
-        }
+        if (idx === stages.length-1) { modal.show("📢 اطلاعیه", "در آخرین مرحله هستید."); return; }
+        if (!solved[idx]) { modal.show("🔒 قفل", "ابتدا این مرحله را حل کنید."); return; }
         idx++;
         setCurrentStageIndex(idx);
         loadStage();
@@ -656,58 +642,113 @@
 
     function showAnswer() {
         const stages = getCurrentStages();
-        if (stages.length === 0) {
-            modal.show('❗️ توجه', 'مرحله‌ای وجود ندارد.');
-            return;
-        }
+        if (stages.length === 0) { modal.show("❗️ توجه", "مرحله‌ای وجود ندارد."); return; }
         const solved = getCurrentSolved();
         const idx = getCurrentStageIndex();
-        if (solved[idx]) {
-            modal.show('🔔 اعلان', 'این مرحله قبلاً حل شده است.');
-            return;
-        }
-        modal.show('💡 راهنمایی', 'پاسخ صحیح: «' + stages[idx].answer + '»\nمی‌توانید دوباره امتحان کنید.');
+        if (solved[idx]) { modal.show("🔔 اعلان", "این مرحله قبلاً حل شده است."); return; }
+        modal.show("💡 راهنمایی", `پاسخ صحیح: «${stages[idx].answer}» \n می‌توانید دوباره امتحان کنید.`, false, true);
     }
 
     function showInfo() {
-        modal.show('درباره ما',
-            '👤 توسعه دهنده : AmirMahdi.JN\n' +
-            '🆔️ تلگرام : AmirMahdi_2023@\n' +
-            '🆔️ روبیکا : AmirMahdi_2018@\n' +
-            '📞 موبایل : 09918659151');
+        modal.show("اطلاعات", `👤 توسعه دهنده : AmirMahdi.JN\n🆔️ تلگرام : AmirMahdi_2023@\n🆔️ روبیکا : AmirMahdi_2018@\n📞 موبایل : 09918659151`);
     }
 
-    let currentAudio = null;
-    let currentPlayingButton = null;
-
-    function stopMusic() {
-        if (currentAudio) {
-            try { currentAudio.pause(); currentAudio.currentTime = 0; } catch(e) {}
-            currentAudio = null;
-        }
-        if (currentPlayingButton) {
-            currentPlayingButton.textContent = '▶';
-            currentPlayingButton.dataset.playing = 'false';
-            currentPlayingButton = null;
-        }
-    }
-
+    let currentAudio = null, currentPlayingButton = null;
     function initMusic() {
         const musicModalOverlay = document.getElementById('musicModal');
         const closeMusic = document.getElementById('musicCloseBtn');
-        const openMusic = elements.musicBtn;
+        const settingsModalOverlay = document.getElementById('settingsModal');
+        const settingsCloseBtn = document.getElementById('settingsCloseBtn');
+        const openSettings = document.getElementById('settingsBtn');
+        const openMusicFromSettings = document.getElementById('openMusicFromSettings');
 
-        openMusic.addEventListener('click', () => musicModalOverlay.classList.add('active'));
+        openSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.add('active');
+        });
+        settingsCloseBtn.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+        });
+        settingsModalOverlay.addEventListener('click', (e) => {
+            if (e.target === settingsModalOverlay) settingsModalOverlay.classList.remove('active');
+        });
+
+        openMusicFromSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+            musicModalOverlay.classList.add('active');
+        });
+
+        const themeModalOverlay = document.getElementById('themeModal');
+        const themeCloseBtn = document.getElementById('themeCloseBtn');
+        const openThemeFromSettings = document.getElementById('openThemeFromSettings');
+
+        openThemeFromSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+            themeModalOverlay.classList.add('active');
+            updateThemeChecks();
+        });
+
+        themeCloseBtn.addEventListener('click', () => {
+            themeModalOverlay.classList.remove('active');
+            settingsModalOverlay.classList.add('active');
+        });
+        themeModalOverlay.addEventListener('click', (e) => {
+            if (e.target === themeModalOverlay) {
+                themeModalOverlay.classList.remove('active');
+                settingsModalOverlay.classList.add('active');
+            }
+        });
+
+        document.querySelectorAll('.theme-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const theme = item.dataset.theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('appTheme', theme);
+                updateThemeChecks();
+            });
+        });
+
+        function updateThemeChecks() {
+            const current = localStorage.getItem('appTheme') || 'night';
+            document.querySelectorAll('.theme-check').forEach(check => {
+                if (check.dataset.themeCheck === current) {
+                    check.classList.add('visible');
+                } else {
+                    check.classList.remove('visible');
+                }
+            });
+        }
+
+        const openInfoFromSettings = document.getElementById('openInfoFromSettings');
+        openInfoFromSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+            showInfo();
+        });
+
+        const storeModalOverlay = document.getElementById('storeModal');
+        const storeCloseBtn = document.getElementById('storeCloseBtn');
+        const openStoreMain = document.getElementById('storeBtn');
+
+        openStoreMain.addEventListener('click', () => {
+            storeModalOverlay.classList.add('active');
+        });
+
+        storeCloseBtn.addEventListener('click', () => {
+            storeModalOverlay.classList.remove('active');
+        });
+        storeModalOverlay.addEventListener('click', (e) => {
+            if (e.target === storeModalOverlay) {
+                storeModalOverlay.classList.remove('active');
+            }
+        });
 
         closeMusic.addEventListener('click', () => {
             musicModalOverlay.classList.remove('active');
-            stopMusic();
+            settingsModalOverlay.classList.add('active');
         });
-
         musicModalOverlay.addEventListener('click', (e) => {
             if (e.target === musicModalOverlay) {
                 musicModalOverlay.classList.remove('active');
-                stopMusic();
+                settingsModalOverlay.classList.add('active');
             }
         });
 
@@ -715,90 +756,63 @@
             const coverEl = item.querySelector('.music-cover');
             const coverUrl = item.dataset.coverUrl;
             if (coverEl && coverUrl) {
-                const img = document.createElement('img');
-                img.src = coverUrl;
-                img.alt = 'cover';
-                img.loading = 'lazy';
-                coverEl.appendChild(img);
+                coverEl.innerHTML = '<img src="' + coverUrl + '" alt="cover" style="width:100%;height:100%;object-fit:cover;">';
             }
         });
-
-        document.querySelectorAll('.music-play-btn').forEach(btn => {
+        const playBtns = document.querySelectorAll('.music-play-btn');
+        playBtns.forEach(btn => {
             const musicItem = btn.closest('.music-item');
             const songUrl = musicItem.dataset.songUrl;
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
-                if (!navigator.onLine) {
-                    await internetModal.show();
-                    return;
-                }
+                if (!await checkInternetForMusic()) return;
                 if (currentAudio && currentPlayingButton === btn) {
-                    stopMusic();
+                    currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null;
+                    btn.textContent = '▶'; btn.dataset.playing = 'false'; currentPlayingButton = null;
                     return;
                 }
-                stopMusic();
+                if (currentAudio) { currentAudio.pause(); if(currentPlayingButton) { currentPlayingButton.textContent = '▶'; currentPlayingButton.dataset.playing = 'false'; } currentAudio = null; currentPlayingButton = null; }
                 try {
-                    const audio = new Audio();
-                    audio.preload = 'none';
-                    audio.src = songUrl;
-                    audio.loop = false;
+                    const audio = new Audio(); audio.src = songUrl; audio.loop = false;
                     await audio.play();
-                    currentAudio = audio;
-                    currentPlayingButton = btn;
-                    btn.textContent = '❙❙';
-                    btn.dataset.playing = 'true';
-                    audio.addEventListener('ended', () => {
-                        if (currentAudio === audio) stopMusic();
-                    });
-                    audio.addEventListener('error', () => {
-                        if (currentAudio === audio) stopMusic();
-                        modal.show('😧 خطا', 'پخش آهنگ امکان‌پذیر نیست.');
-                    });
-                } catch (err) {
-                    stopMusic();
-                    modal.show('😧 خطا', 'مشکلی در پخش آهنگ به وجود آمده است.');
-                }
+                    currentAudio = audio; currentPlayingButton = btn;
+                    btn.textContent = '❙❙'; btn.dataset.playing = 'true';
+                    audio.addEventListener('ended', () => { if(currentAudio === audio) { btn.textContent = '▶'; btn.dataset.playing = 'false'; currentAudio = null; currentPlayingButton = null; } });
+                    audio.addEventListener('error', () => { modal.show("😧 خطا", "پخش آهنگ امکان‌پذیر نیست."); btn.textContent = '▶'; currentAudio = null; currentPlayingButton = null; });
+                } catch(err) { modal.show("😧‌ خطا", "مشکلی در پخش آهنگ به وجود آمده است."); btn.textContent = '▶'; }
             });
-        });
-
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden && currentAudio) {
-                try { currentAudio.pause(); } catch(e) {}
-            }
         });
     }
 
     const dailyRiddles = [
         { question: "چه اختراعی به شما اجازه می‌دهد که آن طرف دیوار را نگاه کنید؟", answer: "پنجره" },
         { question: "کدام کلید است که هیچ دری را باز نمی‌کند؟", answer: "کلید برق" },
-        { question: "دارا آن را ندارد و ندار آن را دارد؟", answer: "نقطه" },
+        { question: "دارا آن را ندارد و ندار آن را دارد؟", answer: "نقطه‌" },
         { question: "ورزشکاران برای شکستن آن جایزه می‌گیرند؟", answer: "رکورد" },
         { question: "آن چیست که هم بچه دارد و هم تفنگ دارد؟", answer: "قنداق" },
         { question: "درختی می‌باشد که تا به حال کاشته نشده است؟", answer: "شجره خانوادگی" },
         { question: "روزها می‌دود ولی شب‌ها، جلوی درب خانه نگهبان است؟", answer: "کفش" },
-        { question: "آن چیست که وقتی باران می‌بارد، اشک آن نیز روان می‌شود؟", answer: "ناودان" },
+        { question: "آن چیست که وقتی باران می‌بارد، اشک آن نیز روان می‌شود؟‌", answer: "ناودان" },
         { question: "پایان همه چیزهایی است که شروع می‌شود؟", answer: "مرگ" },
         { question: "چه چیزی گردن دارد اما سر ندارد؟", answer: "بطری" }
     ];
 
-    function getTodayKey() {
-        const now = new Date();
-        return now.getFullYear() + '-' +
-               String(now.getMonth() + 1).padStart(2, '0') + '-' +
-               String(now.getDate()).padStart(2, '0');
+    function getDailyChallenge() {
+        const today = new Date();
+        const start = new Date(today.getFullYear(), 0, 0);
+        const diff = today - start;
+        const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const index = dayOfYear % dailyRiddles.length;
+        return dailyRiddles[index];
     }
 
-    function getDailyChallenge() {
+    function getTodayKey() {
         const now = new Date();
-        const start = new Date(now.getFullYear(), 0, 0);
-        const diff = now - start;
-        const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-        return dailyRiddles[dayOfYear % dailyRiddles.length];
+        return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
     }
 
     let dailySolved = false;
     let dailyTimerInterval = null;
-    let dailyCurrentDayKey = null;
 
     function initDailyChallenge() {
         const dailyModal = document.getElementById('dailyModal');
@@ -809,11 +823,12 @@
         const submitBtn = document.getElementById('dailySubmitBtn');
         const statusEl = document.getElementById('dailyStatus');
 
-        function refreshDailyState() {
+        elements.dailyChallengeBtn.addEventListener('click', async () => {
+            if (!await checkInternet()) return;
             const todayKey = getTodayKey();
-            dailyCurrentDayKey = todayKey;
-            const stored = store.getItem('dailySolved_' + todayKey);
+            const stored = localStorage.getItem('dailySolved_' + todayKey);
             dailySolved = (stored === 'true');
+
             const riddle = getDailyChallenge();
             questionEl.textContent = '◆ ' + riddle.question;
 
@@ -829,36 +844,26 @@
                 statusEl.textContent = '';
                 statusEl.className = 'daily-status';
                 answerInput.value = '';
+                answerInput.focus();
             }
-        }
 
-        elements.dailyChallengeBtn.addEventListener('click', async () => {
-            if (!await checkInternet()) return;
-            refreshDailyState();
             dailyModal.classList.add('active');
-            startDailyTimer(timerEl, refreshDailyState);
-            if (!dailySolved) setTimeout(() => answerInput.focus(), 100);
+            startDailyTimer(timerEl);
         });
 
-        function closeDaily() {
+        const closeDaily = () => {
             dailyModal.classList.remove('active');
             if (dailyTimerInterval) {
                 clearInterval(dailyTimerInterval);
                 dailyTimerInterval = null;
             }
-        }
-
+        };
         closeBtn.addEventListener('click', closeDaily);
         dailyModal.addEventListener('click', (e) => {
             if (e.target === dailyModal) closeDaily();
         });
 
-        submitBtn.addEventListener('click', () => {
-            const todayKey = getTodayKey();
-            if (todayKey !== dailyCurrentDayKey) {
-                refreshDailyState();
-                if (dailySolved) return;
-            }
+        submitBtn.addEventListener('click', async () => {
             if (dailySolved) {
                 statusEl.textContent = '✅ امروز را قبلاً حل کرده‌اید!';
                 statusEl.className = 'daily-status success';
@@ -873,7 +878,8 @@
             const riddle = getDailyChallenge();
             if (normalizeText(userAns) === normalizeText(riddle.answer)) {
                 dailySolved = true;
-                store.setItem('dailySolved_' + todayKey, 'true');
+                const todayKey = getTodayKey();
+                localStorage.setItem('dailySolved_' + todayKey, 'true');
                 answerInput.disabled = true;
                 submitBtn.disabled = true;
                 statusEl.textContent = '🎉 پاسخ صحیح! چالش امروز را با موفقیت انجام دادید.';
@@ -886,41 +892,35 @@
             }
         });
 
-        answerInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') submitBtn.click();
+        answerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitBtn.click();
+            }
         });
     }
 
-    function startDailyTimer(timerEl, onDayChange) {
+    function startDailyTimer(timerEl) {
         if (dailyTimerInterval) clearInterval(dailyTimerInterval);
-        updateDailyTimer(timerEl, onDayChange);
+        updateDailyTimer(timerEl);
         dailyTimerInterval = setInterval(() => {
-            updateDailyTimer(timerEl, onDayChange);
+            updateDailyTimer(timerEl);
         }, 1000);
     }
 
-    function updateDailyTimer(timerEl, onDayChange) {
+    function updateDailyTimer(timerEl) {
         const now = new Date();
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1);
         tomorrow.setHours(0, 0, 0, 0);
         const diffMs = tomorrow - now;
         if (diffMs <= 0) {
-            timerEl.textContent = '00:00:00';
-            if (dailyTimerInterval) {
-                clearInterval(dailyTimerInterval);
-                dailyTimerInterval = null;
-            }
-            if (typeof onDayChange === 'function') onDayChange();
+            timerEl.textContent = '۰۰:۰۰:۰۰';
             return;
         }
         const hours = Math.floor(diffMs / (1000 * 60 * 60));
         const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
-        timerEl.textContent =
-            String(hours).padStart(2, '0') + ':' +
-            String(minutes).padStart(2, '0') + ':' +
-            String(seconds).padStart(2, '0');
+        timerEl.textContent = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
     }
 
     window.addEventListener('online', () => {
@@ -936,23 +936,14 @@
     });
 
     elements.submitBtn.addEventListener('click', checkAnswer);
-    elements.cancelBtn.addEventListener('click', () => {
-        if (getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) {
-            elements.answerInput.value = '';
-        }
-    });
-    elements.infoBtn.addEventListener('click', showInfo);
+    elements.cancelBtn.addEventListener('click', () => { if(getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) elements.answerInput.value = ''; });
     elements.prevBtn.addEventListener('click', goPrevLevel);
     elements.nextBtn.addEventListener('click', goNextLevel);
     elements.fullResetBtn.addEventListener('click', fullResetCurrentTier);
     elements.tierBronze.addEventListener('click', () => switchTier('bronze'));
     elements.tierSilver.addEventListener('click', () => switchTier('silver'));
     elements.tierGold.addEventListener('click', () => switchTier('gold'));
-    elements.answerInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) {
-            checkAnswer();
-        }
-    });
+    elements.answerInput.addEventListener('keypress', (e) => { if(e.key === 'Enter' && getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) checkAnswer(); });
     elements.answerRevealBtn.addEventListener('click', showAnswer);
 
     startInternetMonitoring();
@@ -969,36 +960,33 @@
     const splash = document.getElementById('splashScreen');
     const gameContainer = document.getElementById('mainGameContainer');
     if (!splash || !gameContainer) return;
-
-    const shown = sessionStorage.getItem('splashShown');
-    const duration = shown ? 400 : 2500;
-
     setTimeout(() => {
         splash.style.opacity = '0';
         setTimeout(() => {
             if (splash && splash.parentNode) splash.remove();
-            if (gameContainer) gameContainer.style.display = 'block';
-            try { sessionStorage.setItem('splashShown', '1'); } catch(e) {}
+            if (gameContainer) {
+                gameContainer.style.display = 'block';
+            }
         }, 600);
-    }, duration);
+    }, 3500);
 })();
-
 (function initUpdateSystem() {
     'use strict';
-
-    if (!('serviceWorker' in navigator)) return;
-
+    
+    if (!('serviceWorker' in navigator)) {
+        return;
+    }
+    
     var newWorker = null;
     var refreshing = false;
     var reloadAllowed = false;
-
+    
     var notification = document.getElementById('update-notification');
     var updateNowBtn = document.getElementById('updateNowBtn');
     var updateCloseBtn = document.getElementById('updateCloseBtn');
-
+    
     var USER_VERSION_KEY = '__user_confirmed_version__';
-    var SW_URL = './sw.js';
-
+    
     var PROTECTED_KEYS = [
         'unlockedTiers',
         'solvedStages_bronze',
@@ -1009,170 +997,225 @@
         'currentStage_gold',
         'currentTier'
     ];
-
+    
     function backupUserData() {
         var backup = {};
         PROTECTED_KEYS.forEach(function(key) {
-            try {
-                var value = localStorage.getItem(key);
-                if (value !== null) backup[key] = value;
-            } catch(e) {}
+            var value = localStorage.getItem(key);
+            if (value !== null) {
+                backup[key] = value;
+            }
         });
+        
+        Object.keys(localStorage).forEach(function(key) {
+            if (key.indexOf('dailySolved_') === 0) {
+                backup[key] = localStorage.getItem(key);
+            }
+        });
+        
         try {
-            Object.keys(localStorage).forEach(function(key) {
-                if (key.indexOf('dailySolved_') === 0) {
-                    backup[key] = localStorage.getItem(key);
-                }
-            });
             sessionStorage.setItem('__update_backup__', JSON.stringify(backup));
-        } catch(e) {}
+        } catch (e) {}
     }
-
+    
     function restoreUserData() {
         try {
             var backupStr = sessionStorage.getItem('__update_backup__');
             if (!backupStr) return;
             var backup = JSON.parse(backupStr);
             Object.keys(backup).forEach(function(key) {
-                try {
-                    if (!localStorage.getItem(key)) {
-                        localStorage.setItem(key, backup[key]);
-                    }
-                } catch(e) {}
+                if (!localStorage.getItem(key)) {
+                    localStorage.setItem(key, backup[key]);
+                }
             });
             sessionStorage.removeItem('__update_backup__');
-        } catch(e) {}
+        } catch (e) {}
     }
-
+    
     restoreUserData();
-
+    
     function getUserConfirmedVersion() {
-        try { return localStorage.getItem(USER_VERSION_KEY) || null; }
-        catch(e) { return null; }
+        return localStorage.getItem(USER_VERSION_KEY) || null;
     }
-
+    
     function setUserConfirmedVersion(version) {
-        if (!version) return;
-        try { localStorage.setItem(USER_VERSION_KEY, version); } catch(e) {}
+        if (version) {
+            localStorage.setItem(USER_VERSION_KEY, version);
+        }
     }
-
+    
     function askVersionFromController() {
         return new Promise(function(resolve) {
             if (!navigator.serviceWorker.controller) {
                 resolve(null);
                 return;
             }
-            var channel = new MessageChannel();
-            var done = false;
-            channel.port1.onmessage = function(event) {
-                if (done) return;
-                done = true;
-                resolve((event.data && event.data.version) || null);
+            var messageChannel = new MessageChannel();
+            var resolved = false;
+            
+            messageChannel.port1.onmessage = function(event) {
+                if (resolved) return;
+                resolved = true;
+                if (event.data && event.data.version) {
+                    resolve(event.data.version);
+                } else {
+                    resolve(null);
+                }
             };
+            
             try {
                 navigator.serviceWorker.controller.postMessage(
-                    { type: 'GET_VERSION' }, [channel.port2]
+                    { type: 'GET_VERSION' },
+                    [messageChannel.port2]
                 );
-            } catch(e) { resolve(null); }
+            } catch (e) {
+                resolve(null);
+            }
+            
             setTimeout(function() {
-                if (!done) { done = true; resolve(null); }
+                if (!resolved) {
+                    resolved = true;
+                    resolve(null);
+                }
             }, 800);
         });
     }
-
+    
     function askVersionFromWorker(worker) {
         return new Promise(function(resolve) {
-            if (!worker) { resolve(null); return; }
-            var channel = new MessageChannel();
-            var done = false;
-            channel.port1.onmessage = function(event) {
-                if (done) return;
-                done = true;
-                resolve((event.data && event.data.version) || null);
+            if (!worker) {
+                resolve(null);
+                return;
+            }
+            var messageChannel = new MessageChannel();
+            var resolved = false;
+            
+            messageChannel.port1.onmessage = function(event) {
+                if (resolved) return;
+                resolved = true;
+                if (event.data && event.data.version) {
+                    resolve(event.data.version);
+                } else {
+                    resolve(null);
+                }
             };
+            
             try {
-                worker.postMessage({ type: 'GET_VERSION' }, [channel.port2]);
-            } catch(e) { resolve(null); }
+                worker.postMessage(
+                    { type: 'GET_VERSION' },
+                    [messageChannel.port2]
+                );
+            } catch (e) {
+                resolve(null);
+            }
+            
             setTimeout(function() {
-                if (!done) { done = true; resolve(null); }
+                if (!resolved) {
+                    resolved = true;
+                    resolve(null);
+                }
             }, 800);
         });
     }
-
+    
     function showNotification() {
-        if (notification) notification.classList.add('show');
+        if (!notification) return;
+        notification.classList.add('show');
     }
+    
     function hideNotification() {
-        if (notification) notification.classList.remove('show');
+        if (!notification) return;
+        notification.classList.remove('show');
     }
-
+    
     function checkForRealUpdate(registration) {
         var promises = [];
+        
         if (registration.waiting) {
             promises.push(
-                askVersionFromWorker(registration.waiting).then(function(v) {
-                    return { source: 'waiting', version: v, worker: registration.waiting };
+                askVersionFromWorker(registration.waiting).then(function(version) {
+                    return { source: 'waiting', version: version, worker: registration.waiting };
                 })
             );
         }
+        
         promises.push(
-            askVersionFromController().then(function(v) {
-                return { source: 'controller', version: v, worker: null };
+            askVersionFromController().then(function(version) {
+                return { source: 'controller', version: version, worker: null };
             })
         );
-
+        
         return Promise.all(promises).then(function(results) {
             var waitingResult = null;
             var controllerResult = null;
+            
             results.forEach(function(r) {
                 if (r.source === 'waiting') waitingResult = r;
                 if (r.source === 'controller') controllerResult = r;
             });
+            
             var waitingVersion = waitingResult ? waitingResult.version : null;
             var controllerVersion = controllerResult ? controllerResult.version : null;
             var userVersion = getUserConfirmedVersion();
-
-            if (waitingVersion && waitingVersion !== controllerVersion) {
+            
+            if (waitingVersion) {
                 newWorker = waitingResult.worker;
                 showNotification();
                 return;
             }
-            if (!controllerVersion) return;
+            
+            if (!controllerVersion) {
+                return;
+            }
+            
             if (!userVersion) {
                 setUserConfirmedVersion(controllerVersion);
                 return;
             }
+            
             if (controllerVersion !== userVersion) {
                 newWorker = null;
                 showNotification();
             }
         });
     }
-
+    
     navigator.serviceWorker.addEventListener('controllerchange', function() {
         if (reloadAllowed && !refreshing) {
             refreshing = true;
             window.location.reload();
         }
     });
-
+    
     window.addEventListener('load', function() {
-        navigator.serviceWorker.register(SW_URL)
+        navigator.serviceWorker.register('./service-worker.js')
             .then(function(registration) {
-                setTimeout(function() { checkForRealUpdate(registration); }, 1500);
-
+                
+                setTimeout(function() {
+                    checkForRealUpdate(registration);
+                }, 1500);
+                
+                setInterval(function() {
+                    if (navigator.onLine) {
+                        registration.update();
+                    }
+                }, 15000);
+                
                 if (registration.waiting && navigator.serviceWorker.controller) {
                     newWorker = registration.waiting;
                     showNotification();
                 }
-
+                
                 registration.addEventListener('updatefound', function() {
-                    var installing = registration.installing;
-                    if (!installing) return;
-                    installing.addEventListener('statechange', function() {
-                        if (installing.state === 'installed' && navigator.serviceWorker.controller) {
-                            newWorker = installing;
-                            showNotification();
+                    var installingWorker = registration.installing;
+                    if (!installingWorker) return;
+                    
+                    installingWorker.addEventListener('statechange', function() {
+                        if (installingWorker.state === 'installed') {
+                            if (navigator.serviceWorker.controller) {
+                                newWorker = installingWorker;
+                                showNotification();
+                            }
                         }
                     });
                 });
@@ -1180,30 +1223,49 @@
             .catch(function(err) {
                 console.warn('Service Worker registration failed:', err);
             });
-
+        
         navigator.serviceWorker.ready.then(function(registration) {
-            setTimeout(function() { checkForRealUpdate(registration); }, 2000);
+            setTimeout(function() {
+                checkForRealUpdate(registration);
+            }, 2000);
+        });
+        
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible' && navigator.onLine) {
+                navigator.serviceWorker.getRegistration().then(function(reg) {
+                    if (reg) {
+                        reg.update();
+                    }
+                });
+            }
         });
     });
-
+    
     if (updateCloseBtn) {
-        updateCloseBtn.addEventListener('click', hideNotification);
+        updateCloseBtn.addEventListener('click', function() {
+            hideNotification();
+        });
     }
-
+    
     if (updateNowBtn) {
         updateNowBtn.addEventListener('click', function() {
             backupUserData();
+            
             updateNowBtn.textContent = 'در حال آپدیت...';
             updateNowBtn.disabled = true;
             if (updateCloseBtn) updateCloseBtn.disabled = true;
+            
             reloadAllowed = true;
-
+            
             askVersionFromController().then(function(activeVersion) {
                 var targetVersion = activeVersion;
+                
                 if (newWorker) {
                     askVersionFromWorker(newWorker).then(function(waitingVersion) {
                         if (waitingVersion) targetVersion = waitingVersion;
+                        
                         if (targetVersion) setUserConfirmedVersion(targetVersion);
+                        
                         setTimeout(function() {
                             if (newWorker) {
                                 newWorker.postMessage({ type: 'SKIP_WAITING' });
@@ -1214,19 +1276,41 @@
                     });
                 } else {
                     if (targetVersion) setUserConfirmedVersion(targetVersion);
-                    setTimeout(function() { window.location.reload(); }, 300);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 300);
                 }
             });
         });
     }
-
-    window.forceShowUpdate = showNotification;
-    window.resetUpdateDismiss = function() {
-        try { localStorage.removeItem(USER_VERSION_KEY); } catch(e) {}
+    
+    window.forceShowUpdate = function() {
+        showNotification();
     };
+    
+    window.resetUpdateDismiss = function() {
+        localStorage.removeItem(USER_VERSION_KEY);
+    };
+    
     window.checkUpdateNow = function() {
         return navigator.serviceWorker.getRegistration().then(function(reg) {
-            if (reg) return checkForRealUpdate(reg);
+            if (reg) {
+                return checkForRealUpdate(reg);
+            }
         });
     };
+    
+    window.showUpdateState = function() {
+        Promise.all([
+            askVersionFromController(),
+            navigator.serviceWorker.getRegistration().then(function(r) {
+                return r && r.waiting ? askVersionFromWorker(r.waiting) : null;
+            })
+        ]).then(function(results) {
+            console.log('نسخه فعال:', results[0]);
+            console.log('نسخه در انتظار:', results[1]);
+            console.log('نسخه تأیید شده کاربر:', getUserConfirmedVersion());
+        });
+    };
+    
 })();
