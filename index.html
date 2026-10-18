@@ -24,7 +24,12 @@
 
 <div class="game-container" id="mainGameContainer" style="display:none;">
     <div class="top-bar">
-        <button id="settingsBtn" class="icon-btn">⚙️</button>
+        <button id="settingsBtn" class="icon-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+        </button>
         <div class="game-title"><h1>حدس ضرب‌المثل</h1></div>
         <button id="storeBtn" class="icon-btn">🛒</button>
     </div>
@@ -64,7 +69,7 @@
     </div>
 
     <div style="display:flex; justify-content:center; margin-top:0.8rem;">
-        <button id="fullResetBtn" class="full-reset-btn hidden">🔧 ریست سطح</button>
+        <button id="fullResetBtn" class="full-reset-btn hidden">⚙️ ریست سطح</button>
     </div>
 </div>
 
@@ -130,7 +135,7 @@
             </button>
             <button class="settings-item" id="openThemeFromSettings">
                 <span class="settings-item-icon">🎨</span>
-                <span class="settings-item-text">پس‌ زمینه</span>
+                <span class="settings-item-text">تم رنگی</span>
                 <span class="settings-item-arrow">◀</span>
             </button>
             <button class="settings-item" id="openInfoFromSettings">
@@ -145,7 +150,7 @@
 
 <div id="musicModal" class="modal-overlay" style="z-index:1002;">
     <div class="music-modal-container">
-        <h3>موسیقی</h3>
+        <h3>🎵 موسیقی</h3>
         <div class="music-list">
             <div class="music-item" data-song-url="https://uploadkon.ir/uploads/d25e13_26Divanegi.mp3" data-song-name="Divanegi" data-cover-url="https://uploadkon.ir/uploads/dffa14_26Heart.jpg">
                 <div class="music-cover" id="coverDivanegi"></div>
@@ -159,7 +164,7 @@
 
 <div id="themeModal" class="modal-overlay" style="z-index:1002;">
     <div class="music-modal-container">
-        <h3>پس زمینه</h3>
+        <h3>🎨 تم رنگی</h3>
         <div class="theme-list">
             <button class="theme-item" data-theme="night">
                 <span class="theme-preview theme-preview-night"></span>
@@ -200,9 +205,9 @@
     <div class="music-modal-container">
         <h3>🛒 فروشگاه</h3>
         <div class="store-coming-soon">
-            <div class="store-coming-text">به زودی ⏳️</div>
+            <div class="store-coming-text">به زودی 🚀</div>
         </div>
-        <button id="storeCloseBtn" class="music-close">بستن</button>
+        <button id="storeCloseBtn" class="music-close">بازگشت</button>
     </div>
 </div>
 
