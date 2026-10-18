@@ -247,7 +247,7 @@
         answerInput: document.getElementById('answerInput'),
         submitBtn: document.getElementById('submitBtn'),
         cancelBtn: document.getElementById('cancelBtn'),
-        infoBtn: document.getElementById('infoBtn'),
+        storeBtn: document.getElementById('storeBtn'),
         prevBtn: document.getElementById('prevLevelBtn'),
         nextBtn: document.getElementById('nextLevelBtn'),
         fullResetBtn: document.getElementById('fullResetBtn'),
@@ -621,7 +621,7 @@
     }
 
     function showInfo() {
-        modal.show("درباره ما", `👤 توسعه دهنده : AmirMahdi.JN\n🆔️ تلگرام : AmirMahdi_2023@\n🆔️ روبیکا : AmirMahdi_2018@\n📞 موبایل : 09918659151`);
+        modal.show("اطلاعات", `👤 توسعه دهنده : AmirMahdi.JN\n🆔️ تلگرام : AmirMahdi_2023@\n🆔️ روبیکا : AmirMahdi_2018@\n📞 موبایل : 09918659151`);
     }
 
     let currentAudio = null, currentPlayingButton = null;
@@ -689,23 +689,26 @@
             });
         }
 
+        const openInfoFromSettings = document.getElementById('openInfoFromSettings');
+        openInfoFromSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+            showInfo();
+        });
+
         const storeModalOverlay = document.getElementById('storeModal');
         const storeCloseBtn = document.getElementById('storeCloseBtn');
-        const openStoreFromSettings = document.getElementById('openStoreFromSettings');
+        const openStoreMain = document.getElementById('storeBtn');
 
-        openStoreFromSettings.addEventListener('click', () => {
-            settingsModalOverlay.classList.remove('active');
+        openStoreMain.addEventListener('click', () => {
             storeModalOverlay.classList.add('active');
         });
 
         storeCloseBtn.addEventListener('click', () => {
             storeModalOverlay.classList.remove('active');
-            settingsModalOverlay.classList.add('active');
         });
         storeModalOverlay.addEventListener('click', (e) => {
             if (e.target === storeModalOverlay) {
                 storeModalOverlay.classList.remove('active');
-                settingsModalOverlay.classList.add('active');
             }
         });
 
@@ -905,7 +908,6 @@
 
     elements.submitBtn.addEventListener('click', checkAnswer);
     elements.cancelBtn.addEventListener('click', () => { if(getCurrentStages().length && !getCurrentSolved()[getCurrentStageIndex()]) elements.answerInput.value = ''; });
-    elements.infoBtn.addEventListener('click', showInfo);
     elements.prevBtn.addEventListener('click', goPrevLevel);
     elements.nextBtn.addEventListener('click', goNextLevel);
     elements.fullResetBtn.addEventListener('click', fullResetCurrentTier);
