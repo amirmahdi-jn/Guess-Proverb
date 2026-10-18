@@ -264,37 +264,38 @@
         title: document.getElementById('modalTitle'),
         message: document.getElementById('modalMessage'),
         buttons: document.getElementById('modalButtons'),
-        copyBtn: document.getElementById('modalCopyBtn'),
         currentResolve: null,
         show(title, message, showConfirmButtons = false, showCopy = false) {
             this.title.innerText = title;
-            this.message.innerText = message;
             this.buttons.innerHTML = '';
+            this.message.innerHTML = '';
 
-            const copyBtn = this.copyBtn;
+            const oldCopyBtn = this.message.parentNode.querySelector('.modal-copy-btn');
+            if (oldCopyBtn) oldCopyBtn.remove();
+
+            const textNode = document.createTextNode(message);
+            this.message.appendChild(textNode);
+
             if (showCopy && message) {
-                copyBtn.classList.remove('hidden');
-                copyBtn.classList.remove('copied');
-                copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
-                const newCopyBtn = copyBtn.cloneNode(true);
-                copyBtn.parentNode.replaceChild(newCopyBtn, copyBtn);
-                this.copyBtn = newCopyBtn;
-                newCopyBtn.addEventListener('click', async () => {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'modal-copy-btn';
+                copyBtn.title = 'کپی';
+                copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+                copyBtn.addEventListener('click', async () => {
                     const textToCopy = message.replace(/^پاسخ صحیح:\s*«|»\s*.*$/g, '').trim();
                     try {
                         await navigator.clipboard.writeText(textToCopy);
-                        newCopyBtn.classList.add('copied');
-                        newCopyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                        copyBtn.classList.add('copied');
+                        copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
                         setTimeout(() => {
-                            newCopyBtn.classList.remove('copied');
-                            newCopyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+                            copyBtn.classList.remove('copied');
+                            copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
                         }, 2000);
                     } catch (err) {
                         console.error('کپی نشد:', err);
                     }
                 });
-            } else {
-                copyBtn.classList.add('hidden');
+                this.message.appendChild(copyBtn);
             }
 
             if (showConfirmButtons) {
