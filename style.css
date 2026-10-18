@@ -236,6 +236,7 @@ body {
     color: var(--action-btn-color);
 }
 .icon-btn:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.05); }
+.icon-btn svg { width: 22px; height: 22px; }
 
 .game-title h1 {
     font-family: 'Vazir','Poppins',sans-serif;
@@ -652,6 +653,14 @@ body {
 .settings-item-icon {
     font-size: 1.3rem;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.settings-item-icon svg {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
 }
 .settings-item-text {
     flex: 1;
@@ -731,6 +740,15 @@ body {
 .theme-name {
     flex: 1;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.theme-name svg {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
 }
 .theme-check {
     color: #4caf50;
@@ -833,6 +851,57 @@ body {
 .internet-modal-container h3 { color:var(--modal-title-color); font-size:1rem; margin-bottom:0.6rem; font-weight:700; }
 .internet-modal-container p { color:var(--modal-text-color); font-size:0.7rem; line-height:1.55; margin-bottom:1rem; }
 .internet-modal-container .modal-btn { min-width:100px; }
+
+.modal-message-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+    padding: 0 0.4rem;
+}
+
+.modal-message-wrapper p {
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    flex: 1;
+}
+
+.modal-copy-btn {
+    background: var(--action-btn-bg);
+    border: 1px solid var(--action-btn-border);
+    color: var(--action-btn-color);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
+
+.modal-copy-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1.15);
+}
+
+.modal-copy-btn.hidden {
+    display: none;
+}
+
+.modal-copy-btn.copied {
+    background: #2e8b57;
+    border-color: #2e8b57;
+    color: white;
+    cursor: default;
+}
+
+.modal-copy-btn.copied:hover {
+    transform: none;
+    filter: none;
+}
 
 @media (max-width:550px) {
     .emoji-row span { font-size:1rem; padding:0.1rem 0.3rem; }
@@ -1094,51 +1163,4 @@ body {
     }
     #updateCloseBtn { width: 30px; height: 30px; }
     #updateCloseBtn svg { width: 15px; height: 15px; }
-}
-
-.icon-btn svg {
-    width: 22px;
-    height: 22px;
-}
-
-.modal-container h3 svg,
-.daily-modal-container h3 svg,
-.payment-modal-container h3 svg,
-.internet-modal-container h3 svg,
-.settings-modal-container h3 svg,
-.music-modal-container h3 svg {
-    flex-shrink: 0;
-    vertical-align: middle;
-}
-
-.triple-actions .action-btn svg {
-    flex-shrink: 0;
-}
-
-.full-reset-btn svg {
-    flex-shrink: 0;
-}
-
-.settings-item-icon svg {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-}
-
-.payment-info .label svg {
-    vertical-align: middle;
-    color: #d9b48b;
-}
-
-.theme-name {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.theme-name svg {
-    flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-    vertical-align: middle;
     }
