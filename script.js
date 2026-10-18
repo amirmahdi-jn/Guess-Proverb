@@ -1,5 +1,5 @@
 (function() {
-    const validThemes = ['night', 'day', 'ocean', 'royal', 'gray', 'tropical', 'cafe'];
+    const validThemes = ['night', 'day', 'ocean', 'royal', 'tropical', 'cafe'];
     let savedTheme = localStorage.getItem('appTheme') || 'night';
     if (!validThemes.includes(savedTheme)) {
         savedTheme = 'night';
@@ -688,6 +688,26 @@
                 }
             });
         }
+
+        const storeModalOverlay = document.getElementById('storeModal');
+        const storeCloseBtn = document.getElementById('storeCloseBtn');
+        const openStoreFromSettings = document.getElementById('openStoreFromSettings');
+
+        openStoreFromSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+            storeModalOverlay.classList.add('active');
+        });
+
+        storeCloseBtn.addEventListener('click', () => {
+            storeModalOverlay.classList.remove('active');
+            settingsModalOverlay.classList.add('active');
+        });
+        storeModalOverlay.addEventListener('click', (e) => {
+            if (e.target === storeModalOverlay) {
+                storeModalOverlay.classList.remove('active');
+                settingsModalOverlay.classList.add('active');
+            }
+        });
 
         closeMusic.addEventListener('click', () => {
             musicModalOverlay.classList.remove('active');
