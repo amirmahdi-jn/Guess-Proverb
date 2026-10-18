@@ -128,6 +128,11 @@
                 <span class="settings-item-text">موسیقی</span>
                 <span class="settings-item-arrow">◀</span>
             </button>
+            <button class="settings-item" id="openThemeFromSettings">
+                <span class="settings-item-icon">🎨</span>
+                <span class="settings-item-text">تم رنگی</span>
+                <span class="settings-item-arrow">◀</span>
+            </button>
         </div>
         <button id="settingsCloseBtn" class="music-close">بستن</button>
     </div>
@@ -144,6 +149,55 @@
             </div>
         </div>
         <button id="musicCloseBtn" class="music-close">بازگشت</button>
+    </div>
+</div>
+
+<div id="themeModal" class="modal-overlay" style="z-index:1002;">
+    <div class="music-modal-container">
+        <h3>🎨 تم رنگی</h3>
+        <div class="theme-list">
+            <button class="theme-item" data-theme="night">
+                <span class="theme-preview theme-preview-night"></span>
+                <span class="theme-name">🌙 شب</span>
+                <span class="theme-check" data-theme-check="night">✓</span>
+            </button>
+            <button class="theme-item" data-theme="day">
+                <span class="theme-preview theme-preview-day"></span>
+                <span class="theme-name">☀️ روز</span>
+                <span class="theme-check" data-theme-check="day">✓</span>
+            </button>
+            <button class="theme-item" data-theme="forest">
+                <span class="theme-preview theme-preview-forest"></span>
+                <span class="theme-name">🌲 جنگل</span>
+                <span class="theme-check" data-theme-check="forest">✓</span>
+            </button>
+            <button class="theme-item" data-theme="ocean">
+                <span class="theme-preview theme-preview-ocean"></span>
+                <span class="theme-name">🌊 اقیانوس</span>
+                <span class="theme-check" data-theme-check="ocean">✓</span>
+            </button>
+            <button class="theme-item" data-theme="sunset">
+                <span class="theme-preview theme-preview-sunset"></span>
+                <span class="theme-name">🌅 غروب</span>
+                <span class="theme-check" data-theme-check="sunset">✓</span>
+            </button>
+            <button class="theme-item" data-theme="sakura">
+                <span class="theme-preview theme-preview-sakura"></span>
+                <span class="theme-name">🌸 ساکورا</span>
+                <span class="theme-check" data-theme-check="sakura">✓</span>
+            </button>
+            <button class="theme-item" data-theme="fire">
+                <span class="theme-preview theme-preview-fire"></span>
+                <span class="theme-name">🔥 آتش</span>
+                <span class="theme-check" data-theme-check="fire">✓</span>
+            </button>
+            <button class="theme-item" data-theme="ice">
+                <span class="theme-preview theme-preview-ice"></span>
+                <span class="theme-name">❄️ یخ</span>
+                <span class="theme-check" data-theme-check="ice">✓</span>
+            </button>
+        </div>
+        <button id="themeCloseBtn" class="music-close">بازگشت</button>
     </div>
 </div>
 
@@ -171,4 +225,4 @@
 <script src="script.js"></script>
 
 </body>
-            </html>
+    </html>
