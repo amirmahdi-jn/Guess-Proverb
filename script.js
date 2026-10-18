@@ -1,5 +1,5 @@
 (function() {
-    const validThemes = ['night', 'day', 'ocean', 'royal', 'orange', 'pink', 'gray', 'mint', 'chocolate', 'navy', 'lemon', 'blood', 'ice', 'tropical', 'cafe'];
+    const validThemes = ['night', 'day', 'ocean', 'royal', 'gray', 'tropical', 'cafe'];
     let savedTheme = localStorage.getItem('appTheme') || 'night';
     if (!validThemes.includes(savedTheme)) {
         savedTheme = 'night';
