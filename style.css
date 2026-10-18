@@ -1094,4 +1094,51 @@ body {
     }
     #updateCloseBtn { width: 30px; height: 30px; }
     #updateCloseBtn svg { width: 15px; height: 15px; }
-        }
+}
+
+.icon-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.modal-container h3 svg,
+.daily-modal-container h3 svg,
+.payment-modal-container h3 svg,
+.internet-modal-container h3 svg,
+.settings-modal-container h3 svg,
+.music-modal-container h3 svg {
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+
+.triple-actions .action-btn svg {
+    flex-shrink: 0;
+}
+
+.full-reset-btn svg {
+    flex-shrink: 0;
+}
+
+.settings-item-icon svg {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.payment-info .label svg {
+    vertical-align: middle;
+    color: #d9b48b;
+}
+
+.theme-name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.theme-name svg {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    }
