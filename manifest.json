@@ -1,11 +1,27 @@
 {
   "name": "حدس ضرب‌المثل",
   "short_name": "ضرب‌المثل",
-  "start_url": "./",
+  "description": "بازی حدس ضرب‌المثل فارسی با ایموجی",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#181a2c",
   "theme_color": "#f5b042",
   "lang": "fa",
-  "dir": "rtl"
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
 }
