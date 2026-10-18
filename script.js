@@ -1166,6 +1166,10 @@
                     checkForRealUpdate(registration);
                 }, 1500);
                 
+                setInterval(function() {
+                    registration.update();
+                }, 60000);
+                
                 if (registration.waiting && navigator.serviceWorker.controller) {
                     newWorker = registration.waiting;
                     showNotification();
@@ -1193,6 +1197,16 @@
             setTimeout(function() {
                 checkForRealUpdate(registration);
             }, 2000);
+        });
+        
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                navigator.serviceWorker.getRegistration().then(function(reg) {
+                    if (reg) {
+                        reg.update();
+                    }
+                });
+            }
         });
     });
     
