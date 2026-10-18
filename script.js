@@ -1,4 +1,7 @@
 (function() {
+    const savedTheme = localStorage.getItem('appTheme') || 'night';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
     const TOKEN_DB = {
         silver: "Silver.2026",
         gold: "Gold.2026"
@@ -640,6 +643,47 @@
             musicModalOverlay.classList.add('active');
         });
 
+        const themeModalOverlay = document.getElementById('themeModal');
+        const themeCloseBtn = document.getElementById('themeCloseBtn');
+        const openThemeFromSettings = document.getElementById('openThemeFromSettings');
+
+        openThemeFromSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+            themeModalOverlay.classList.add('active');
+            updateThemeChecks();
+        });
+
+        themeCloseBtn.addEventListener('click', () => {
+            themeModalOverlay.classList.remove('active');
+            settingsModalOverlay.classList.add('active');
+        });
+        themeModalOverlay.addEventListener('click', (e) => {
+            if (e.target === themeModalOverlay) {
+                themeModalOverlay.classList.remove('active');
+                settingsModalOverlay.classList.add('active');
+            }
+        });
+
+        document.querySelectorAll('.theme-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const theme = item.dataset.theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('appTheme', theme);
+                updateThemeChecks();
+            });
+        });
+
+        function updateThemeChecks() {
+            const current = localStorage.getItem('appTheme') || 'night';
+            document.querySelectorAll('.theme-check').forEach(check => {
+                if (check.dataset.themeCheck === current) {
+                    check.classList.add('visible');
+                } else {
+                    check.classList.remove('visible');
+                }
+            });
+        }
+
         closeMusic.addEventListener('click', () => {
             musicModalOverlay.classList.remove('active');
             settingsModalOverlay.classList.add('active');
@@ -869,7 +913,8 @@
             }
         }, 600);
     }, 3500);
-})();(function initUpdateSystem() {
+})();
+(function initUpdateSystem() {
     'use strict';
     
     if (!('serviceWorker' in navigator)) {
