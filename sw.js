@@ -1,5 +1,4 @@
-const CACHE_VERSION = 'v1.0.0';
-const CACHE_NAME = 'mathal-quiz-' + CACHE_VERSION;
+const CACHE_NAME = 'mathal-quiz-v1.0.25';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -8,33 +7,30 @@ const ASSETS_TO_CACHE = [
   './script.js',
   './manifest.json',
   './icon.svg',
-  './icon-maskable.svg'
+  './icon.maskable.svg'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE).catch(() => {
-        return Promise.all(
-          ASSETS_TO_CACHE.map((url) =>
-            cache.add(url).catch(() => null)
-          )
-        );
-      });
+      return cache.addAll(ASSETS_TO_CACHE);
     })
   );
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then((names) => Promise.all(
+    caches.keys().then((names) => {
+      return Promise.all(
         names.map((name) => {
-          if (name !== CACHE_NAME) return caches.delete(name);
-          return null;
+          if (name !== CACHE_NAME) {
+            return caches.delete(name);
+          }
         })
-      ))
-      .then(() => self.clients.claim())
+      );
+    }).then(() => {
+      return self.clients.claim();
+    })
   );
 });
 
@@ -43,8 +39,7 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith('http')) return;
 
   const acceptHeader = event.request.headers.get('accept') || '';
-  const isHTML = acceptHeader.includes('text/html') ||
-                 event.request.mode === 'navigate';
+  const isHTML = acceptHeader.includes('text/html');
 
   if (isHTML) {
     event.respondWith(
@@ -53,16 +48,16 @@ self.addEventListener('fetch', (event) => {
           if (response && response.status === 200) {
             const clone = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, clone).catch(() => {});
+              cache.put(event.request, clone);
             });
           }
           return response;
         })
-        .catch(() =>
-          caches.match(event.request).then((cached) =>
-            cached || caches.match('./index.html')
-          )
-        )
+        .catch(() => {
+          return caches.match(event.request).then((cached) => {
+            return cached || caches.match('./index.html');
+          });
+        })
     );
     return;
   }
@@ -74,11 +69,11 @@ self.addEventListener('fetch', (event) => {
         if (response && response.status === 200) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, clone).catch(() => {});
+            cache.put(event.request, clone);
           });
         }
         return response;
-      }).catch(() => cached);
+      });
     })
   );
 });
@@ -87,9 +82,10 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+
   if (event.data && event.data.type === 'GET_VERSION') {
     if (event.ports && event.ports[0]) {
-      event.ports[0].postMessage({ version: CACHE_VERSION });
+      event.ports[0].postMessage({ version: CACHE_NAME });
     }
   }
 });
