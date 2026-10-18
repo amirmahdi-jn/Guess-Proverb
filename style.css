@@ -123,41 +123,6 @@ html[data-theme="royal"] {
     --daily-bg: #2a1a3e;
 }
 
-html[data-theme="gray"] {
-    --bg-gradient-start: #2a2a2e;
-    --bg-gradient-end: #1a1a1e;
-    --container-bg: rgba(58,58,64,0.88);
-    --container-border: #5a5a64;
-    --top-line-bg: #3a3a40;
-    --top-line-color: #00d4aa;
-    --riddle-bg: rgba(62,62,70,0.85);
-    --riddle-border: #5a5a64;
-    --emoji-bg: #3a3a40;
-    --emoji-span-bg: #4a4a52;
-    --input-wrapper-bg: #3a3a40;
-    --input-bg: #2a2a2e;
-    --input-color: #d0d0d8;
-    --input-placeholder: #7a7a84;
-    --action-btn-bg: #4a4a52;
-    --action-btn-color: #00d4aa;
-    --action-btn-border: #5a5a64;
-    --modal-bg: #2a2a2e;
-    --modal-border: #5a5a64;
-    --modal-title-color: #00d4aa;
-    --modal-text-color: #d0d0d8;
-    --shadow-color: rgba(0,0,0,0.5);
-    --btn-info-bg: #4a8a7a;
-    --btn-info-hover: #6aa89a;
-    --confirm-bg: #4a8a7a;
-    --confirm-hover: #6aa89a;
-    --cancel-bg: #6a5a5a;
-    --cancel-hover: #8a7a7a;
-    --music-bg: #1a1a1e;
-    --music-item-bg: #3a3a40;
-    --music-item-hover: #4a4a52;
-    --daily-bg: #1a1a1e;
-}
-
 html[data-theme="tropical"] {
     --bg-gradient-start: #1a3e3e;
     --bg-gradient-end: #0f2a2a;
@@ -757,9 +722,6 @@ body {
 .theme-preview-royal {
     background: linear-gradient(135deg, #2a1a3e, #1a0f2a);
 }
-.theme-preview-gray {
-    background: linear-gradient(135deg, #2a2a2e, #1a1a1e);
-}
 .theme-preview-tropical {
     background: linear-gradient(135deg, #1a3e3e, #0f2a2a);
 }
@@ -779,6 +741,20 @@ body {
 }
 .theme-check.visible {
     opacity: 1;
+}
+
+.store-coming-soon {
+    background: var(--input-bg);
+    border-radius: 1.2rem;
+    padding: 2rem 1rem;
+    text-align: center;
+    border: 1px solid var(--container-border);
+    margin-bottom: 0.9rem;
+}
+.store-coming-text {
+    color: var(--modal-title-color);
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 
 .payment-modal-container {
@@ -1118,4 +1094,4 @@ body {
     }
     #updateCloseBtn { width: 30px; height: 30px; }
     #updateCloseBtn svg { width: 15px; height: 15px; }
-    }
+        }
