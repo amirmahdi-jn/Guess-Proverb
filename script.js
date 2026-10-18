@@ -243,7 +243,7 @@
         prevBtn: document.getElementById('prevLevelBtn'),
         nextBtn: document.getElementById('nextLevelBtn'),
         fullResetBtn: document.getElementById('fullResetBtn'),
-        musicBtn: document.getElementById('musicBtn'),
+        settingsBtn: document.getElementById('settingsBtn'),
         tierBronze: document.getElementById('tierBronzeBtn'),
         tierSilver: document.getElementById('tierSilverBtn'),
         tierGold: document.getElementById('tierGoldBtn'),
@@ -620,10 +620,37 @@
     function initMusic() {
         const musicModalOverlay = document.getElementById('musicModal');
         const closeMusic = document.getElementById('musicCloseBtn');
-        const openMusic = elements.musicBtn;
-        openMusic.addEventListener('click', () => musicModalOverlay.classList.add('active'));
-        closeMusic.addEventListener('click', () => musicModalOverlay.classList.remove('active'));
-        musicModalOverlay.addEventListener('click', (e) => { if (e.target === musicModalOverlay) musicModalOverlay.classList.remove('active'); });
+        const settingsModalOverlay = document.getElementById('settingsModal');
+        const settingsCloseBtn = document.getElementById('settingsCloseBtn');
+        const openSettings = document.getElementById('settingsBtn');
+        const openMusicFromSettings = document.getElementById('openMusicFromSettings');
+
+        openSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.add('active');
+        });
+        settingsCloseBtn.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+        });
+        settingsModalOverlay.addEventListener('click', (e) => {
+            if (e.target === settingsModalOverlay) settingsModalOverlay.classList.remove('active');
+        });
+
+        openMusicFromSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+            musicModalOverlay.classList.add('active');
+        });
+
+        closeMusic.addEventListener('click', () => {
+            musicModalOverlay.classList.remove('active');
+            settingsModalOverlay.classList.add('active');
+        });
+        musicModalOverlay.addEventListener('click', (e) => {
+            if (e.target === musicModalOverlay) {
+                musicModalOverlay.classList.remove('active');
+                settingsModalOverlay.classList.add('active');
+            }
+        });
+
         document.querySelectorAll('.music-item').forEach(function(item) {
             const coverEl = item.querySelector('.music-cover');
             const coverUrl = item.dataset.coverUrl;
@@ -842,8 +869,7 @@
             }
         }, 600);
     }, 3500);
-})();
-(function initUpdateSystem() {
+})();(function initUpdateSystem() {
     'use strict';
     
     if (!('serviceWorker' in navigator)) {
@@ -1147,7 +1173,6 @@
     
     window.resetUpdateDismiss = function() {
         localStorage.removeItem(USER_VERSION_KEY);
-        console.log('نسخه تأیید شده پاک شد');
     };
     
     window.checkUpdateNow = function() {
@@ -1165,11 +1190,9 @@
                 return r && r.waiting ? askVersionFromWorker(r.waiting) : null;
             })
         ]).then(function(results) {
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━');
             console.log('نسخه فعال:', results[0]);
             console.log('نسخه در انتظار:', results[1]);
             console.log('نسخه تأیید شده کاربر:', getUserConfirmedVersion());
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━');
         });
     };
     
