@@ -133,6 +133,11 @@
                 <span class="settings-item-text">تم رنگی</span>
                 <span class="settings-item-arrow">◀</span>
             </button>
+            <button class="settings-item" id="openStoreFromSettings">
+                <span class="settings-item-icon">🛒</span>
+                <span class="settings-item-text">فروشگاه</span>
+                <span class="settings-item-arrow">◀</span>
+            </button>
         </div>
         <button id="settingsCloseBtn" class="music-close">بستن</button>
     </div>
@@ -176,11 +181,6 @@
                 <span class="theme-name">🍇 سلطنتی</span>
                 <span class="theme-check" data-theme-check="royal">✓</span>
             </button>
-            <button class="theme-item" data-theme="gray">
-                <span class="theme-preview theme-preview-gray"></span>
-                <span class="theme-name">🖤 مدرن</span>
-                <span class="theme-check" data-theme-check="gray">✓</span>
-            </button>
             <button class="theme-item" data-theme="tropical">
                 <span class="theme-preview theme-preview-tropical"></span>
                 <span class="theme-name">🍍 استوایی</span>
@@ -193,6 +193,16 @@
             </button>
         </div>
         <button id="themeCloseBtn" class="music-close">بازگشت</button>
+    </div>
+</div>
+
+<div id="storeModal" class="modal-overlay" style="z-index:1002;">
+    <div class="music-modal-container">
+        <h3>🛒 فروشگاه</h3>
+        <div class="store-coming-soon">
+            <div class="store-coming-text">به زودی 🚀</div>
+        </div>
+        <button id="storeCloseBtn" class="music-close">بازگشت</button>
     </div>
 </div>
 
