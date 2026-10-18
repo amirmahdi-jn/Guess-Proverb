@@ -1,5 +1,10 @@
 (function() {
-    const savedTheme = localStorage.getItem('appTheme') || 'night';
+    const validThemes = ['night', 'day', 'ocean', 'royal', 'orange', 'pink', 'gray', 'mint', 'chocolate', 'navy', 'lemon', 'blood', 'ice', 'tropical', 'cafe'];
+    let savedTheme = localStorage.getItem('appTheme') || 'night';
+    if (!validThemes.includes(savedTheme)) {
+        savedTheme = 'night';
+        localStorage.setItem('appTheme', 'night');
+    }
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     const TOKEN_DB = {
