@@ -653,6 +653,39 @@
         modal.show("اطلاعات", `👤 توسعه دهنده : AmirMahdi.JN\n🆔️ تلگرام : AmirMahdi_2023@\n🆔️ روبیکا : AmirMahdi_2018@\n📞 موبایل : 09918659151`);
     }
 
+    const taleshiRiddles = [
+        {
+            original: "آفتاو هَمیشَه خری پِشت نِمونُ",
+            pronunciation: "آفتاو همیشه خری پشت نمی‌مونه",
+            meaning: "آفتاب همیشه پشت ابر پنهان نمی‌مونه.",
+            usage: "آخرش یه روزی حقیقت رو می‌شه، رازها فاش می‌شن."
+        },
+        {
+            original: "اَنگلی که دَسینَ باز آبو گاز مَدَکَ",
+            pronunciation: "اَنگلی که دَسینَ باز آبو گاز مَدَکَ",
+            meaning: "گره‌ای که با دست باز می‌شه، با دندان باز نکن.",
+            usage: "کار رو پیچیده‌تر از چیزی که هست نکن."
+        },
+        {
+            original: "خدا خَری شاخ نِدَرو مارجینه لینگ!",
+            pronunciation: "خدا خری شاخ نده رو مارجینه لینگ",
+            meaning: "خدا به خر شاخ نده، به مورچه پا.",
+            usage: "کنایه از اینکه به آدم‌های کم‌ظرفیت نباید اختیار داد."
+        },
+        {
+            original: "راستَه گَف همیشَه تِل َ",
+            pronunciation: "راسته گف همیشه تلَ",
+            meaning: "حرف حق همیشه تلخه.",
+            usage: "وقتی کسی از شنیدن حقیقت ناراحت می‌شه."
+        },
+        {
+            original: "سیا اِسبَه گَفی نَه کِلاک نی یام",
+            pronunciation: "سیا اسبه گفی نه کلاک نی یام",
+            meaning: "به حرف سگ سیاه بارون نمیاد.",
+            usage: "کنایه از کسی که حرفش هیچ تأثیری نداره."
+        }
+    ];
+
     let currentAudio = null, currentPlayingButton = null;
     function initMusic() {
         const musicModalOverlay = document.getElementById('musicModal');
@@ -715,6 +748,45 @@
                 } else {
                     check.classList.remove('visible');
                 }
+            });
+        }
+
+        const taleshiModalOverlay = document.getElementById('taleshiModal');
+        const taleshiCloseBtn = document.getElementById('taleshiCloseBtn');
+        const openTaleshiFromSettings = document.getElementById('openTaleshiFromSettings');
+        const taleshiListEl = document.getElementById('taleshiList');
+
+        openTaleshiFromSettings.addEventListener('click', () => {
+            settingsModalOverlay.classList.remove('active');
+            renderTaleshiList();
+            taleshiModalOverlay.classList.add('active');
+        });
+
+        taleshiCloseBtn.addEventListener('click', () => {
+            taleshiModalOverlay.classList.remove('active');
+            settingsModalOverlay.classList.add('active');
+        });
+        taleshiModalOverlay.addEventListener('click', (e) => {
+            if (e.target === taleshiModalOverlay) {
+                taleshiModalOverlay.classList.remove('active');
+                settingsModalOverlay.classList.add('active');
+            }
+        });
+
+        function renderTaleshiList() {
+            taleshiListEl.innerHTML = '';
+            taleshiRiddles.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'taleshi-item';
+                div.innerHTML = `
+                    <div class="taleshi-number">${index + 1}</div>
+                    <div class="taleshi-original">${item.original}</div>
+                    <div class="taleshi-pronunciation">« ${item.pronunciation} »</div>
+                    <div class="taleshi-divider"></div>
+                    <div class="taleshi-meaning"><span class="taleshi-label">معنی</span> ${item.meaning}</div>
+                    <div class="taleshi-usage"><span class="taleshi-label">کاربرد</span> ${item.usage}</div>
+                `;
+                taleshiListEl.appendChild(div);
             });
         }
 
