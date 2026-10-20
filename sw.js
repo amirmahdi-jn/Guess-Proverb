@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mathal-quiz-v1.0.27';
+const CACHE_NAME = 'mathal-quiz-v1.0.28';
 
 const ASSETS_TO_CACHE = [
   './',
