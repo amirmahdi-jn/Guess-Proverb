@@ -7,7 +7,10 @@ const ASSETS_TO_CACHE = [
   './script.js',
   './manifest.json',
   './icon.svg',
-  './icon.maskable.svg'
+  './icon.maskable.svg',
+  './badge-bronze.png',
+  './badge-silver.png',
+  './badge-gold.png'
 ];
 
 self.addEventListener('install', (event) => {
