@@ -267,18 +267,11 @@ body {
 .tier-gold.active { background: #2a2e48; }
 
 .tier-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
     transition: transform 0.2s;
-    vertical-align: middle;
-}
-.tier-btn:hover .tier-icon {
-    transform: scale(1.1);
-}
-.tier-btn.active .tier-icon {
-    transform: scale(1.15);
 }
 
 .stage-nav {
@@ -310,41 +303,6 @@ body {
     border-radius: 2rem; padding: 1rem 0.8rem;
     margin-bottom: 1.6rem;
     border: 1px solid var(--riddle-border);
-    position: relative;
-}
-
-.copy-riddle-btn {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: var(--action-btn-bg);
-    border: 1px solid var(--action-btn-border);
-    color: var(--action-btn-color);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.2s;
-    z-index: 2;
-    opacity: 0.7;
-}
-.copy-riddle-btn:hover {
-    opacity: 1;
-    transform: scale(1.1);
-    filter: brightness(1.15);
-}
-.copy-riddle-btn.copied {
-    background: #2e8b57;
-    border-color: #2e8b57;
-    color: white;
-    opacity: 1;
-}
-.copy-riddle-btn.copied:hover {
-    transform: none;
-    filter: none;
 }
 
 .emoji-row {
@@ -1062,8 +1020,8 @@ body {
         margin: 0;
     }
     .tier-icon {
-        width: 22px;
-        height: 22px;
+        width: 24px;
+        height: 24px;
     }
 }
 
