@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mathal-quiz-v1.0.3';
+const CACHE_NAME = 'mathal-quiz-v1.0.5';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -10,7 +10,9 @@ const ASSETS_TO_CACHE = [
   './icon.maskable.svg',
   './badge-bronze.png',
   './badge-silver.png',
-  './badge-gold.png'
+  './badge-gold.png',
+  './music.mp3',
+  './cover.jpg'
 ];
 
 self.addEventListener('install', (event) => {
