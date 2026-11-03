@@ -11,8 +11,8 @@ const ASSETS_TO_CACHE = [
   './badge-bronze.png',
   './badge-silver.png',
   './badge-gold.png',
-  './music.mp3',
-  './cover.jpg'
+  './Divanegi.mp3',
+  './Heart.jpg'
 ];
 
 self.addEventListener('install', (event) => {
